@@ -1,10 +1,12 @@
 # Tietokantasovelluksen esittelysivu
 
-Yleisiä linkkejä:
+Linkkejä:
 
 * [Linkki sovellukseeni](https://www.cs.helsinki.fi)
-* [Linkki dokumentaatiooni](https://www.github.com)
+* [Linkki dokumentaatiooni](https://www.github.com/alehuo)
 
-## Työn aihe
+## My Studies -sovellus
 
-Laita tähän aihekuvaus tai [linkki valmiiseen aiheeseen](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Pokemon-kanta.html) 
+Sovelluksen ideana on toimia kuin WebOodi. Peruskäyttäjien on mahdollista ilmoittautua kursseille sekä nähdä omat suorituksensa yhteenvetona. Ylläpitohenkilö voi lisätä kurssisuorituksia sekä muokata kursseja mielensä mukaan.
+
+Sovellus vaatii kirjautumisen.
