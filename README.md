@@ -2,11 +2,9 @@
 
 Linkkejä:
 
-* [Linkki sovellukseeni](https://www.cs.helsinki.fi)
+* [Linkki sovellukseen](https://ahuotala.users.cs.helsinki.fi/oodi)
 * [Linkki dokumentaatiooni](https://www.github.com/alehuo)
 
 ## My Studies -sovellus
 
-Sovelluksen ideana on toimia kuin WebOodi. Peruskäyttäjien on mahdollista ilmoittautua kursseille sekä nähdä omat suorituksensa yhteenvetona. Ylläpitohenkilö voi lisätä kurssisuorituksia sekä muokata kursseja mielensä mukaan.
-
-Sovellus vaatii kirjautumisen.
+Sovelluksen ideana on toimia kuin WebOodi. Sovelluksessa pystyy selaamaan saatavilla olevia kursseja, lisäämään tai poistamaan ilmoittautumisia sekä tarkastaa omia arvosanojaan. Ylläpitohenkilö voi hallita kurssisuorituksia ja kursseja mielensä mukaan. Sovellus vaatii kirjautumisen.
