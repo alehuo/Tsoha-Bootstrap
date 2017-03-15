@@ -2,8 +2,8 @@
 
 Linkkejä:
 
-* [Linkki sovellukseen](https://ahuotala.users.cs.helsinki.fi/oodi)
-* [Linkki dokumentaatiooni](https://www.github.com/alehuo)
+* [Linkki sovellukseeni](https://ahuotala.users.cs.helsinki.fi/oodi)
+* [Linkki dokumentaatiooni](https://github.com/alehuo/Tsoha-Bootstrap/blob/master/doc/dokumentaatio.pdf)
 
 ## My Studies -sovellus
 
