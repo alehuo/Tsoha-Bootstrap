@@ -5,8 +5,8 @@ CREATE TABLE Laitos(
 CREATE TABLE Kurssi(
     id SERIAL PRIMARY KEY,
     nimi varchar(50) NOT NULL,
-    aloitusPvm varchar(100),
-    lopetusPvm varchar(100),
+    aloitusPvm DATE,
+    lopetusPvm DATE,
     laitosId INTEGER REFERENCES Laitos(id)
 );
 CREATE TABLE Kayttaja(
