@@ -1,1 +1,2 @@
--- Lisää INSERT INTO lauseet tähän tiedostoon
+INSERT INTO Laitos (nimi) VALUES ('Tietojenkäsittelytieteen laitos');
+INSERT INTO Laitos (nimi) VALUES ('Matematiikan ja tilastotieteen laitos');
