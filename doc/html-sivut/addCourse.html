@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>
+            My Studies - Luo kurssi
+        </title>
+
+        <!-- Bootstrap -->
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <!---->
+        <link href="assets/css/timetable.css" rel="stylesheet">
+        <!-- Oma tyylitiedostomme -->
+        <link href="assets/css/site.css" rel="stylesheet">
+    </head>
+    <body>
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Sovelluksen nimi -->
+                    <a class="navbar-brand" href="/oodi">My Studies</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navigation">
+                    <ul class="nav navbar-nav">
+                        <!-- Navigaation linkit -->
+                        <li><a href="index.html">Etusivu</a></li>
+                        <li><a href="courses.html">Kurssit</a></li>
+                        <li><a href="registrations.html">Ilmoittautumiset</a></li>
+                        <li><a href="grades.html">Suoritukset</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="admin.html">Hallinta</a></li>
+                        <li><a href="#">Kirjaudu ulos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="main-container">
+            <!-- Dynaaminen sisältö tulee tähän -->
+            <div class="page-header">
+                <h1>Luo kurssi</h1>
+            </div>
+            <form>
+                <div class="form-group">
+                    <label>Vastuuyksikkö</label>
+                    <select class="form-control">
+                        <option value="-1">(Valitse)</option>
+                        <option value="1">Matematiikan ja tilastotieteen laitos</option>
+                        <option value="2">Tietojenkäsittelytieteen laitos</option>
+                        <option value="3">Avoin yliopisto</option>
+                    </select> 
+                </div>
+                <div class="form-group">
+                    <label><small>Ellei vastuuyksikköä löydy listalta, kirjota se alle.</small></label>
+                    <input class="form-control" placeholder="Vastuuyksikkö" type="text">
+                </div>
+                <div class="form-group">
+                    <label>Nimi</label>
+                    <input class="form-control" placeholder="Nimi" type="text">
+                </div>
+                <div class="form-group">
+                    <label>Alkamisaika (pp.kk.vvvv)</label>
+                    <input class="form-control" type="date" name="startingDate">
+                </div>
+                <div class="form-group">
+                    <label>Loppumisaika (pp.kk.vvvv)</label>
+                    <input class="form-control" type="date" name="endingDate">
+                </div>
+                <div class="form-group">
+                    <label>Saatavat opintopisteet</label>
+                    <input class="form-control" value="5" type="number" min="0" max="150">
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox">
+                        Kurssin arvosteluna hyväksytty/hylätty
+                    </label>
+                </div>
+                <div class="form-group">
+                    <label>Kuvaus</label>
+                    <textarea class="form-control">Kurssikuvaus</textarea>
+                </div>
+                <div class="form-group">
+                    <hr/>
+                    <label><small>Paina "Lisää opetusaika"-nappia lisätäksesi kurssille opetusaikoja.</small></label><br/>
+                    <div>
+                        <label>Huone</label>
+                        <input class="form-control" placeholder="A123"/>
+                    </div>
+                    <div>
+                        <label>Aloitusaika</label>
+                        <select class="form-control">
+                            <option value='0'>07:00</option>
+                            <option value='1'>07:15</option>
+                            <option value='2'>07:30</option>
+                            <option value='3'>07:45</option>
+                            <option value='5'>08:00</option>
+                            <option value='6'>08:15</option>
+                            <option value='7'>08:30</option>
+                            <option value='8'>08:45</option>
+                            <option value='10'>09:00</option>
+                            <option value='11'>09:15</option>
+                            <option value='12'>09:30</option>
+                            <option value='13'>09:45</option>
+                            <option value='15'>10:00</option>
+                            <option value='16'>10:15</option>
+                            <option value='17'>10:30</option>
+                            <option value='18'>10:45</option>
+                            <option value='20'>11:00</option>
+                            <option value='21'>11:15</option>
+                            <option value='22'>11:30</option>
+                            <option value='23'>11:45</option>
+                            <option value='25'>12:00</option>
+                            <option value='26'>12:15</option>
+                            <option value='27'>12:30</option>
+                            <option value='28'>12:45</option>
+                            <option value='30'>13:00</option>
+                            <option value='31'>13:15</option>
+                            <option value='32'>13:30</option>
+                            <option value='33'>13:45</option>
+                            <option value='35'>14:00</option>
+                            <option value='36'>14:15</option>
+                            <option value='37'>14:30</option>
+                            <option value='38'>14:45</option>
+                            <option value='40'>15:00</option>
+                            <option value='41'>15:15</option>
+                            <option value='42'>15:30</option>
+                            <option value='43'>15:45</option>
+                            <option value='45'>16:00</option>
+                            <option value='46'>16:15</option>
+                            <option value='47'>16:30</option>
+                            <option value='48'>16:45</option>
+                            <option value='50'>17:00</option>
+                            <option value='51'>17:15</option>
+                            <option value='52'>17:30</option>
+                            <option value='53'>17:45</option>
+                            <option value='55'>18:00</option>
+                            <option value='56'>18:15</option>
+                            <option value='57'>18:30</option>
+                            <option value='58'>18:45</option>
+                            <option value='60'>19:00</option>
+                            <option value='61'>19:15</option>
+                            <option value='62'>19:30</option>
+                            <option value='63'>19:45</option>
+                            <option value='65'>20:00</option>
+                        </select> 
+                    </div>
+                    <div>
+                        <label>Lopetussaika</label>
+                        <select class="form-control">
+                            <option value='0'>07:00</option>
+                            <option value='1'>07:15</option>
+                            <option value='2'>07:30</option>
+                            <option value='3'>07:45</option>
+                            <option value='5'>08:00</option>
+                            <option value='6'>08:15</option>
+                            <option value='7'>08:30</option>
+                            <option value='8'>08:45</option>
+                            <option value='10'>09:00</option>
+                            <option value='11'>09:15</option>
+                            <option value='12'>09:30</option>
+                            <option value='13'>09:45</option>
+                            <option value='15'>10:00</option>
+                            <option value='16'>10:15</option>
+                            <option value='17'>10:30</option>
+                            <option value='18'>10:45</option>
+                            <option value='20'>11:00</option>
+                            <option value='21'>11:15</option>
+                            <option value='22'>11:30</option>
+                            <option value='23'>11:45</option>
+                            <option value='25'>12:00</option>
+                            <option value='26'>12:15</option>
+                            <option value='27'>12:30</option>
+                            <option value='28'>12:45</option>
+                            <option value='30'>13:00</option>
+                            <option value='31'>13:15</option>
+                            <option value='32'>13:30</option>
+                            <option value='33'>13:45</option>
+                            <option value='35'>14:00</option>
+                            <option value='36'>14:15</option>
+                            <option value='37'>14:30</option>
+                            <option value='38'>14:45</option>
+                            <option value='40'>15:00</option>
+                            <option value='41'>15:15</option>
+                            <option value='42'>15:30</option>
+                            <option value='43'>15:45</option>
+                            <option value='45'>16:00</option>
+                            <option value='46'>16:15</option>
+                            <option value='47'>16:30</option>
+                            <option value='48'>16:45</option>
+                            <option value='50'>17:00</option>
+                            <option value='51'>17:15</option>
+                            <option value='52'>17:30</option>
+                            <option value='53'>17:45</option>
+                            <option value='55'>18:00</option>
+                            <option value='56'>18:15</option>
+                            <option value='57'>18:30</option>
+                            <option value='58'>18:45</option>
+                            <option value='60'>19:00</option>
+                            <option value='61'>19:15</option>
+                            <option value='62'>19:30</option>
+                            <option value='63'>19:45</option>
+                            <option value='65'>20:00</option>
+                        </select> 
+                    </div>
+                    <br/>
+                    <div>
+                        <p>
+                            <input type="checkbox"> Ma <input type="checkbox"> Ti <input type="checkbox"> Ke <input type="checkbox"> To <input type="checkbox"> Pe
+                        </p>
+                    </div>
+
+                    <input class="btn btn-primary" type="button" value="Lisää opetusaika">
+                </div>
+                <div class="form-group">
+                    <hr/>
+                    <label><small>Paina "Lisää harjoitusryhmä"-nappia lisätäksesi kurssille harjoitusryhmiä.</small></label><br/>
+                    <div>
+                        <label>Huone</label>
+                        <input class="form-control" placeholder="A123"/>
+                    </div>
+                    <div>
+                        <label>Aloitusaika</label>
+                        <select class="form-control">
+                            <option value='0'>07:00</option>
+                            <option value='1'>07:15</option>
+                            <option value='2'>07:30</option>
+                            <option value='3'>07:45</option>
+                            <option value='5'>08:00</option>
+                            <option value='6'>08:15</option>
+                            <option value='7'>08:30</option>
+                            <option value='8'>08:45</option>
+                            <option value='10'>09:00</option>
+                            <option value='11'>09:15</option>
+                            <option value='12'>09:30</option>
+                            <option value='13'>09:45</option>
+                            <option value='15'>10:00</option>
+                            <option value='16'>10:15</option>
+                            <option value='17'>10:30</option>
+                            <option value='18'>10:45</option>
+                            <option value='20'>11:00</option>
+                            <option value='21'>11:15</option>
+                            <option value='22'>11:30</option>
+                            <option value='23'>11:45</option>
+                            <option value='25'>12:00</option>
+                            <option value='26'>12:15</option>
+                            <option value='27'>12:30</option>
+                            <option value='28'>12:45</option>
+                            <option value='30'>13:00</option>
+                            <option value='31'>13:15</option>
+                            <option value='32'>13:30</option>
+                            <option value='33'>13:45</option>
+                            <option value='35'>14:00</option>
+                            <option value='36'>14:15</option>
+                            <option value='37'>14:30</option>
+                            <option value='38'>14:45</option>
+                            <option value='40'>15:00</option>
+                            <option value='41'>15:15</option>
+                            <option value='42'>15:30</option>
+                            <option value='43'>15:45</option>
+                            <option value='45'>16:00</option>
+                            <option value='46'>16:15</option>
+                            <option value='47'>16:30</option>
+                            <option value='48'>16:45</option>
+                            <option value='50'>17:00</option>
+                            <option value='51'>17:15</option>
+                            <option value='52'>17:30</option>
+                            <option value='53'>17:45</option>
+                            <option value='55'>18:00</option>
+                            <option value='56'>18:15</option>
+                            <option value='57'>18:30</option>
+                            <option value='58'>18:45</option>
+                            <option value='60'>19:00</option>
+                            <option value='61'>19:15</option>
+                            <option value='62'>19:30</option>
+                            <option value='63'>19:45</option>
+                            <option value='65'>20:00</option>
+                        </select> 
+                    </div>
+                    <div>
+                        <label>Lopetussaika</label>
+                        <select class="form-control">
+                            <option value='0'>07:00</option>
+                            <option value='1'>07:15</option>
+                            <option value='2'>07:30</option>
+                            <option value='3'>07:45</option>
+                            <option value='5'>08:00</option>
+                            <option value='6'>08:15</option>
+                            <option value='7'>08:30</option>
+                            <option value='8'>08:45</option>
+                            <option value='10'>09:00</option>
+                            <option value='11'>09:15</option>
+                            <option value='12'>09:30</option>
+                            <option value='13'>09:45</option>
+                            <option value='15'>10:00</option>
+                            <option value='16'>10:15</option>
+                            <option value='17'>10:30</option>
+                            <option value='18'>10:45</option>
+                            <option value='20'>11:00</option>
+                            <option value='21'>11:15</option>
+                            <option value='22'>11:30</option>
+                            <option value='23'>11:45</option>
+                            <option value='25'>12:00</option>
+                            <option value='26'>12:15</option>
+                            <option value='27'>12:30</option>
+                            <option value='28'>12:45</option>
+                            <option value='30'>13:00</option>
+                            <option value='31'>13:15</option>
+                            <option value='32'>13:30</option>
+                            <option value='33'>13:45</option>
+                            <option value='35'>14:00</option>
+                            <option value='36'>14:15</option>
+                            <option value='37'>14:30</option>
+                            <option value='38'>14:45</option>
+                            <option value='40'>15:00</option>
+                            <option value='41'>15:15</option>
+                            <option value='42'>15:30</option>
+                            <option value='43'>15:45</option>
+                            <option value='45'>16:00</option>
+                            <option value='46'>16:15</option>
+                            <option value='47'>16:30</option>
+                            <option value='48'>16:45</option>
+                            <option value='50'>17:00</option>
+                            <option value='51'>17:15</option>
+                            <option value='52'>17:30</option>
+                            <option value='53'>17:45</option>
+                            <option value='55'>18:00</option>
+                            <option value='56'>18:15</option>
+                            <option value='57'>18:30</option>
+                            <option value='58'>18:45</option>
+                            <option value='60'>19:00</option>
+                            <option value='61'>19:15</option>
+                            <option value='62'>19:30</option>
+                            <option value='63'>19:45</option>
+                            <option value='65'>20:00</option>
+                        </select> 
+                    </div>
+                    <br/>
+                    <div>
+                        <p>
+                            <input type="checkbox"> Ma <input type="checkbox"> Ti <input type="checkbox"> Ke <input type="checkbox"> To <input type="checkbox"> Pe
+                        </p>
+                    </div>
+
+                    <input class="btn btn-primary" type="button" value="Lisää harjoitusryhmä">
+                </div>
+                <div class="form-group">
+                    <hr/>
+                    <button type="submit" class="btn btn-primary">Luo kurssi</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- jQuery -->
+        <script
+            src="https://code.jquery.com/jquery-3.2.0.min.js"
+            integrity="sha256-JAW99MJVpJBGcbzEuXk4Az05s/XyDdBomFqNlM3ic+I="
+        crossorigin="anonymous"></script>
+
+        <!-- Bootstrap (skriptitiedosto) -->
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+        <!-- Oma skriptitiedostomme -->
+        <script src="assets/js/site.js"></script>
+
+        <!--Bootstrap slider-->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/9.7.2/bootstrap-slider.min.js"></script>
+    </body>
+</html>
