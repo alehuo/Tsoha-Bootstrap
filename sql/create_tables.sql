@@ -12,7 +12,9 @@ CREATE TABLE Kurssi(
 CREATE TABLE Kayttaja(
     id SERIAL PRIMARY KEY,
     tyyppi INTEGER DEFAULT 0,
-    nimi varchar(100) NOT NULL
+    nimi varchar(100) NOT NULL,
+    salasana varchar(255) NOT NULL,
+    suola varchar(255) NOT NULL
 );
 CREATE TABLE KurssiIlmoittautuminen(
     kurssiId INTEGER REFERENCES Kurssi(id),
