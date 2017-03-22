@@ -1,4 +1,4 @@
-CREATE TABLE Laitos(
+CREATE TABLE Vastuuyksikko(
     id SERIAL PRIMARY KEY,
     nimi varchar(100) NOT NULL
 );
@@ -7,7 +7,7 @@ CREATE TABLE Kurssi(
     nimi varchar(50) NOT NULL,
     aloitusPvm DATE,
     lopetusPvm DATE,
-    laitosId INTEGER REFERENCES Laitos(id)
+    laitosId INTEGER REFERENCES Vastuuyksikko(id)
 );
 CREATE TABLE Kayttaja(
     id SERIAL PRIMARY KEY,
