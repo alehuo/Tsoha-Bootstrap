@@ -7,7 +7,7 @@ CREATE TABLE Kurssi(
     nimi varchar(50) NOT NULL,
     aloitusPvm DATE,
     lopetusPvm DATE,
-    laitosId INTEGER REFERENCES Vastuuyksikko(id)
+    vastuuYksikkoId INTEGER REFERENCES Vastuuyksikko(id)
 );
 CREATE TABLE Kayttaja(
     id SERIAL PRIMARY KEY,
