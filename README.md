@@ -11,10 +11,11 @@ Sovelluksen ideana on toimia kuin WebOodi. Sovelluksessa pystyy selaamaan saatav
 
 ## Linkit HTML-sivuihin
 
-### Peruskäyttäjän sivut
-
 * [Etusivu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/index.html)
 * [Kirjautumissivu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/login.html)
+
+### Peruskäyttäjän sivut
+
 * [Kurssin tarkastelu (peruskäyttäjän näkymä)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/courseRegistration.html)
 * [Kurssi-ilmoittautumisten peruminen / tarkastelu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/registrations.html)
 * [Kurssien hakusivu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/courses.html)
