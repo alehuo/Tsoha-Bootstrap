@@ -11,15 +11,20 @@ Sovelluksen ideana on toimia kuin WebOodi. Sovelluksessa pystyy selaamaan saatav
 
 ## Linkit HTML-sivuihin
 
+### Peruskäyttäjän sivut
+
 * [Etusivu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/index.html)
 * [Kirjautumissivu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/login.html)
 * [Kurssin tarkastelu (peruskäyttäjän näkymä)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/courseRegistration.html)
-* [Kurssin tarkastelu (pääkäyttäjän näkymä)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/viewCourse.html)
 * [Kurssi-ilmoittautumisten peruminen / tarkastelu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/registrations.html)
 * [Kurssien hakusivu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/courses.html)
 * [Kurssien hakusivun hakutulos](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/coursesList.html)
 * [Arvosanojen tarkastelu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/grades.html)
-* [Kurssin lisääminen](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/addCourse.html)
+
+### Pääkäyttäjän sivut
+
+* [Kurssin tarkastelu (pääkäyttäjän näkymä)](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/viewCourse.html)
 * [Kurssin muokkaaminen](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/editCourse.html)
 * [Arvosanan antaminen](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/addGrade.html)
+* [Kurssin lisääminen](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/addCourse.html)
 * [Käyttäjätilin lisääminen](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/addUser.html)
