@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>
-            My Studies - Kurssin tiedot
+            My Studies - Muokkaa kurssia
         </title>
 
         <!-- Bootstrap (tyylitiedosto) -->
@@ -49,15 +49,14 @@
         </nav>
 
         <div id="main-container">
-			<h1>Kurssin tiedot</h1>
+			<h1>Muokkaa kurssia</h1>
 			<p>
-			<button class="btn btn-success">Arvostele suorituksia</button><hr/>
-			<button class="btn btn-primary">Muokkaa kurssia</button> <button class="btn btn-danger">Poista kurssi</button>
+			<button class="btn btn-primary">Peruuta muutokset</button> <button class="btn btn-danger">Poista kurssi</button>
             </p>
 			<form>
 			<table class="table">
 				<tr><td><b>Kurssin nimi</b></td><td><input type="text" value="Sarjat"/></td></tr>
-				<tr><td><b>Kurssiaika (dd-mm-YYYY)</b></td><td><input type="date" name="startingDate"> - <input type="date" name="endingDate"></td></tr>
+				<tr><td><b>Järjestämisaika (dd-mm-YYYY) - (dd-mm-YYYY)</b></td><td><input type="date" name="startingDate"> - <input type="date" name="endingDate"></td></tr>
 				<tr><td><b>Vastuuyksikkö</b></td><td> <select>
                         <option value="-1">(Valitse)</option>
                         <option value="1">Matematiikan ja tilastotieteen laitos</option>
@@ -72,8 +71,10 @@
 				<tr><td>2) Keskiviikko 14:15 - 18.00 (BK222)</td></tr>
 				<tr><td>3) Torstai 14:15 - 18.00 (BK222)</td></tr>
 			</table>
+			<small>Muokataksesi harjoitusryhmiä tai opetusaikoja joudut luomaan kurssin uudelleen.</small><br/><br/>
+			<button class="btn btn-success">Hyväksy muutokset</button>
 			</form>
-			<small>Muokataksesi harjoitusryhmiä tai opetusaikoja joudut luomaan kurssin uudelleen.</small>
+			
         </div>
 
         <!-- jQuery -->
