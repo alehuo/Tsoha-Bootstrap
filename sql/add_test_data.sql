@@ -1,9 +1,9 @@
 INSERT INTO Vastuuyksikko (nimi) VALUES ('Tietojenkäsittelytieteen laitos');
 INSERT INTO Vastuuyksikko (nimi) VALUES ('Matematiikan ja tilastotieteen laitos');
-INSERT INTO Kurssi (nimi, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Ohjelmoinnin perusteet','2016-10-10','2017-01-10','1');
-INSERT INTO Kurssi (nimi, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Ohjelmoinnin jatkokurssi','2017-01-11','2017-04-11','1');
-INSERT INTO Kurssi (nimi, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Johdatus yliopistomatematiikkaan','2017-01-02','2017-04-02','2');
-INSERT INTO Kurssi (nimi, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Lineaarialgebra ja matriisilaskenta I','2017-01-02','2017-04-02','2');
+INSERT INTO Kurssi (nimi, kuvaus, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Ohjelmoinnin perusteet','Kurssilla tutustutaan Java-ohjelmointiin.','2016-10-10','2017-01-10','1');
+INSERT INTO Kurssi (nimi, kuvaus, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Ohjelmoinnin jatkokurssi','Kurssilla syvennytään ohjelmoinnin perusteiden asioihin.','2017-01-11','2017-04-11','1');
+INSERT INTO Kurssi (nimi, kuvaus, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Johdatus yliopistomatematiikkaan','Sisältää mm. joukko-opin ja kompleksiluvut.','2017-01-02','2017-04-02','2');
+INSERT INTO Kurssi (nimi, kuvaus, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Lineaarialgebra ja matriisilaskenta I','Matriisien laskutoimitukset ja sovellukset','2017-01-02','2017-04-02','2');
 INSERT INTO Opetusaika (viikonpaiva,aloitusAika,lopetusAika,kurssiId,tyyppi) VALUES('0','13:15','14:00','1','0');
 INSERT INTO Kayttaja (tyyppi,nimi,salasana,suola) VALUES ('0','Olli Opiskelija','olli','asLK3k4230');
 INSERT INTO Kayttaja (tyyppi,nimi,salasana,suola) VALUES ('1','Pekka Pääkäyttäjä','admin','wrim4329a');
