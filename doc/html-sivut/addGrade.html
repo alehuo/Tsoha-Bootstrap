@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>
-            My Studies - Kurssit
+            My Studies - Arvostele kurssisuoritus
         </title>
 
         <!-- Bootstrap (tyylitiedosto) -->
@@ -49,17 +49,15 @@
         </nav>
 
         <div id="main-container">
-            <h1>Ilmoittautumiset</h1> 
-			<small>Klikkaamalla kurssin nimeä näet kurssin lisätiedot. Ilmoittautuminen perutaan painamalla "Peru ilmoittautuminen"-nappia.</small>
-            <table class="table">
-			<thead>
-				<tr><td>Nimi</td><td>Kesto</td><td></td></tr>
-			</thead>
-			<tbody>
-				<tr><td><a href="#">Algebralliset rakenteet II</a></td><td>14.3.2016 - 8.5.2016</td><td><form><button type="submit" class="btn btn-danger">Peru ilmoittautuminen</button></form></td></tr>
-				<tr><td><a  href="#">Sarjat</a></td><td>14.3.2016 - 8.5.2016</td><td><form><button type="submit" class="btn btn-danger">Peru ilmoittautuminen</button></form></td></tr>
-			</tbody>
+			<h1>Arvostele kurssisuoritus</h1>
+			<form>
+			<table class="table">
+				<tr><td><b>Kurssin nimi</b></td><td>Sarjat</td></tr>
+				<tr><td><b>Opiskelijan nimi</b></td><td>Olli Opiskelija</td></tr>
+				<tr><td><b>Arvosana (0 = hylätty, 6 = hyväksytty, 1-5 normaalisti)</b></td><td><input value="5" type="number" min="0" max="6"></td></tr>
+				<tr><td colspan="2"><button type="submit" class="btn btn-success">Arvostele</button></td></tr>
 			</table>
+			</form>
         </div>
 
         <!-- jQuery -->

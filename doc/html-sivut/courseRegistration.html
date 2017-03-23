@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>
-            My Studies - Kurssit
+            My Studies - Kurssin tiedot
         </title>
 
         <!-- Bootstrap (tyylitiedosto) -->
@@ -49,17 +49,28 @@
         </nav>
 
         <div id="main-container">
-            <h1>Ilmoittautumiset</h1> 
-			<small>Klikkaamalla kurssin nimeä näet kurssin lisätiedot. Ilmoittautuminen perutaan painamalla "Peru ilmoittautuminen"-nappia.</small>
-            <table class="table">
-			<thead>
-				<tr><td>Nimi</td><td>Kesto</td><td></td></tr>
-			</thead>
-			<tbody>
-				<tr><td><a href="#">Algebralliset rakenteet II</a></td><td>14.3.2016 - 8.5.2016</td><td><form><button type="submit" class="btn btn-danger">Peru ilmoittautuminen</button></form></td></tr>
-				<tr><td><a  href="#">Sarjat</a></td><td>14.3.2016 - 8.5.2016</td><td><form><button type="submit" class="btn btn-danger">Peru ilmoittautuminen</button></form></td></tr>
-			</tbody>
+			<h1>Kurssin tiedot</h1>
+			<form>
+			<table class="table">
+				<tr><td><b>Kurssin nimi</b></td><td>Sarjat</td></tr>
+				<tr><td><b>Kurssiaika</b></td><td>14.3.2016 - 8.5.2016</td></tr>
+				<tr><td><b>Vastuuyksikkö</b></td><td>Matematiikan ja tilastotieteen laitos</td></tr>
+				<tr><td><b>Opintopisteet</b></td><td>5 op</td></tr>
+				<tr><td rowspan="3"><b>Opetusajat</b></td><td>Maanantai 9:15 - 11.00 (CK456)</td></tr>
+				<tr><td>Keskiviikko 9:15 - 11.00 (CK456)</td></tr>
+				<tr><td>Torstai 9:15 - 11.00 (CK456)</td></tr>
+				<tr><td rowspan="3"><b>Harjoitusryhmät</b></td><td>1) Maanantai 14:15 - 18.00 (BK222)</td></tr>
+				<tr><td>2) Keskiviikko 14:15 - 18.00 (BK222)</td></tr>
+				<tr><td>3) Torstai 14:15 - 18.00 (BK222)</td></tr>
 			</table>
+			Harjoitusryhmä: <select>
+                        <option value="-1">(Valitse)</option>
+                        <option value="1">1) Maanantai 14:15 - 18.00 (BK222)</option>
+                        <option value="2">2) Keskiviikko 14:15 - 18.00 (BK222)</option>
+                        <option value="3">3) Torstai 14:15 - 18.00 (BK222)</option>
+                    </select>
+			<button class="btn btn-success">Ilmoittaudu kurssille</button>
+			</form>
         </div>
 
         <!-- jQuery -->
