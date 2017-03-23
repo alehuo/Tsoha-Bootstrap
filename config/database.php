@@ -12,9 +12,9 @@
         'resource' => 'pgsql:'
       ),
       'mysql' => array(
-        'resource' => 'mysql:unix_socket=/home/KAYTTAJATUNNUS/mysql/socket;dbname=mysql',
+        'resource' => 'mysql:unix_socket=/home/ahuotala/mysql/socket;dbname=mysql',
         'username' => 'root',
-        'password' => 'SALASANA'
+        'password' => 'c1d448a1ee4bb8a0'
       )
     );
 
