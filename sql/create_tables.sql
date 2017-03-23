@@ -5,6 +5,7 @@ CREATE TABLE Vastuuyksikko(
 CREATE TABLE Kurssi(
     id SERIAL PRIMARY KEY,
     nimi varchar(50) NOT NULL,
+    kuvaus varchar(255) NOT NULL,
     aloitusPvm DATE,
     lopetusPvm DATE,
     vastuuYksikkoId INTEGER REFERENCES Vastuuyksikko(id)
