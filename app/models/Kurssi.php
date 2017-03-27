@@ -2,7 +2,7 @@
 
 class Kurssi extends BaseModel {
 
-	$id, $nimi, $kuvaus, $aloitusPvm, $lopetusPvm, $vastuuYksikkoId
+	$id, $nimi, $kuvaus, $aloitusPvm, $lopetusPvm, $vastuuYksikkoId;
 
 	public function __construct($arguments){
 		parent::__construct($arguments);
