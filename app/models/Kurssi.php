@@ -20,9 +20,9 @@ class Kurssi extends BaseModel {
 				'id' => $row['id'],
 				'nimi' => $row['nimi'],
 				'kuvaus' => $row['kuvaus'],
-				'aloitusPvm' => $row['aloitusPvm'],
-				'lopetusPvm' => $row['lopetusPvm'],
-				'vastuuYksikkoId' => $row['vastuuYksikkoId']
+				'aloitusPvm' => $row['aloituspvm'],
+				'lopetusPvm' => $row['lopetuspvm'],
+				'vastuuYksikkoId' => $row['vastuuyksikkoid']
 			));
 		}
 
@@ -39,9 +39,9 @@ class Kurssi extends BaseModel {
 			'id' => $row['id'],
 			'nimi' => $row['nimi'],
 			'kuvaus' => $row['kuvaus'],
-			'aloitusPvm' => $row['aloitusPvm'],
-			'lopetusPvm' => $row['lopetusPvm'],
-			'vastuuYksikkoId' => $row['vastuuYksikkoId']
+			'aloitusPvm' => $row['aloituspvm'],
+			'lopetusPvm' => $row['lopetuspvm'],
+			'vastuuYksikkoId' => $row['vastuuyksikkoid']
 		));
 		return $kurssi;
 	}
