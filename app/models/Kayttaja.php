@@ -52,7 +52,7 @@ class Kayttaja extends BaseModel {
     }
 
     /**
-     * Luo salasanatiivisteen BlowFishin avulla.
+     * Luo salasanatiivisteen Blowfish-salauksen avulla.
      * @param String $merkkijono Salasana selkokielisenä
      * @param int $it Vaativuus
      * @return String Salasanatiiviste

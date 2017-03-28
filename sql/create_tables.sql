@@ -7,8 +7,8 @@ CREATE TABLE Kurssi(
     nimi varchar(50) NOT NULL,
     kuvaus varchar(255) NOT NULL,
     opintoPisteet INTEGER DEFAULT 5,
-    aloitusPvm DATE,
-    lopetusPvm DATE,
+    aloitusPvm INTEGER,
+    lopetusPvm INTEGER,
     vastuuYksikkoId INTEGER REFERENCES Vastuuyksikko(id)
 );
 CREATE TABLE Kayttaja(
@@ -26,7 +26,7 @@ CREATE TABLE Kurssisuoritus(
     kurssiId INTEGER REFERENCES Kurssi(id),
     kayttajaId INTEGER REFERENCES Kayttaja(id),
     arvosana INTEGER DEFAULT 0,
-    paivays DATE
+    paivays INTEGER
 );
 CREATE TABLE Opetusaika(
     id SERIAL PRIMARY KEY,

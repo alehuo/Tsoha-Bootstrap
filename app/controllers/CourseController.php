@@ -25,7 +25,7 @@ class CourseController extends BaseController {
         $ajat = array();
         $hours = 7;
         $minutes = 0;
-				$start = 7 * 60;
+        $start = 7 * 60;
         for ($i = 0; $i < 65; $i++) {
             $val = str_pad($hours, 2, "0", STR_PAD_LEFT) . ":" . str_pad($minutes, 2, "0", STR_PAD_LEFT);
 
@@ -38,7 +38,7 @@ class CourseController extends BaseController {
                 $minutes += 15;
             }
 
-						$start += 15;
+            $start += 15;
         }
 
         View::make('addcourse.html', array("ajat" => $ajat));

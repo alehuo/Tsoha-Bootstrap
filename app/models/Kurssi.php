@@ -79,15 +79,6 @@ class Kurssi extends BaseModel {
     }
 
     /**
-     * Hakee kurssit tietyltä aikaväliltä.
-     * @param String $aloitusaika
-     * @param String $lopetusaika
-     */
-    public static function findBetween($aloitusaika, $lopetusaika) {
-        
-    }
-
-    /**
      * Tallentaa kurssin.
      */
     public function save() {
@@ -106,6 +97,14 @@ class Kurssi extends BaseModel {
         $row = $query->fetch();
 
         $this->id = $row['id'];
+    }
+
+    public function getFormattedAloitusPvm() {
+        return date("j.n.Y", $this->aloitusPvm);
+    }
+
+    public function getFormattedLopetusPvm() {
+        return date("j.n.Y", $this->lopetusPvm);
     }
 
 }

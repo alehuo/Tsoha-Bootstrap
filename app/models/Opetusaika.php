@@ -41,14 +41,6 @@ class Opetusaika extends BaseModel {
         return $opetusajat;
     }
 
-    public static function findByViikonpaiva($viikonpaiva) {
-        
-    }
-
-    public static function findByTyyppi($tyyppi) {
-        
-    }
-
     /**
      * Tallennus.
      */
@@ -68,6 +60,14 @@ class Opetusaika extends BaseModel {
         $row = $query->fetch();
 
         $this->id = $row['id'];
+    }
+
+    public function getFormattedAloitusAika() {
+        return floor($this->aloitusAika / 60) . ":" . $this->aloitusAika % 60;
+    }
+
+    public function getFormattedLopetusAika() {
+        return floor($this->lopetusAika / 60) . ":" . $this->lopetusAika % 60;
     }
 
 }
