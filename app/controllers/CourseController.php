@@ -58,8 +58,9 @@ class CourseController extends BaseController {
                 $vastuuyksikko = $postData["vastuuyksikkoSelect"];
             } else {
                 //Luo uusi vastuuyksikkö ja palauta id
-                //....
                 $uusiVastuuyksikko = new Vastuuyksikko(array("nimi" => $postData["uusiVastuuYksikko"]));
+                $uusiVastuuyksikko->save();
+                $vastuuyksikko = $uusiVastuuyksikko->id;
             }
 
             $alkamisPvm = strtotime($postData["startingDate"]);
