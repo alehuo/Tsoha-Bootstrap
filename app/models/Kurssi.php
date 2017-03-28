@@ -18,7 +18,7 @@ class Kurssi extends BaseModel {
         foreach ($rows as $row) {
             $kurssit[] = new Kurssi(array(
                 'id' => $row['id'],
-                'nimi' => $row['nimi'],
+                'nimi' => $row['kurssi.nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'opintoPisteet' => $row['opintopisteet'],
                 'aloitusPvm' => $row['aloituspvm'],
@@ -41,7 +41,7 @@ class Kurssi extends BaseModel {
         foreach ($rows as $row) {
             $kurssit[] = new Kurssi(array(
                 'id' => $row['id'],
-                'nimi' => $row['nimi'],
+                'nimi' => $row['kurssi.nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'opintoPisteet' => $row['opintopisteet'],
                 'aloitusPvm' => $row['aloituspvm'],
@@ -67,7 +67,7 @@ class Kurssi extends BaseModel {
         if ($row) {
             $kurssi = new Kurssi(array(
                 'id' => $row['id'],
-                'nimi' => $row['nimi'],
+                'nimi' => $row['kurssi.nimi'],
                 'kuvaus' => $row['kuvaus'],
                 'opintoPisteet' => $row['opintopisteet'],
                 'aloitusPvm' => $row['aloituspvm'],
