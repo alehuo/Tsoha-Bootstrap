@@ -17,8 +17,8 @@ class CourseController extends BaseController {
 
     public static function viewCourse($id) {
         $course = Kurssi::find($id);
-        $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], '0');
-        $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], '1');
+        $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($id, '0');
+        $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($id, '1');
 
         View::make('course.html', array("course" => $course, "opetusajat" => $opetusajat, "harjoitusryhmat" => $harjoitusryhmat));
     }
