@@ -25,9 +25,11 @@ class CourseController extends BaseController {
         $ajat = array();
         $hours = 7;
         $minutes = 0;
+				$start = 7 * 60;
         for ($i = 0; $i < 65; $i++) {
             $val = str_pad($hours, 2, "0", STR_PAD_LEFT) . ":" . str_pad($minutes, 2, "0", STR_PAD_LEFT);
-            $ajat[] = array("id" => $val, "arvo" => $val);
+
+            $ajat[] = array("id" => $start, "arvo" => $val);
 
             if ($minutes == 45) {
                 $hours++;
@@ -35,6 +37,8 @@ class CourseController extends BaseController {
             } else {
                 $minutes += 15;
             }
+
+						$start += 15;
         }
 
         View::make('addcourse.html', array("ajat" => $ajat));
@@ -94,7 +98,7 @@ class CourseController extends BaseController {
 
         for ($i = 1; $i < $length; $i++) {
 
-            $loppuaika = date("H:m", (strtotime($p["opetusaikaAloitusaika"][$i]) + 60 * 60 * (int) $p["opetusaikaKesto"]));
+            $loppuaika = $p["opetusaikaAloitusaika"][$i] + 60 * (int) $p["opetusaikaKesto"];
 
             $opetusaika = new Opetusaika(array(
                 'viikonpaiva' => $p["opetusaikaViikonpaiva"][$i],
@@ -110,7 +114,7 @@ class CourseController extends BaseController {
         $length = count($p["harjoitusryhmaHuone"]);
 
         for ($i = 1; $i < $length; $i++) {
-            $loppuaika = date("d.m.Y", strtotime($p["harjoitusryhmaAloitusaika"][$i]) + 60 * 60 * (int) $p["harjoitusryhmaKesto"]);
+            $loppuaika = $p["harjoitusryhmaAloitusaika"][$i] + 60 * (int) $p["harjoitusryhmaKesto"];
 
             $harjoitusryhma = new Opetusaika(array(
                 'viikonpaiva' => $p["harjoitusryhmaViikonpaiva"][$i],

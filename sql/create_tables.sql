@@ -31,8 +31,8 @@ CREATE TABLE Kurssisuoritus(
 CREATE TABLE Opetusaika(
     id SERIAL PRIMARY KEY,
     viikonpaiva INTEGER,
-    aloitusAika varchar(5) NOT NULL,
-    lopetusAika varchar(5) NOT NULL,
+    aloitusAika INTEGER,
+    lopetusAika INTEGER,
     kurssiId INTEGER REFERENCES Kurssi(id),
     tyyppi INTEGER DEFAULT 0
 );

@@ -11,8 +11,8 @@ class DefaultController extends BaseController {
 
     public static function sandbox() {
         // Testaa koodiasi täällä
-        $kurssi = Kurssi::find(1);
-        Kint::dump($kurssi);
+//        $kurssi = Kurssi::find(1);
+//        Kint::dump($kurssi);
 
 //        $testikurssi = new Kurssi(
 //                array(
@@ -24,9 +24,9 @@ class DefaultController extends BaseController {
 //                )
 //        );
 //        $testikurssi->save();
-        $kayttaja = new Kayttaja(array("tyyppi" => 1, "nimi" => "admin", "salasana" => "admin"));
-        $kayttaja->save();
-        var_dump($kayttaja);
+//        $kayttaja = new Kayttaja(array("tyyppi" => 1, "nimi" => "admin", "salasana" => "admin"));
+//        $kayttaja->save();
+//        var_dump($kayttaja);
     }
 
 }
