@@ -26,6 +26,7 @@ class Kurssi extends BaseModel {
                 'vastuuYksikkoId' => $row['vastuuyksikkoid'],
                 'vastuuYksikko' => $row['nimi']
             ));
+            var_dump($row);
         }
 
         return $kurssit;
@@ -60,7 +61,7 @@ class Kurssi extends BaseModel {
      * @return \Kurssi
      */
     public static function find($id) {
-        $query = DB::connection()->prepare('SELECT Kurssi.id, Kurssi.kurssinimi, Kurssi.kuvaus, Kurssi.opintopisteet, Kurssi.aloituspvm, Kurssi.lopetuspvm, Kurssi.vastuuyksikkoid, Vastuuyksikko.nimi FROM Kurssi INNER JOIN Vastuuyksikko ON Kurssi.vastuuyksikkoid = Vastuuyksikko.id WHERE id = :id LIMIT 1');
+        $query = DB::connection()->prepare('SELECT Kurssi.id, Kurssi.kurssinimi, Kurssi.kuvaus, Kurssi.opintopisteet, Kurssi.aloituspvm, Kurssi.lopetuspvm, Kurssi.vastuuyksikkoid, Vastuuyksikko.nimi FROM Kurssi INNER JOIN Vastuuyksikko ON Kurssi.vastuuyksikkoid = Vastuuyksikko.id WHERE Kurssi.id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
 
