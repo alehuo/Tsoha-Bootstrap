@@ -1,28 +1,73 @@
 <?php
+
 class Opetusaika extends BaseModel {
+
     public $viikonpaiva, $aloitusAika, $lopetusAika, $kurssiId, $tyyppi;
 
-    public function __construct($arguments){
+    public function __construct($arguments) {
         parent::__construct($arguments);
     }
 
-    public static function findByKurssiId($id){
-
-    }
-
-    public static function findByViikonpaiva($viikonpaiva){
-
-    }
-
-    public static function findByTyyppi($tyyppi){
-
-    }
     /**
-     * id SERIAL PRIMARY KEY,
- viikonpaiva INTEGER,
- aloitusAika varchar(5) NOT NULL,
- lopetusAika varchar(5) NOT NULL,
- kurssiId INTEGER REFERENCES Kurssi(id),
- tyyppi INTEGER DEFAULT 0
+     * Hakee kaikki opetusajat jotka vastaavat kurssi-id:tä ja tyyppiä.
+     * @param int $id Kurssi-id
+     * @param int $tyyppi Tyyppi (0 = luento, 1 = laskari)
+     * @return \Opetusaika
      */
+    public static function findByKurssiIdAndTyyppi($id, $tyyppi) {
+        $query = DB::connection()->prepare('SELECT * FROM Opetusaika WHERE kurssiid = :kurssiId AND tyyppi = :tyyppi');
+        $query->execute(
+                array(
+                    'kurssiId' => $id,
+                    'tyyppi' => $tyyppi
+                )
+        );
+
+        $rows = $query->fetchAll();
+
+        $opetusajat = array();
+
+        foreach ($rows as $row) {
+            $opetusajat[] = new Opetusaika(array(
+                'id' => $row['id'],
+                'viikonpaiva' => $row['viikonpaiva'],
+                'aloitusAika' => $row['aloitusaika'],
+                'lopetusAika' => $row['lopetusaika'],
+                'kurssiId' => $row['kurssiid'],
+                'tyyppi' => $row['tyyppi']
+            ));
+        }
+
+        return $opetusajat;
+    }
+
+    public static function findByViikonpaiva($viikonpaiva) {
+        
+    }
+
+    public static function findByTyyppi($tyyppi) {
+        
+    }
+
+    /**
+     * Tallennus.
+     */
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO Opetusaika (viikonpaiva, aloitusaika, lopetusaika, kurssiid, tyyppi) VALUES (:viikonpaiva, :aloitusaika, :lopetusaika, :kurssiid, :tyyppi) RETURNING id');
+
+        $query->execute(
+                array(
+                    'viikonpaiva' => $this->viikonpaiva,
+                    'aloitusaika' => $this->aloitusAika,
+                    'lopetusaika' => $this->lopetusAika,
+                    'kurssiid' => $this->kurssiId,
+                    'tyyppi' => $this->tyyppi
+                )
+        );
+
+        $row = $query->fetch();
+
+        $this->id = $row['id'];
+    }
+
 }
