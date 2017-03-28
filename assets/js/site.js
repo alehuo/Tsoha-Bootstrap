@@ -1,15 +1,14 @@
 $(document).ready(function () {
-    //alert('Hello World!');
+    function luoOpetusAikaKentta() {
+        var element = $("#opAika").clone();
+        element.removeAttr("id");
+        element.fadeIn(500);
+        element.appendTo("#opetusajat");
+    }
+    function luoHarjoitusRyhmaKentta() {
+        var element = $("#harjRyhma").clone();
+        element.removeAttr("id");
+        element.fadeIn(500);
+        element.appendTo("#harjoitusryhmat");
+    }
 });
-function luoOpetusAikaKentta() {
-    var element = $("#opAika").clone();
-    element.removeAttr("id");
-    element.show();
-    element.appendTo("#opetusajat");
-}
-function luoHarjoitusRyhmaKentta() {
-    var element = $("#harjRyhma").clone();
-    element.removeAttr("id");
-    element.show();
-    element.appendTo("#harjoitusryhmat");
-}

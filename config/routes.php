@@ -28,4 +28,14 @@ $routes->post('/addcourse', function() {
     CourseController::addCourse();
 });
 
+$routes->get('/registrations', function() {
+    RegistrationController::showRegistrations();
+});
 
+$routes->get('/admin', function() {
+    AdminController::showAdminPage();
+});
+
+$routes->get('/adduser', function() {
+    View::make('unauthorized.html');
+});

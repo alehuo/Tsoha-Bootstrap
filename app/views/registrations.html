@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Ilmoittautumiset</h1>  
+</div>
+<small>Klikkaamalla kurssin nimeä näet kurssin lisätiedot. Ilmoittautuminen perutaan painamalla "Peru ilmoittautuminen"-nappia.</small>
+<table class="table">
+    <thead>
+        <tr><td>Nimi</td><td>Kesto</td><td></td></tr>
+    </thead>
+    <tbody>
+        <tr><td><a href="#">Algebralliset rakenteet II</a></td><td>14.3.2016 - 8.5.2016</td><td><form><button type="submit" class="btn btn-danger">Peru ilmoittautuminen</button></form></td></tr>
+        <tr><td><a  href="#">Sarjat</a></td><td>14.3.2016 - 8.5.2016</td><td><form><button type="submit" class="btn btn-danger">Peru ilmoittautuminen</button></form></td></tr>
+    </tbody>
+</table>
+{% endblock %}
