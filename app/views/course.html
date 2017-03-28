@@ -12,13 +12,21 @@
     <tr><td><b>Vastuuyksikkö</b></td><td>{{course.vastuuYksikko}}</td></tr>
     <tr><td><b>Opintopisteet</b></td><td>{{course.opintoPisteet}} op</td></tr>
     <tr><td colspan="2"><b>Opetusajat</b></td></tr>
-    {% for opetusaika in kurssi.opetusajat %}
+    {% if opetusajat %}
+    {% for opetusaika in opetusajat %}
     <tr><td>{{opetusaika.viikonPaivanNimi}} {{opetusaika.formattedAloitusAika}} - {{opetusaika.formattedLopetusAika}} ({{opetusaika.huone}})</td></tr>
     {% endfor %}
+    {% else %}
+    <tr><td colspan="2">Ei opetusaikoja..</td></tr>
+    {% endif %}
     <tr><td colspan="2"><b>Harjoitusryhmät</b></td></tr>
-    {% for harjoitusryhma in kurssi.harjoitusryhmat %}
+    {% if harjoitusryhmat %}
+    {% for harjoitusryhma in harjoitusryhmat %}
     <tr><td>{{harjoitusryhma.viikonPaivanNimi}} {{harjoitusryhma.formattedAloitusAika}} - {{harjoitusryhma.formattedLopetusAika}} ({{harjoitusryhma.huone}})</td></tr>
     {% endfor %}
+    {% else %}
+    <tr><td colspan="2">Ei harjoitusryhmiä.</td></tr>
+    {% endif %}
 </table>
 <a class="btn btn-primary" href="">Muokkaa kurssia</a>
 {% endif %}

@@ -17,9 +17,6 @@ class Kurssi extends BaseModel {
 
         foreach ($rows as $row) {
 
-            $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], 0);
-            $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], 1);
-
             $kurssit[] = new Kurssi(array(
                 'id' => $row['id'],
                 'nimi' => $row['kurssinimi'],
@@ -28,9 +25,7 @@ class Kurssi extends BaseModel {
                 'aloitusPvm' => $row['aloituspvm'],
                 'lopetusPvm' => $row['lopetuspvm'],
                 'vastuuYksikkoId' => $row['vastuuyksikkoid'],
-                'vastuuYksikko' => $row['nimi'],
-                'harjoitusryhmat' => $harjoitusryhmat,
-                'opetusajat' => $opetusajat
+                'vastuuYksikko' => $row['nimi']
             ));
         }
 
@@ -73,9 +68,6 @@ class Kurssi extends BaseModel {
 
         if ($row) {
 
-            $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], 0);
-            $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], 1);
-
             $kurssi = new Kurssi(array(
                 'id' => $row['id'],
                 'nimi' => $row['kurssinimi'],
@@ -84,9 +76,7 @@ class Kurssi extends BaseModel {
                 'aloitusPvm' => $row['aloituspvm'],
                 'lopetusPvm' => $row['lopetuspvm'],
                 'vastuuYksikkoId' => $row['vastuuyksikkoid'],
-                'vastuuYksikko' => $row['nimi'],
-                'harjoitusryhmat' => $harjoitusryhmat,
-                'opetusajat' => $opetusajat
+                'vastuuYksikko' => $row['nimi']
             ));
             return $kurssi;
         }
