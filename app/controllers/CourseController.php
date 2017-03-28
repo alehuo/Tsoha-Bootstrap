@@ -119,6 +119,8 @@ class CourseController extends BaseController {
             }
 
             $db->commit();
+
+            Redirect::to("/");
         } catch (PDOException $ex) {
             $db->rollBack();
         }
