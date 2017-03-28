@@ -26,7 +26,6 @@ class Kurssi extends BaseModel {
                 'vastuuYksikkoId' => $row['vastuuyksikkoid'],
                 'vastuuYksikko' => $row['nimi']
             ));
-            var_dump($row);
         }
 
         return $kurssit;
