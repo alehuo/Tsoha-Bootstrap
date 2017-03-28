@@ -1,12 +1,11 @@
 INSERT INTO Vastuuyksikko (nimi) VALUES ('Tietojenkäsittelytieteen laitos');
 INSERT INTO Vastuuyksikko (nimi) VALUES ('Matematiikan ja tilastotieteen laitos');
-INSERT INTO Kurssi (nimi, kuvaus, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Ohjelmoinnin perusteet','Kurssilla tutustutaan Java-ohjelmointiin.','2016-10-10','2017-01-10','1');
-INSERT INTO Kurssi (nimi, kuvaus, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Ohjelmoinnin jatkokurssi','Kurssilla syvennytään ohjelmoinnin perusteiden asioihin.','2017-01-11','2017-04-11','1');
-INSERT INTO Kurssi (nimi, kuvaus, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Johdatus yliopistomatematiikkaan','Sisältää mm. joukko-opin ja kompleksiluvut.','2017-01-02','2017-04-02','2');
-INSERT INTO Kurssi (nimi, kuvaus, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Lineaarialgebra ja matriisilaskenta I','Matriisien laskutoimitukset ja sovellukset','2017-01-02','2017-04-02','2');
+INSERT INTO Kurssi (nimi, kuvaus, opintopisteet, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Ohjelmoinnin perusteet','Kurssilla tutustutaan Java-ohjelmointiin.','5','2016-10-10','2017-01-10','1');
+INSERT INTO Kurssi (nimi, kuvaus, opintopisteet, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Ohjelmoinnin jatkokurssi','Kurssilla syvennytään ohjelmoinnin perusteiden asioihin.','5','2017-01-11','2017-04-11','1');
+INSERT INTO Kurssi (nimi, kuvaus, opintopisteet, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Johdatus yliopistomatematiikkaan','Sisältää mm. joukko-opin ja kompleksiluvut.','5','2017-01-02','2017-04-02','2');
+INSERT INTO Kurssi (nimi, kuvaus, opintopisteet, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Lineaarialgebra ja matriisilaskenta I','Matriisien laskutoimitukset ja sovellukset','55','2017-01-02','2017-04-02','2');
 INSERT INTO Opetusaika (viikonpaiva,aloitusAika,lopetusAika,kurssiId,tyyppi) VALUES('0','13:15','14:00','1','0');
-INSERT INTO Kayttaja (tyyppi,nimi,salasana,suola) VALUES ('0','Olli Opiskelija','olli','asLK3k4230');
-INSERT INTO Kayttaja (tyyppi,nimi,salasana,suola) VALUES ('1','Pekka Pääkäyttäjä','admin','wrim4329a');
+INSERT INTO Kayttaja (tyyppi,nimi,salasana) VALUES ('1','Pekka Pääkäyttäjä','$2a$07$u83cCmViLjABIinOhXwWaOt6yyzxCSInw3qo5Q7lBXS3AkFeHuj3O');
 INSERT INTO KurssiIlmoittautuminen (kurssiId,kayttajaId) VALUES('1','1');
 INSERT INTO KurssiIlmoittautuminen (kurssiId,kayttajaId) VALUES('2','1');
 INSERT INTO Kurssisuoritus (kurssiId, kayttajaId, arvosana, paivays) VALUES('3','1','5','2017-03-23');

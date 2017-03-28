@@ -2,7 +2,7 @@
 
 class Kurssi extends BaseModel {
 
-    public $id, $nimi, $kuvaus, $aloitusPvm, $lopetusPvm, $vastuuYksikkoId;
+    public $id, $nimi, $kuvaus, $opintoPisteet, $aloitusPvm, $lopetusPvm, $vastuuYksikkoId;
 
     public function __construct($arguments) {
         parent::__construct($arguments);
@@ -20,6 +20,29 @@ class Kurssi extends BaseModel {
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
+                'opintoPisteet' => $row['opintopisteet'],
+                'aloitusPvm' => $row['aloituspvm'],
+                'lopetusPvm' => $row['lopetuspvm'],
+                'vastuuYksikkoId' => $row['vastuuyksikkoid']
+            ));
+        }
+
+        return $kurssit;
+    }
+
+    public static function findAllByHakusana($hakusana) {
+        $query = DB::connection()->prepare('SELECT * FROM Kurssi WHERE nimi LIKE :hakusana');
+        $query->execute(array('hakusana' => $hakusana));
+        $rows = $query->fetchAll();
+
+        $kurssit = array();
+
+        foreach ($rows as $row) {
+            $kurssit[] = new Kurssi(array(
+                'id' => $row['id'],
+                'nimi' => $row['nimi'],
+                'kuvaus' => $row['kuvaus'],
+                'opintoPisteet' => $row['opintopisteet'],
                 'aloitusPvm' => $row['aloituspvm'],
                 'lopetusPvm' => $row['lopetuspvm'],
                 'vastuuYksikkoId' => $row['vastuuyksikkoid']
@@ -44,6 +67,7 @@ class Kurssi extends BaseModel {
                 'id' => $row['id'],
                 'nimi' => $row['nimi'],
                 'kuvaus' => $row['kuvaus'],
+                'opintoPisteet' => $row['opintopisteet'],
                 'aloitusPvm' => $row['aloituspvm'],
                 'lopetusPvm' => $row['lopetuspvm'],
                 'vastuuYksikkoId' => $row['vastuuyksikkoid']
@@ -55,14 +79,24 @@ class Kurssi extends BaseModel {
     }
 
     /**
-     * Tallennus.
+     * Hakee kurssit tietyltä aikaväliltä.
+     * @param String $aloitusaika
+     * @param String $lopetusaika
+     */
+    public static function findBetween($aloitusaika, $lopetusaika) {
+        
+    }
+
+    /**
+     * Tallentaa kurssin.
      */
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Kurssi (nimi, kuvaus, aloituspvm, lopetuspvm, vastuuyksikkoid) VALUES (:nimi, :kuvaus, :aloituspvm, :lopetuspvm, :vastuuyksikkoid) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Kurssi (nimi, kuvaus, opintopisteet, aloituspvm, lopetuspvm, vastuuyksikkoid) VALUES (:nimi, :kuvaus, :opintopisteet, :aloituspvm, :lopetuspvm, :vastuuyksikkoid) RETURNING id');
         $query->execute(
                 array(
                     'nimi' => $this->nimi,
                     'kuvaus' => $this->kuvaus,
+                    'opintopisteet' => $this->opintoPisteet,
                     'aloituspvm' => $this->aloitusPvm,
                     'lopetuspvm' => $this->lopetusPvm,
                     'vastuuyksikkoid' => $this->vastuuYksikkoId

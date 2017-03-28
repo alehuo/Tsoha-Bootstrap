@@ -6,6 +6,7 @@ CREATE TABLE Kurssi(
     id SERIAL PRIMARY KEY,
     nimi varchar(50) NOT NULL,
     kuvaus varchar(255) NOT NULL,
+    opintoPisteet INTEGER DEFAULT 5,
     aloitusPvm DATE,
     lopetusPvm DATE,
     vastuuYksikkoId INTEGER REFERENCES Vastuuyksikko(id)
@@ -13,9 +14,8 @@ CREATE TABLE Kurssi(
 CREATE TABLE Kayttaja(
     id SERIAL PRIMARY KEY,
     tyyppi INTEGER DEFAULT 0,
-    nimi varchar(100) NOT NULL,
-    salasana varchar(255) NOT NULL,
-    suola varchar(255) NOT NULL
+    nimi varchar(100) NOT NULL UNIQUE,
+    salasana varchar(255) NOT NULL
 );
 CREATE TABLE KurssiIlmoittautuminen(
     kurssiId INTEGER REFERENCES Kurssi(id),

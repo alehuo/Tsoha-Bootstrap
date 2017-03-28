@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+{% if course %}
+<h1>Kurssin tiedot</h1>
+<p>
+    <a class="btn btn-success" href="{{base_path}}/addgrades/{{course.id}}">Arvostele suorituksia</a>
+</p>
+<table class="table">
+    <tr><td><b>Kurssin nimi</b></td><td>{{course.nimi}}</td></tr>
+    <tr><td><b>Kurssiaika</b></td><td>{{course.aloitusPvm}} - {{course.lopetusPvm}}</td></tr>
+    <tr><td><b>Vastuuyksikkö</b></td><td>{{course.vastuuYksikkoId}}</td></tr>
+    <tr><td><b>Opintopisteet</b></td><td>{{course.opintoPisteet}} op</td></tr>
+    <tr><td rowspan="3"><b>Opetusajat</b></td><td>Maanantai 9:15 - 11.00 (CK456)</td></tr>
+    <tr><td>Keskiviikko 9:15 - 11.00 (CK456)</td></tr>
+    <tr><td>Torstai 9:15 - 11.00 (CK456)</td></tr>
+    <tr><td rowspan="3"><b>Harjoitusryhmät</b></td><td>1) Maanantai 14:15 - 18.00 (BK222)</td></tr>
+    <tr><td>2) Keskiviikko 14:15 - 18.00 (BK222)</td></tr>
+    <tr><td>3) Torstai 14:15 - 18.00 (BK222)</td></tr>
+</table>
+<a class="btn btn-primary" href="">Muokkaa kurssia</a>
+{% endif %}
+{% endblock %}
