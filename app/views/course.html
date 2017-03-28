@@ -14,7 +14,7 @@
     <tr><td colspan="2"><b>Opetusajat</b></td></tr>
     {% if opetusajat %}
     {% for opetusaika in opetusajat %}
-    <tr><td colspan="2">{{opetusaika.viikonPaivanNimi}} {{opetusaika.formattedAloitusAika}} - {{opetusaika.formattedLopetusAika}} ({{opetusaika.huone}})</td></tr>
+    <tr><td colspan="2" style="font-weight: normal;">{{opetusaika.viikonPaivanNimi}} {{opetusaika.formattedAloitusAika}} - {{opetusaika.formattedLopetusAika}} ({{opetusaika.huone}})</td></tr>
     {% endfor %}
     {% else %}
     <tr><td colspan="2">Ei opetusaikoja..</td></tr>
@@ -22,7 +22,7 @@
     <tr><td colspan="2"><b>Harjoitusryhmät</b></td></tr>
     {% if harjoitusryhmat %}
     {% for harjoitusryhma in harjoitusryhmat %}
-    <tr><td colspan="2">{{harjoitusryhma.viikonPaivanNimi}} {{harjoitusryhma.formattedAloitusAika}} - {{harjoitusryhma.formattedLopetusAika}} ({{harjoitusryhma.huone}})</td></tr>
+    <tr><td colspan="2" style="font-weight: normal;">{{harjoitusryhma.viikonPaivanNimi}} {{harjoitusryhma.formattedAloitusAika}} - {{harjoitusryhma.formattedLopetusAika}} ({{harjoitusryhma.huone}})</td></tr>
     {% endfor %}
     {% else %}
     <tr><td colspan="2">Ei harjoitusryhmiä.</td></tr>
