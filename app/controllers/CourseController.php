@@ -45,29 +45,29 @@ class CourseController extends BaseController {
     }
 
     public static function addCourse() {
-        $p = $_POST;
+        $postData = $_POST;
 
-        $kurssin_nimi = $p["nimi"];
+        $kurssin_nimi = $postData["nimi"];
 
-        if (empty($p["uusiVastuuYksikko"])) {
-            $vastuuYksikko = $p["vastuuyksikkoSelect"];
+        if (empty($postData["uusiVastuuYksikko"])) {
+            $vastuuYksikko = $postData["vastuuyksikkoSelect"];
         } else {
             //Luo uusi vastuuyksikkö ja palauta id
             //....
         }
 
-        $alkamisPvm = strtotime($p["startingDate"]);
+        $alkamisPvm = strtotime($postData["startingDate"]);
 
-        $lopetusPvm = strtotime($p["endingDate"]);
+        $lopetusPvm = strtotime($postData["endingDate"]);
 
-        $op = $p["op"];
+        $op = $postData["op"];
 
 //        if (isset($p["arvosteluTyyppi"])) {
 //            $arvostelu = $p["arvosteluTyyppi"];
 //        }
 
 
-        $kuvaus = $p["kuvaus"];
+        $kuvaus = $postData["kuvaus"];
 
         $kurssi = new Kurssi(array(
             'nimi' => $kurssin_nimi,
@@ -80,29 +80,15 @@ class CourseController extends BaseController {
 
         $kurssi->save();
 
-        //Lisää opetusajat..
-        //Poista ensin placeholderit
-//        unset($p["opetusaikaHuone"][0]);
-//        unset($p["opetusaikaAloitusaika"][0]);
-//        unset($p["opetusaikaKesto"][0]);
-//        unset($p["opetusaikaViikonpaiva"][0]);
-//
-//        unset($p["harjoitusryhmaHuone"][0]);
-//        unset($p["harjoitusryhmaAloitusaika"][0]);
-//        unset($p["harjoitusryhmaKesto"][0]);
-//        unset($p["harjoitusryhmaViikonpaiva"][0]);
-
-        $length = count($p["opetusaikaHuone"]);
-
         $ajat = array();
 
-        for ($i = 1; $i < $length; $i++) {
+        for ($i = 1; $i < count($postData["opetusaikaHuone"]); $i++) {
 
-            $loppuaika = $p["opetusaikaAloitusaika"][$i] + 60 * (int) $p["opetusaikaKesto"];
+            $loppuaika = (int) $postData["opetusaikaAloitusaika"][$i] + 60 * (int) $postData["opetusaikaKesto"];
 
             $opetusaika = new Opetusaika(array(
-                'viikonpaiva' => $p["opetusaikaViikonpaiva"][$i],
-                'aloitusAika' => $p["opetusaikaAloitusaika"][$i],
+                'viikonpaiva' => (int) $postData["opetusaikaViikonpaiva"][$i],
+                'aloitusAika' => (int) $postData["opetusaikaAloitusaika"][$i],
                 'lopetusAika' => $loppuaika,
                 'kurssiId' => $kurssi->id,
                 'tyyppi' => 0
@@ -111,14 +97,12 @@ class CourseController extends BaseController {
             $ajat[] = $opetusaika;
         }
 
-        $length = count($p["harjoitusryhmaHuone"]);
-
-        for ($i = 1; $i < $length; $i++) {
-            $loppuaika = $p["harjoitusryhmaAloitusaika"][$i] + 60 * (int) $p["harjoitusryhmaKesto"];
+        for ($i = 1; $i < count((int) $postData["harjoitusryhmaHuone"]); $i++) {
+            $loppuaika = (int) $postData["harjoitusryhmaAloitusaika"][$i] + 60 * (int) $postData["harjoitusryhmaKesto"];
 
             $harjoitusryhma = new Opetusaika(array(
-                'viikonpaiva' => $p["harjoitusryhmaViikonpaiva"][$i],
-                'aloitusAika' => $p["harjoitusryhmaAloitusaika"][$i],
+                'viikonpaiva' => (int) $postData["harjoitusryhmaViikonpaiva"][$i],
+                'aloitusAika' => (int) $postData["harjoitusryhmaAloitusaika"][$i],
                 'lopetusAika' => $loppuaika,
                 'kurssiId' => $kurssi->id,
                 'tyyppi' => 1
