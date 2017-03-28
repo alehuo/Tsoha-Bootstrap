@@ -55,7 +55,7 @@ class Kurssi extends BaseModel {
     $query->execute(
         array(
             'nimi' => $this->nimi,
-            'kuvaus' => $this->kuvausd,
+            'kuvaus' => $this->kuvaus,
             'aloituspvm' => $this->aloitusPvm,
             'lopetuspvm' => $this->lopetusPvm,
             'vastuuyksikkoid' => $this->vastuuYksikkoId
