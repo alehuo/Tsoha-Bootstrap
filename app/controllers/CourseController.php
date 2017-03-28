@@ -56,9 +56,9 @@ class CourseController extends BaseController {
             //....
         }
 
-        $alkamisPvm = $p["startingDate"];
+        $alkamisPvm = strtotime($p["startingDate"]);
 
-        $lopetusPvm = $p["endingDate"];
+        $lopetusPvm = strtotime($p["endingDate"]);
 
         $op = $p["op"];
 
