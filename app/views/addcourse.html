@@ -8,7 +8,7 @@
 <form action="{{base_path}}/addcourse" method="POST">
     <div class="form-group">
         <label>Vastuuyksikkö</label>
-        <select class="form-control">
+        <select class="form-control" name="vastuuyksikkoSelect">
             <option value="-1">(Valitse)</option>
             <option value="1">Matematiikan ja tilastotieteen laitos</option>
             <option value="2">Tietojenkäsittelytieteen laitos</option>
@@ -17,11 +17,11 @@
     </div>
     <div class="form-group">
         <label><small>Ellei vastuuyksikköä löydy listalta, kirjota se alle.</small></label>
-        <input class="form-control" placeholder="Vastuuyksikkö" type="text">
+        <input class="form-control" placeholder="Vastuuyksikkö" type="text" name="uusiVastuuYksikko">
     </div>
     <div class="form-group">
         <label>Nimi</label>
-        <input class="form-control" placeholder="Nimi" type="text">
+        <input class="form-control" placeholder="Nimi" type="text" name="nimi">
     </div>
     <div class="form-group">
         <label>Alkamispäiväys (pp.kk.vvvv)</label>
@@ -33,17 +33,17 @@
     </div>
     <div class="form-group">
         <label>Saatavat opintopisteet</label>
-        <input class="form-control" value="5" type="number" min="0" max="150">
+        <input class="form-control" value="5" type="number" min="0" max="150" name="op">
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox">
+            <input type="checkbox" name="arvosteluTyyppi">
             Kurssin arvosteluna hyväksytty/hylätty
         </label>
     </div>
     <div class="form-group">
         <label>Kuvaus</label>
-        <textarea class="form-control">Kurssikuvaus</textarea>
+        <textarea class="form-control" name="kuvaus">Kurssikuvaus</textarea>
     </div>
     <div class="form-group">
         <hr/>

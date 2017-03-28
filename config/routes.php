@@ -21,13 +21,11 @@ $routes->get('/course/:id', function($id) {
 });
 
 $routes->get('/addcourse', function() {
-    CourseController::addCourse();
+    CourseController::addCourseForm();
 });
 
 $routes->post('/addcourse', function() {
-    echo "<pre>";
-    var_dump($_POST);
-    echo "</pre>";
+    CourseController::addCourse();
 });
 
 
