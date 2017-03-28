@@ -2,7 +2,7 @@
 
 class Kurssi extends BaseModel {
 
-    public $id, $nimi, $kuvaus, $opintoPisteet, $aloitusPvm, $lopetusPvm, $vastuuYksikkoId, $vastuuYksikko;
+    public $id, $nimi, $kuvaus, $opintoPisteet, $aloitusPvm, $lopetusPvm, $vastuuYksikkoId, $vastuuYksikko, $opetusajat, $harjoitusryhmat;
 
     public function __construct($arguments) {
         parent::__construct($arguments);
@@ -16,6 +16,10 @@ class Kurssi extends BaseModel {
         $kurssit = array();
 
         foreach ($rows as $row) {
+
+            $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], 0);
+            $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], 1);
+
             $kurssit[] = new Kurssi(array(
                 'id' => $row['id'],
                 'nimi' => $row['kurssinimi'],
@@ -24,7 +28,9 @@ class Kurssi extends BaseModel {
                 'aloitusPvm' => $row['aloituspvm'],
                 'lopetusPvm' => $row['lopetuspvm'],
                 'vastuuYksikkoId' => $row['vastuuyksikkoid'],
-                'vastuuYksikko' => $row['nimi']
+                'vastuuYksikko' => $row['nimi'],
+                'harjoitusryhmat' => $harjoitusryhmat,
+                'opetusajat' => $opetusajat
             ));
         }
 
@@ -39,6 +45,7 @@ class Kurssi extends BaseModel {
         $kurssit = array();
 
         foreach ($rows as $row) {
+
             $kurssit[] = new Kurssi(array(
                 'id' => $row['id'],
                 'nimi' => $row['kurssinimi'],
@@ -65,6 +72,10 @@ class Kurssi extends BaseModel {
         $row = $query->fetch();
 
         if ($row) {
+
+            $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], 0);
+            $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($row["id"], 1);
+
             $kurssi = new Kurssi(array(
                 'id' => $row['id'],
                 'nimi' => $row['kurssinimi'],
@@ -73,7 +84,9 @@ class Kurssi extends BaseModel {
                 'aloitusPvm' => $row['aloituspvm'],
                 'lopetusPvm' => $row['lopetuspvm'],
                 'vastuuYksikkoId' => $row['vastuuyksikkoid'],
-                'vastuuYksikko' => $row['nimi']
+                'vastuuYksikko' => $row['nimi'],
+                'harjoitusryhmat' => $harjoitusryhmat,
+                'opetusajat' => $opetusajat
             ));
             return $kurssi;
         }

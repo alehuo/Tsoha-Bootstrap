@@ -2,7 +2,7 @@
 
 class Opetusaika extends BaseModel {
 
-    public $viikonpaiva, $aloitusAika, $lopetusAika, $kurssiId, $tyyppi;
+    public $id, $huone, $viikonpaiva, $aloitusAika, $lopetusAika, $kurssiId, $tyyppi;
 
     public function __construct($arguments) {
         parent::__construct($arguments);
@@ -30,6 +30,7 @@ class Opetusaika extends BaseModel {
         foreach ($rows as $row) {
             $opetusajat[] = new Opetusaika(array(
                 'id' => $row['id'],
+                'huone' => $row['huone'],
                 'viikonpaiva' => $row['viikonpaiva'],
                 'aloitusAika' => $row['aloitusaika'],
                 'lopetusAika' => $row['lopetusaika'],
@@ -45,10 +46,11 @@ class Opetusaika extends BaseModel {
      * Tallennus.
      */
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Opetusaika (viikonpaiva, aloitusaika, lopetusaika, kurssiid, tyyppi) VALUES (:viikonpaiva, :aloitusaika, :lopetusaika, :kurssiid, :tyyppi) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Opetusaika (huone, viikonpaiva, aloitusaika, lopetusaika, kurssiid, tyyppi) VALUES (:huone, :viikonpaiva, :aloitusaika, :lopetusaika, :kurssiid, :tyyppi) RETURNING id');
 
         $query->execute(
                 array(
+                    'huone' => $this->huone,
                     'viikonpaiva' => $this->viikonpaiva,
                     'aloitusaika' => $this->aloitusAika,
                     'lopetusaika' => $this->lopetusAika,
@@ -68,6 +70,18 @@ class Opetusaika extends BaseModel {
 
     public function getFormattedLopetusAika() {
         return floor($this->lopetusAika / 60) . ":" . $this->lopetusAika % 60;
+    }
+
+    public function getViikonPaivanNimi() {
+        $viikonpaivat = array(
+            0 => "Maanantai",
+            1 => "Tiistai",
+            2 => "Keskiviikko",
+            3 => "Torstai",
+            4 => "Perjantai"
+        );
+
+        return $viikonpaivat[$this->viikonpaiva];
     }
 
 }

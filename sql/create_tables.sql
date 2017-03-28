@@ -30,6 +30,7 @@ CREATE TABLE Kurssisuoritus(
 );
 CREATE TABLE Opetusaika(
     id SERIAL PRIMARY KEY,
+    huone varchar(10) NOT NULL,
     viikonpaiva INTEGER,
     aloitusAika INTEGER,
     lopetusAika INTEGER,

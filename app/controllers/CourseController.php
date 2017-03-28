@@ -94,6 +94,7 @@ class CourseController extends BaseController {
                 $loppuaika = (int) $postData["opetusaikaAloitusaika"][$i] + 60 * (int) $postData["opetusaikaKesto"];
 
                 $opetusaika = new Opetusaika(array(
+                    'huone' => $postData['opetusaikaHuone'][$i],
                     'viikonpaiva' => (int) $postData["opetusaikaViikonpaiva"][$i],
                     'aloitusAika' => (int) $postData["opetusaikaAloitusaika"][$i],
                     'lopetusAika' => $loppuaika,
@@ -108,6 +109,7 @@ class CourseController extends BaseController {
                 $loppuaika = (int) $postData["harjoitusryhmaAloitusaika"][$i] + 60 * (int) $postData["harjoitusryhmaKesto"];
 
                 $harjoitusryhma = new Opetusaika(array(
+                    'huone' => $postData['harjoitusryhmaHuone'][$i],
                     'viikonpaiva' => (int) $postData["harjoitusryhmaViikonpaiva"][$i],
                     'aloitusAika' => (int) $postData["harjoitusryhmaAloitusaika"][$i],
                     'lopetusAika' => $loppuaika,

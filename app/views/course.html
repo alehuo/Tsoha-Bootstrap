@@ -11,7 +11,10 @@
     <tr><td><b>Kurssiaika</b></td><td>{{course.aloitusPvm}} - {{course.lopetusPvm}}</td></tr>
     <tr><td><b>Vastuuyksikkö</b></td><td>{{course.vastuuYksikko}}</td></tr>
     <tr><td><b>Opintopisteet</b></td><td>{{course.opintoPisteet}} op</td></tr>
-    <tr><td rowspan="3"><b>Opetusajat</b></td><td>Maanantai 9:15 - 11.00 (CK456)</td></tr>
+    <tr><td colspan="2"><b>Opetusajat</b></td></tr>
+    {% for opetusaika in kurssi.opetusajat %}
+    <tr><td>{{opetusaika.viikonPaivanNimi}} {{opetusaika.formattedAloitusAika}} - {{opetusaika.formattedLopetusAika}} (CK456)</td></tr>
+    {% endfor %}
     <tr><td>Keskiviikko 9:15 - 11.00 (CK456)</td></tr>
     <tr><td>Torstai 9:15 - 11.00 (CK456)</td></tr>
     <tr><td rowspan="3"><b>Harjoitusryhmät</b></td><td>1) Maanantai 14:15 - 18.00 (BK222)</td></tr>
