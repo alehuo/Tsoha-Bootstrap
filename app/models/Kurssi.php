@@ -16,16 +16,15 @@ class Kurssi extends BaseModel {
         $kurssit = array();
 
         foreach ($rows as $row) {
-            var_dump($row);
             $kurssit[] = new Kurssi(array(
-                'id' => $row['Kurssi.id'],
-                'nimi' => $row['Kurssi.kurssinimi'],
-                'kuvaus' => $row['Kurssi.kuvaus'],
-                'opintoPisteet' => $row['Kurssi.opintopisteet'],
-                'aloitusPvm' => $row['Kurssi.aloituspvm'],
-                'lopetusPvm' => $row['Kurssi.lopetuspvm'],
-                'vastuuYksikkoId' => $row['Kurssi.vastuuyksikkoid'],
-                'vastuuYksikko' => $row['Vastuuyksikko.nimi']
+                'id' => $row['id'],
+                'nimi' => $row['kurssinimi'],
+                'kuvaus' => $row['kuvaus'],
+                'opintoPisteet' => $row['opintopisteet'],
+                'aloitusPvm' => $row['aloituspvm'],
+                'lopetusPvm' => $row['lopetuspvm'],
+                'vastuuYksikkoId' => $row['vastuuyksikkoid'],
+                'vastuuYksikko' => $row['nimi']
             ));
         }
 
@@ -41,14 +40,14 @@ class Kurssi extends BaseModel {
 
         foreach ($rows as $row) {
             $kurssit[] = new Kurssi(array(
-                'id' => $row['Kurssi.id'],
-                'nimi' => $row['Kurssi.kurssinimi'],
-                'kuvaus' => $row['Kurssi.kuvaus'],
-                'opintoPisteet' => $row['Kurssi.opintopisteet'],
-                'aloitusPvm' => $row['Kurssi.aloituspvm'],
-                'lopetusPvm' => $row['Kurssi.lopetuspvm'],
-                'vastuuYksikkoId' => $row['Kurssi.vastuuyksikkoid'],
-                'vastuuYksikko' => $row['Vastuuyksikko.nimi']
+                'id' => $row['id'],
+                'nimi' => $row['kurssinimi'],
+                'kuvaus' => $row['kuvaus'],
+                'opintoPisteet' => $row['opintopisteet'],
+                'aloitusPvm' => $row['aloituspvm'],
+                'lopetusPvm' => $row['lopetuspvm'],
+                'vastuuYksikkoId' => $row['vastuuyksikkoid'],
+                'vastuuYksikko' => $row['nimi']
             ));
         }
 
@@ -67,14 +66,14 @@ class Kurssi extends BaseModel {
 
         if ($row) {
             $kurssi = new Kurssi(array(
-                'id' => $row['Kurssi.id'],
-                'nimi' => $row['Kurssi.kurssinimi'],
-                'kuvaus' => $row['Kurssi.kuvaus'],
-                'opintoPisteet' => $row['Kurssi.opintopisteet'],
-                'aloitusPvm' => $row['Kurssi.aloituspvm'],
-                'lopetusPvm' => $row['Kurssi.lopetuspvm'],
-                'vastuuYksikkoId' => $row['Kurssi.vastuuyksikkoid'],
-                'vastuuYksikko' => $row['Vastuuyksikko.nimi']
+                'id' => $row['id'],
+                'nimi' => $row['kurssinimi'],
+                'kuvaus' => $row['kuvaus'],
+                'opintoPisteet' => $row['opintopisteet'],
+                'aloitusPvm' => $row['aloituspvm'],
+                'lopetusPvm' => $row['lopetuspvm'],
+                'vastuuYksikkoId' => $row['vastuuyksikkoid'],
+                'vastuuYksikko' => $row['nimi']
             ));
             return $kurssi;
         }
