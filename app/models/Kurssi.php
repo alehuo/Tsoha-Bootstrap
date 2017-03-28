@@ -16,6 +16,7 @@ class Kurssi extends BaseModel {
         $kurssit = array();
 
         foreach ($rows as $row) {
+            var_dump($row);
             $kurssit[] = new Kurssi(array(
                 'id' => $row['Kurssi.id'],
                 'nimi' => $row['Kurssi.kurssinimi'],
