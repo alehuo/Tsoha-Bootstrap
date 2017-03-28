@@ -4,7 +4,7 @@ CREATE TABLE Vastuuyksikko(
 );
 CREATE TABLE Kurssi(
     id SERIAL PRIMARY KEY,
-    nimi varchar(50) NOT NULL,
+    kurssinimi varchar(50) NOT NULL,
     kuvaus varchar(255) NOT NULL,
     opintoPisteet INTEGER DEFAULT 5,
     aloitusPvm INTEGER,
