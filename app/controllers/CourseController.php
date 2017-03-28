@@ -45,79 +45,83 @@ class CourseController extends BaseController {
     }
 
     public static function addCourse() {
-        $postData = $_POST;
+        $db = DB::connection();
+        $db->beginTransaction();
+        try {
+            $postData = $_POST;
 
-        $kurssin_nimi = $postData["nimi"];
+            $kurssin_nimi = $postData["nimi"];
 
-        if (empty($postData["uusiVastuuYksikko"])) {
-            $vastuuYksikko = $postData["vastuuyksikkoSelect"];
-        } else {
-            //Luo uusi vastuuyksikkö ja palauta id
-            //....
-        }
+            if (empty($postData["uusiVastuuYksikko"])) {
+                $vastuuYksikko = $postData["vastuuyksikkoSelect"];
+            } else {
+                //Luo uusi vastuuyksikkö ja palauta id
+                //....
+            }
 
-        $alkamisPvm = strtotime($postData["startingDate"]);
+            $alkamisPvm = strtotime($postData["startingDate"]);
 
-        $lopetusPvm = strtotime($postData["endingDate"]);
+            $lopetusPvm = strtotime($postData["endingDate"]);
 
-        $op = $postData["op"];
+            $op = $postData["op"];
 
 //        if (isset($p["arvosteluTyyppi"])) {
 //            $arvostelu = $p["arvosteluTyyppi"];
 //        }
 
 
-        $kuvaus = $postData["kuvaus"];
+            $kuvaus = $postData["kuvaus"];
 
-        $kurssi = new Kurssi(array(
-            'nimi' => $kurssin_nimi,
-            'kuvaus' => $kuvaus,
-            'opintoPisteet' => $op,
-            'aloitusPvm' => $alkamisPvm,
-            'lopetusPvm' => $lopetusPvm,
-            'vastuuYksikkoId' => $vastuuYksikko
-        ));
-
-        $kurssi->save();
-
-        $ajat = array();
-
-        for ($i = 1; $i < count($postData["opetusaikaHuone"]); $i++) {
-
-            $loppuaika = (int) $postData["opetusaikaAloitusaika"][$i] + 60 * (int) $postData["opetusaikaKesto"];
-
-            $opetusaika = new Opetusaika(array(
-                'viikonpaiva' => (int) $postData["opetusaikaViikonpaiva"][$i],
-                'aloitusAika' => (int) $postData["opetusaikaAloitusaika"][$i],
-                'lopetusAika' => $loppuaika,
-                'kurssiId' => $kurssi->id,
-                'tyyppi' => 0
+            $kurssi = new Kurssi(array(
+                'nimi' => $kurssin_nimi,
+                'kuvaus' => $kuvaus,
+                'opintoPisteet' => $op,
+                'aloitusPvm' => $alkamisPvm,
+                'lopetusPvm' => $lopetusPvm,
+                'vastuuYksikkoId' => $vastuuYksikko
             ));
 
-            $ajat[] = $opetusaika;
+            $kurssi->save();
+
+            $ajat = array();
+
+            for ($i = 1; $i < count($postData["opetusaikaHuone"]); $i++) {
+
+                $loppuaika = (int) $postData["opetusaikaAloitusaika"][$i] + 60 * (int) $postData["opetusaikaKesto"];
+
+                $opetusaika = new Opetusaika(array(
+                    'viikonpaiva' => (int) $postData["opetusaikaViikonpaiva"][$i],
+                    'aloitusAika' => (int) $postData["opetusaikaAloitusaika"][$i],
+                    'lopetusAika' => $loppuaika,
+                    'kurssiId' => $kurssi->id,
+                    'tyyppi' => 0
+                ));
+
+                $ajat[] = $opetusaika;
+            }
+
+            for ($i = 1; $i < count((int) $postData["harjoitusryhmaHuone"]); $i++) {
+                $loppuaika = (int) $postData["harjoitusryhmaAloitusaika"][$i] + 60 * (int) $postData["harjoitusryhmaKesto"];
+
+                $harjoitusryhma = new Opetusaika(array(
+                    'viikonpaiva' => (int) $postData["harjoitusryhmaViikonpaiva"][$i],
+                    'aloitusAika' => (int) $postData["harjoitusryhmaAloitusaika"][$i],
+                    'lopetusAika' => $loppuaika,
+                    'kurssiId' => $kurssi->id,
+                    'tyyppi' => 1
+                ));
+
+                $ajat[] = $harjoitusryhma;
+            }
+
+            foreach ($ajat as $key => $opetusaika) {
+                $opetusaika->save();
+            }
+
+            $db->commit();
+        } catch (PDOException $ex) {
+            $db->rollBack();
         }
-
-        for ($i = 1; $i < count((int) $postData["harjoitusryhmaHuone"]); $i++) {
-            $loppuaika = (int) $postData["harjoitusryhmaAloitusaika"][$i] + 60 * (int) $postData["harjoitusryhmaKesto"];
-
-            $harjoitusryhma = new Opetusaika(array(
-                'viikonpaiva' => (int) $postData["harjoitusryhmaViikonpaiva"][$i],
-                'aloitusAika' => (int) $postData["harjoitusryhmaAloitusaika"][$i],
-                'lopetusAika' => $loppuaika,
-                'kurssiId' => $kurssi->id,
-                'tyyppi' => 1
-            ));
-
-            $ajat[] = $harjoitusryhma;
-        }
-
-        foreach ($ajat as $key => $opetusaika) {
-            $opetusaika->save();
-        }
-
-        echo "<pre>";
-        var_dump($ajat);
-        echo "</pre>";
     }
 
 }
