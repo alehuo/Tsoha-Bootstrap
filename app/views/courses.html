@@ -27,7 +27,7 @@
     </thead>
     <tbody>
         {% for course in courses %}
-        <tr><td><a href="{{base_path}}/course/{{course.id}}">{{course.nimi}}</a></td><td>{{course.vastuuYksikkoId}}</td><td>{{course.aloitusPvm}} - {{course.lopetusPvm}}</td><td>{{course.opintoPisteet}} op</td></tr>
+        <tr><td><a href="{{base_path}}/course/{{course.id}}">{{course.nimi}}</a></td><td>{{course.vastuuYksikkoId}}</td><td>{{course.formattedAloitusPvm}} - {{course.formattedLopetusPvm}}</td><td>{{course.opintoPisteet}} op</td></tr>
         {% endfor %}
     </tbody>
 </table>
