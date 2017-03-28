@@ -12,7 +12,7 @@ class CourseController extends BaseController {
 
         $courses = Kurssi::findAllByHakusana('%' . $hakusana . '%');
 
-        View::make('courses.html', array("courses" => $courses, "lkm" => count($courses), "searchTerm" => htmlentities($hakusana, ENT_QUOTES)));
+        View::make('courses.html', array("courses" => $courses, "lkm" => count($courses), "searchTerm" => $hakusana));
     }
 
     public static function viewCourse($id) {
