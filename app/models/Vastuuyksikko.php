@@ -28,6 +28,24 @@ class Vastuuyksikko extends BaseModel {
         return null;
     }
 
+    public static function all() {
+        $query = DB::connection()->prepare('SELECT * FROM Vastuuyksikko');
+        $query->execute();
+
+        $rows = $query->fetchAll();
+
+        $vastuuyksikot = array();
+
+        foreach ($rows as $row) {
+            $vastuuyksikot[] = new Vastuuyksikko(array(
+                'id' => $row['id'],
+                'nimi' => $row['nimi']
+            ));
+        }
+
+        return $vastuuyksikot;
+    }
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO Vastuuyksikko (nimi) VALUES (:nimi) RETURNING id');
 

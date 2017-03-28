@@ -41,7 +41,9 @@ class CourseController extends BaseController {
             $start += 15;
         }
 
-        View::make('addcourse.html', array("ajat" => $ajat));
+        $vastuuyksikot = Vastuuyksikko::all();
+
+        View::make('addcourse.html', array("ajat" => $ajat, "vastuuyksikot" => $vastuuyksikot));
     }
 
     public static function addCourse() {
@@ -53,10 +55,11 @@ class CourseController extends BaseController {
             $kurssin_nimi = $postData["nimi"];
 
             if (empty($postData["uusiVastuuYksikko"])) {
-                $vastuuYksikko = $postData["vastuuyksikkoSelect"];
+                $vastuuyksikko = $postData["vastuuyksikkoSelect"];
             } else {
                 //Luo uusi vastuuyksikkö ja palauta id
                 //....
+                $uusiVastuuyksikko = new Vastuuyksikko(array("nimi" => $postData["uusiVastuuYksikko"]));
             }
 
             $alkamisPvm = strtotime($postData["startingDate"]);
@@ -78,7 +81,7 @@ class CourseController extends BaseController {
                 'opintoPisteet' => $op,
                 'aloitusPvm' => $alkamisPvm,
                 'lopetusPvm' => $lopetusPvm,
-                'vastuuYksikkoId' => $vastuuYksikko
+                'vastuuYksikkoId' => $vastuuyksikko
             ));
 
             $kurssi->save();
