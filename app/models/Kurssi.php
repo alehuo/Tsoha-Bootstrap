@@ -48,4 +48,22 @@ class Kurssi extends BaseModel {
 
 	return null;
 	}
+
+	public function save(){
+    	$query = DB::connection()->prepare('INSERT INTO Kurssi (nimi, kuvaus, aloituspvm, lopetuspvm, vastuuyksikkoid) VALUES (:nimi, :kuvaus, :aloituspvm, :lopetuspvm, :vastuuyksikkoid) RETURNING id');
+
+    	$query->execute(
+			array(
+				'nimi' => $this->nimi,
+				'kuvaus' => $this->kuvausd,
+				'aloituspvm' => $this->aloitusPvm,
+				'lopetuspvm' => $this->lopetusPvm,
+				'vastuuyksikkoid' => $this->vastuuYksikkoId
+			)
+		);
+
+    	$row = $query->fetch();
+    	
+    	$this->id = $row['id'];
+	}
 }

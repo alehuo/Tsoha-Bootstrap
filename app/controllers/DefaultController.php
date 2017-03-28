@@ -1,5 +1,5 @@
 <?php
-require "app/models/Kurssi.php";
+
 class DefaultController extends BaseController {
 
     /**
