@@ -97,7 +97,7 @@ class CourseController extends BaseController {
 
             for ($i = 1; $i < count($postData["opetusaikaAloitusaika"]); $i++) {
 
-                $loppuaika = intval($postData["opetusaikaAloitusaika"][$i]) + 60 * intval($postData["opetusaikaKesto"]);
+                $loppuaika = intval($postData["opetusaikaAloitusaika"][$i]) + 60 * intval($postData["opetusaikaKesto"][$i]);
 
                 $opetusaika = new Opetusaika(array(
                     'huone' => $postData['opetusaikaHuone'][$i],
@@ -113,8 +113,7 @@ class CourseController extends BaseController {
 
             var_dump(count($postData["harjoitusryhmaAloitusaika"]));
             for ($i = 1; $i < count($postData["harjoitusryhmaAloitusaika"]); $i++) {
-                var_dump($i);
-                $loppuaika = intval($postData["harjoitusryhmaAloitusaika"][$i]) + 60 * intval($postData["harjoitusryhmaKesto"]);
+                $loppuaika = intval($postData["harjoitusryhmaAloitusaika"][$i]) + 60 * intval($postData["harjoitusryhmaKesto"][$i]);
 
                 $harjoitusryhma = new Opetusaika(array(
                     'huone' => $postData['harjoitusryhmaHuone'][$i],
