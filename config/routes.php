@@ -8,22 +8,37 @@ $routes->get('/sandbox', function() {
     DefaultController::sandbox();
 });
 
+/**
+ * Kurssien hakusivu.
+ */
 $routes->get('/courses', function() {
     CourseController::searchPage();
 });
 
+/**
+ * Kurssihaun käsittely.
+ */
 $routes->post('/courses', function() {
     CourseController::search();
 });
 
+/**
+ * Yksittäisen kurssin selaaminen.
+ */
 $routes->get('/course/:id', function($id) {
     CourseController::viewCourse($id);
 });
 
+/**
+ * Kurssin lisääminen.
+ */
 $routes->get('/addcourse', function() {
     CourseController::addCourseForm();
 });
 
+/**
+ * Kurssin lisäämislomakkeen käsittely.
+ */
 $routes->post('/addcourse', function() {
     CourseController::addCourse();
 });

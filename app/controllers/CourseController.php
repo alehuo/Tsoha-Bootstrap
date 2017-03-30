@@ -48,6 +48,10 @@ class CourseController extends BaseController {
         View::make('addcourse.html', array("ajat" => $ajat, "vastuuyksikot" => $vastuuyksikot));
     }
 
+    /**
+     * Kurssin lisäys lomakkeen kautta.
+     * 
+     */
     public static function addCourse() {
         $db = DB::connection();
         $db->beginTransaction();
@@ -121,7 +125,11 @@ class CourseController extends BaseController {
 
                 $ajat[] = $harjoitusryhma;
             }
-
+            echo "<pre>";
+            var_dump($params);
+            var_dump($ajat);
+            echo "</pre>";
+            die();
             foreach ($ajat as $key => $opetusaika) {
                 $opetusaika->save();
             }

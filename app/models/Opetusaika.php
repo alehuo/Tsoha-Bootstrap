@@ -65,11 +65,11 @@ class Opetusaika extends BaseModel {
     }
 
     public function getFormattedAloitusAika() {
-        return floor($this->aloitusAika / 60) . ":" . $this->aloitusAika % 60;
+        return str_pad(floor($this->aloitusAika / 60), 2, "0", STR_PAD_LEFT) . ":" . str_pad($this->aloitusAika % 60, 2, "0", STR_PAD_LEFT);
     }
 
     public function getFormattedLopetusAika() {
-        return floor($this->lopetusAika / 60) . ":" . $this->lopetusAika % 60;
+        return str_pad(floor($this->lopetusAika / 60), 2, "0", STR_PAD_LEFT) . ":" . str_pad($this->lopetusAika % 60, 2, "0", STR_PAD_LEFT);
     }
 
     public function getViikonPaivanNimi() {
