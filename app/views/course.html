@@ -17,7 +17,7 @@
     <tr><td colspan="2" style="font-weight: normal;">{{opetusaika.viikonPaivanNimi}} {{opetusaika.formattedAloitusAika}} - {{opetusaika.formattedLopetusAika}} ({{opetusaika.huone}})</td></tr>
     {% endfor %}
     {% else %}
-    <tr><td colspan="2">Ei opetusaikoja..</td></tr>
+    <tr><td colspan="2" style="font-weight: normal;">Ei opetusaikoja.</td></tr>
     {% endif %}
     <tr><td colspan="2"><b>Harjoitusryhmät</b></td></tr>
     {% if harjoitusryhmat %}
@@ -25,7 +25,7 @@
     <tr><td colspan="2" style="font-weight: normal;">{{harjoitusryhma.viikonPaivanNimi}} {{harjoitusryhma.formattedAloitusAika}} - {{harjoitusryhma.formattedLopetusAika}} ({{harjoitusryhma.huone}})</td></tr>
     {% endfor %}
     {% else %}
-    <tr><td colspan="2">Ei harjoitusryhmiä.</td></tr>
+    <tr><td colspan="2" style="font-weight: normal;">Ei harjoitusryhmiä.</td></tr>
     {% endif %}
 </table>
 <a class="btn btn-primary" href="">Muokkaa kurssia</a>
