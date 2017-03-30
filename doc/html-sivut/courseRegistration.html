@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>
+            My Studies - Kurssin tiedot
+        </title>
+
+        <!-- Bootstrap (tyylitiedosto) -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Oma tyylitiedostomme -->
+        <link href="assets/css/site.css" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Sovelluksen nimi -->
+                    <a class="navbar-brand" href="/oodi">My Studies</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navigation">
+                    <ul class="nav navbar-nav">
+                        <!-- Navigaation linkit -->
+                        <li><a href="index.html">Etusivu</a></li>
+                        <li><a href="courses.html">Kurssit</a></li>
+                        <li><a href="#">Ilmoittautumiset</a></li>
+                        <li><a href="grades.html">Suoritukset</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="admin.html">Hallinta</a></li>
+                        <li><a href="#">Kirjaudu ulos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="main-container">
+			<h1>Kurssin tiedot</h1>
+			<form>
+			<table class="table">
+				<tr><td><b>Kurssin nimi</b></td><td>Sarjat</td></tr>
+				<tr><td><b>Kurssiaika</b></td><td>14.3.2016 - 8.5.2016</td></tr>
+				<tr><td><b>Vastuuyksikkö</b></td><td>Matematiikan ja tilastotieteen laitos</td></tr>
+				<tr><td><b>Opintopisteet</b></td><td>5 op</td></tr>
+				<tr><td rowspan="3"><b>Opetusajat</b></td><td>Maanantai 9:15 - 11.00 (CK456)</td></tr>
+				<tr><td>Keskiviikko 9:15 - 11.00 (CK456)</td></tr>
+				<tr><td>Torstai 9:15 - 11.00 (CK456)</td></tr>
+				<tr><td rowspan="3"><b>Harjoitusryhmät</b></td><td>1) Maanantai 14:15 - 18.00 (BK222)</td></tr>
+				<tr><td>2) Keskiviikko 14:15 - 18.00 (BK222)</td></tr>
+				<tr><td>3) Torstai 14:15 - 18.00 (BK222)</td></tr>
+			</table>
+			Harjoitusryhmä: <select>
+                        <option value="-1">(Valitse)</option>
+                        <option value="1">1) Maanantai 14:15 - 18.00 (BK222)</option>
+                        <option value="2">2) Keskiviikko 14:15 - 18.00 (BK222)</option>
+                        <option value="3">3) Torstai 14:15 - 18.00 (BK222)</option>
+                    </select>
+			<button class="btn btn-success">Ilmoittaudu kurssille</button>
+			</form>
+        </div>
+
+        <!-- jQuery -->
+        <script src="/oodi/vendor/jquery.min.js"></script>
+
+        <!-- Bootstrap (skriptitiedosto) -->
+        <script src="/oodi/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- Oma skriptitiedostomme -->
+        <script src="/oodi/assets/js/site.js"></script>
+    </body>
+</html>

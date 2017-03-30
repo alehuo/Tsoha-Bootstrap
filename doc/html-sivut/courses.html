@@ -6,21 +6,14 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <title>
-            {% block title %}
-            My Studies
-            {% endblock %}
+            My Studies - Kurssit
         </title>
 
-        {% block head %}
         <!-- Bootstrap (tyylitiedosto) -->
-        <link href="{{base_path}}/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
         <!-- Oma tyylitiedostomme -->
-        <link href="{{base_path}}/assets/css/site.css" rel="stylesheet">
-        
-        <!-- Lukujärjestys -->
-        <link href="{{base_path}}/assets/css/timetable.css" rel="stylesheet">
-        {% endblock %}
+        <link href="assets/css/site.css" rel="stylesheet">
     </head>
 
     <body>
@@ -36,39 +29,46 @@
                         <span class="icon-bar"></span>
                     </button>
                     <!-- Sovelluksen nimi -->
-                    <a class="navbar-brand" href="{{base_path}}">My Studies</a>
+                    <a class="navbar-brand" href="/oodi">My Studies</a>
                 </div>
 
                 <div class="collapse navbar-collapse" id="navigation">
                     <ul class="nav navbar-nav">
                         <!-- Navigaation linkit -->
-                        <li><a href="{{base_path}}">Etusivu</a></li>
-                        <li><a href="{{base_path}}/courses">Kurssit</a></li>
-                        <li><a href="{{base_path}}/registrations">Ilmoittautumiset</a></li>
-                        <li><a href="{{base_path}}/grades">Suoritukset</a></li>
+                        <li><a href="index.html">Etusivu</a></li>
+                        <li><a href="#">Kurssit</a></li>
+                        <li><a href="registrations.html">Ilmoittautumiset</a></li>
+                        <li><a href="grades.html">Suoritukset</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        <li><a href="{{base_path}}/admin">Hallinta</a></li>
-                        <li><a href="{{base_path}}/logout">Kirjaudu ulos</a></li>
+                        <li><a href="admin.html">Hallinta</a></li>
+                        <li><a href="#">Kirjaudu ulos</a></li>
                     </ul>
                 </div>
             </div>
         </nav>
 
         <div id="main-container">
-            <!-- Dynaaminen sisältö tulee tähän -->
-            {% block content %}{% endblock %}
+            <div class="page-header">
+                <h1>Hae kursseja</h1>
+            </div>
+            <form>
+                <div class="form-group">
+                    <input class="form-control" placeholder="Hakusana" type="text">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Hae</button>
+                </div>
+            </form>
         </div>
 
-        {% block body %}
         <!-- jQuery -->
-        <script src="{{base_path}}/vendor/jquery.min.js"></script>
+        <script src="/oodi/vendor/jquery.min.js"></script>
 
         <!-- Bootstrap (skriptitiedosto) -->
-        <script src="{{base_path}}/vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="/oodi/vendor/bootstrap/js/bootstrap.min.js"></script>
 
         <!-- Oma skriptitiedostomme -->
-        <script src="{{base_path}}/assets/js/site.js"></script>
-        {% endblock %}
+        <script src="/oodi/assets/js/site.js"></script>
     </body>
 </html>

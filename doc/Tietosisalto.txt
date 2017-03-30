@@ -1,0 +1,6 @@
+[Vastuuyksikko]<>1-*[Kurssi]
+[Kurssi]1-*[Opetusaika]
+[Kayttaja]1-*[Kurssisuoritus]
+[Kayttaja]1-*[KurssiIlmoittautuminen]
+[KurssiIlmoittautuminen]*-*<>[Kurssi]
+[Kurssisuoritus]*-*<>[Kurssi]

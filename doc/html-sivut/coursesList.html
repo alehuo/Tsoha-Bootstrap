@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>
+            My Studies - Kurssit
+        </title>
+
+        <!-- Bootstrap (tyylitiedosto) -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Oma tyylitiedostomme -->
+        <link href="assets/css/site.css" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Sovelluksen nimi -->
+                    <a class="navbar-brand" href="/oodi">My Studies</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navigation">
+                    <ul class="nav navbar-nav">
+                        <!-- Navigaation linkit -->
+                        <li><a href="index.html">Etusivu</a></li>
+                        <li><a href="#">Kurssit</a></li>
+                        <li><a href="registrations.html">Ilmoittautumiset</a></li>
+                        <li><a href="grades.html">Suoritukset</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="admin.html">Hallinta</a></li>
+                        <li><a href="#">Kirjaudu ulos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="main-container">
+            <div class="page-header">
+                <h1>Hae kursseja</h1>
+            </div>
+            <form>
+                <div class="form-group">
+                    <input class="form-control" placeholder="Hakusana" value="Ohj" type="text">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary">Hae</button>
+                </div>
+            </form>
+			<h2>Hakutulokset hakusanalle 'Ohj'</h2>
+			<table class="table">
+			<thead>
+				<tr><td>Kurssin nimi</td><td>Vastuuyksikkö</td><td>Järjestämisaika</td><td>Opintopisteet</td></tr>
+			</thead>
+			<tbody>
+			<tr><td><a>Ohjelmoinnin perusteet</a></td><td>Tietojenkäsittelytieteen laitos</td><td>5.10.2016 - 5.12.2016</td><td>5 op</td></tr>
+			<tr><td><a>Ohjelmoinnin jatkokurssi</a></td><td>Tietojenkäsittelytieteen laitos</td><td>5.01.2017 - 5.03.2017</td><td>5 op</td></tr>
+			</tbody>
+			</table>
+        </div>
+
+        <!-- jQuery -->
+        <script src="/oodi/vendor/jquery.min.js"></script>
+
+        <!-- Bootstrap (skriptitiedosto) -->
+        <script src="/oodi/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- Oma skriptitiedostomme -->
+        <script src="/oodi/assets/js/site.js"></script>
+    </body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <title>
+            My Studies - Kurssit
+        </title>
+
+        <!-- Bootstrap (tyylitiedosto) -->
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+        <!-- Oma tyylitiedostomme -->
+        <link href="assets/css/site.css" rel="stylesheet">
+    </head>
+
+    <body>
+
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navigation">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <!-- Sovelluksen nimi -->
+                    <a class="navbar-brand" href="/oodi">My Studies</a>
+                </div>
+
+                <div class="collapse navbar-collapse" id="navigation">
+                    <ul class="nav navbar-nav">
+                        <!-- Navigaation linkit -->
+                        <li><a href="index.html">Etusivu</a></li>
+                        <li><a href="courses.html">Kurssit</a></li>
+                        <li><a href="#">Ilmoittautumiset</a></li>
+                        <li><a href="grades.html">Suoritukset</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="admin.html">Hallinta</a></li>
+                        <li><a href="#">Kirjaudu ulos</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <div id="main-container">
+            <h1>Ilmoittautumiset</h1> 
+			<small>Klikkaamalla kurssin nimeä näet kurssin lisätiedot. Ilmoittautuminen perutaan painamalla "Peru ilmoittautuminen"-nappia.</small>
+            <table class="table">
+			<thead>
+				<tr><td>Nimi</td><td>Kesto</td><td></td></tr>
+			</thead>
+			<tbody>
+				<tr><td><a href="#">Algebralliset rakenteet II</a></td><td>14.3.2016 - 8.5.2016</td><td><form><button type="submit" class="btn btn-danger">Peru ilmoittautuminen</button></form></td></tr>
+				<tr><td><a  href="#">Sarjat</a></td><td>14.3.2016 - 8.5.2016</td><td><form><button type="submit" class="btn btn-danger">Peru ilmoittautuminen</button></form></td></tr>
+			</tbody>
+			</table>
+        </div>
+
+        <!-- jQuery -->
+        <script src="/oodi/vendor/jquery.min.js"></script>
+
+        <!-- Bootstrap (skriptitiedosto) -->
+        <script src="/oodi/vendor/bootstrap/js/bootstrap.min.js"></script>
+
+        <!-- Oma skriptitiedostomme -->
+        <script src="/oodi/assets/js/site.js"></script>
+    </body>
+</html>

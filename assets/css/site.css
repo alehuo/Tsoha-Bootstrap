@@ -1,10 +1,38 @@
 #main-container{
-  max-width: 1200px;
-  padding: 10px 25px;
-  margin: 0px auto;
+    max-width: 1200px;
+    padding: 10px 25px;
+    margin: 0px auto;
 }
 
 .navbar .container-fluid{
-  max-width: 1200px;
-  margin: 0px auto;
+    max-width: 1200px;
+    margin: 0px auto;
+}
+
+.passed {
+    color: green;
+}
+
+.failed {
+    color: red;
+}
+.italic {
+    font-style: italic;
+}
+.bold {
+    font-weight: bold;
+}
+.center {
+    text-align: center;
+}
+
+.facultyTitle {
+    letter-spacing: 1px;
+    font-weight: bold;
+    background-color: #222222;
+    color: white;
+}
+
+.opetusaika, .harjoitusryhma {
+    margin-bottom: 40px;
 }
