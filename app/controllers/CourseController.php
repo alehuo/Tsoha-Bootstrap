@@ -127,18 +127,13 @@ class CourseController extends BaseController {
 
                 $ajat[] = $harjoitusryhma;
             }
-            echo "<pre>";
-            var_dump($postData);
-            var_dump($ajat);
-            echo "</pre>";
-            
+
             foreach ($ajat as $key => $opetusaika) {
                 $opetusaika->save();
             }
 
             $db->commit();
-            
-            die();
+
 
             Redirect::to("/");
         } catch (PDOException $ex) {
