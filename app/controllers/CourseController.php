@@ -126,7 +126,7 @@ class CourseController extends BaseController {
                 $ajat[] = $harjoitusryhma;
             }
             echo "<pre>";
-            var_dump($params);
+            var_dump($postData);
             var_dump($ajat);
             echo "</pre>";
             die();
