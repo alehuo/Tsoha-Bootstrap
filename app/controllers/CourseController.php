@@ -97,12 +97,12 @@ class CourseController extends BaseController {
 
             for ($i = 1; $i < count($postData["opetusaikaAloitusaika"]); $i++) {
 
-                $loppuaika = (int) $postData["opetusaikaAloitusaika"][$i] + 60 * (int) $postData["opetusaikaKesto"];
+                $loppuaika = intval($postData["opetusaikaAloitusaika"][$i]) + 60 * intval($postData["opetusaikaKesto"]);
 
                 $opetusaika = new Opetusaika(array(
                     'huone' => $postData['opetusaikaHuone'][$i],
-                    'viikonpaiva' => (int) $postData["opetusaikaViikonpaiva"][$i],
-                    'aloitusAika' => (int) $postData["opetusaikaAloitusaika"][$i],
+                    'viikonpaiva' => intval($postData["opetusaikaViikonpaiva"][$i]),
+                    'aloitusAika' => intval($postData["opetusaikaAloitusaika"][$i]),
                     'lopetusAika' => $loppuaika,
                     'kurssiId' => $kurssi->id,
                     'tyyppi' => 0
@@ -114,12 +114,12 @@ class CourseController extends BaseController {
             var_dump(count($postData["harjoitusryhmaAloitusaika"]));
             for ($i = 1; $i < count($postData["harjoitusryhmaAloitusaika"]); $i++) {
                 var_dump($i);
-                $loppuaika = (int) $postData["harjoitusryhmaAloitusaika"][$i] + 60 * (int) $postData["harjoitusryhmaKesto"];
+                $loppuaika = intval($postData["harjoitusryhmaAloitusaika"][$i]) + 60 * intval($postData["harjoitusryhmaKesto"]);
 
                 $harjoitusryhma = new Opetusaika(array(
                     'huone' => $postData['harjoitusryhmaHuone'][$i],
-                    'viikonpaiva' => (int) $postData["harjoitusryhmaViikonpaiva"][$i],
-                    'aloitusAika' => (int) $postData["harjoitusryhmaAloitusaika"][$i],
+                    'viikonpaiva' => intval($postData["harjoitusryhmaViikonpaiva"][$i]),
+                    'aloitusAika' => intval($postData["harjoitusryhmaAloitusaika"][$i]),
                     'lopetusAika' => $loppuaika,
                     'kurssiId' => $kurssi->id,
                     'tyyppi' => 1
