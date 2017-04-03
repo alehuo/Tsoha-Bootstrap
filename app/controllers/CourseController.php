@@ -158,7 +158,6 @@ class CourseController extends BaseController {
                 exit();
             }
         } catch (PDOException $ex) {
-            echo $ex->getMessage();
             $db->rollBack();
         }
     }
