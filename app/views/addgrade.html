@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Arvostele kurssisuoritus</h1>    
+</div>
+<form>
+    <table class="table">
+        <tr><td><b>Kurssin nimi</b></td><td>{{course.nimi}}</td></tr>
+        <tr><td><b>Opiskelijan nimi</b></td><td><select><option>{{person.nimi}}</option></select></td></tr>
+        <tr><td><b>Arvosana (0 = hylätty, 6 = hyväksytty, 1-5 normaalisti)</b></td><td><input value="5" type="number" min="0" max="6"></td></tr>
+        <tr><td colspan="2"><button type="submit" class="btn btn-success">Arvostele</button></td></tr>
+    </table>
+</form>
+{% endblock %}

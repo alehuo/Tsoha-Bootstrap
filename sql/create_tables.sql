@@ -18,6 +18,7 @@ CREATE TABLE Kayttaja(
     salasana varchar(255) NOT NULL
 );
 CREATE TABLE KurssiIlmoittautuminen(
+    id SERIAL PRIMARY KEY,
     kurssiId INTEGER REFERENCES Kurssi(id),
     kayttajaId INTEGER REFERENCES Kayttaja(id)
 );
