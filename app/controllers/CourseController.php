@@ -55,6 +55,7 @@ class CourseController extends BaseController {
     public static function addCourse() {
         $db = DB::connection();
         $db->beginTransaction();
+        $errors = array();
         try {
             $postData = $_POST;
 
@@ -65,6 +66,7 @@ class CourseController extends BaseController {
             } else {
                 //Luo uusi vastuuyksikkö ja palauta id
                 $uusiVastuuyksikko = new Vastuuyksikko(array("nimi" => $postData["uusiVastuuYksikko"]));
+                $errors = array_merge($errors, $uusiVastuuyksikko->errors());
                 $uusiVastuuyksikko->save();
                 $vastuuyksikko = $uusiVastuuyksikko->id;
             }
@@ -135,7 +137,7 @@ class CourseController extends BaseController {
                 $ajat[] = $harjoitusryhma;
             }
 
-            $errors = array();
+
             foreach ($ajat as $key => $opetusaika) {
                 $errors = array_merge($errors, $opetusaika->errors());
                 $opetusaika->save();

@@ -144,4 +144,14 @@ class Kurssi extends BaseModel {
         return $errors;
     }
 
+    public function validate_vy() {
+        $errors = array();
+
+        if ($this->vastuuYksikko == -1) {
+            $errors[] = "Vastuuyksikkö on virheellinen";
+        }
+
+        return $errors;
+    }
+
 }
