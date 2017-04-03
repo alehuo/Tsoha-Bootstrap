@@ -117,11 +117,18 @@ class Kayttaja extends BaseModel {
 
         if ($row) {
             $password_hash = $row["salasana"];
+            var_dump(Kayttaja::passwordMatches($password, $password_hash));
+            var_dump($password);
+            var_dump($row["salasana"]);
+            var_dump(crypt($password, $row["salasana"]));
+            die();
             if (Kayttaja::passwordMatches($password, $password_hash)) {
                 return true;
             } else {
                 return false;
             }
+        } else {
+            die("Ei rivejä");
         }
 
         return false;
