@@ -6,4 +6,9 @@ class RegistrationController extends BaseController {
         View::make('registrations.html');
     }
 
+    public static function addRegistration() {
+        $params = $_POST;
+        
+    }
+
 }

@@ -32,8 +32,7 @@
 </table>
 <form action="{{base_path}}/addregistration/{{course.id}}" method="POST">
     {% if harjoitusryhmat %}
-    Harjoitusryhmä: <select>
-        <option value="-1">(Valitse)</option>
+    Harjoitusryhmä: <select name="harjoitusRyhma"> 
         {% set i = 1 %}
         {% for harjoitusryhma in harjoitusryhmat %}
         <option value="{{harjoitusryhma.id}}">{{i}}) {{harjoitusryhma.viikonPaivanNimi}} {{harjoitusryhma.formattedAloitusAika}} - {{harjoitusryhma.formattedLopetusAika}} ({{harjoitusryhma.huone}})</option>

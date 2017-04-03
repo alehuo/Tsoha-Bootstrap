@@ -187,4 +187,20 @@ class CourseController extends BaseController {
         Redirect::to('/', array("errors" => array("Kurssia ei löydy")));
     }
 
+    public static function addRegistration() {
+        $params = $_POST;
+        $user = BaseController::get_user_logged_in();
+        $course = Kurssi::find($params["courseId"]);
+        if ($user && $course) {
+            $ilmo = new KurssiIlmoittautuminen(array("kurssiId" => $course->id, "kayttajaId" => $user->id, "harjoitusRyhmaId" => $params["harjoitusRyhma"]));
+            $errors = $ilmo->errors();
+            if (!$errors) {
+                $ilmo->save();
+                Redirect::to('/course/' . $course->id, array("success" => "Kurssi-ilmoittautuminen tallennettu."));
+            } else {
+                Redirect::to('/course/' . $course->id, array("errors" => array("Kurssi-ilmoittautuminen epäonnistui.")));
+            }
+        }
+    }
+
 }

@@ -96,3 +96,7 @@ $routes->get('/editcourse/:id', function($id) {
 $routes->post('/editcourse/:id', function($id) {
     CourseController::handleCourseEdit($id);
 });
+
+$routes->post('/addregistration/:courseId', function($courseId) {
+    CourseController::addRegistration();
+});
