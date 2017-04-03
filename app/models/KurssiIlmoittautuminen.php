@@ -30,6 +30,23 @@ class KurssiIlmoittautuminen extends BaseModel {
         return null;
     }
 
+    public function save() {
+        $query = DB::connection()->prepare('INSERT INTO KurssiIlmoittautuminen (kurssiid, kayttajaid, harjoitusryhmaid) VALUES (:kurssiid, :kayttajaid, :harjoitusryhmaid) RETURNING id');
+        $query->execute(
+                array(
+                    'kurssiid' => $this->kurssiId,
+                    'kayttajaid' => $this->kayttajaId,
+                    'harjoitusryhmaid' => $this->harjoitusRyhmaId
+                )
+        );
+
+        $row = $query->fetch();
+
+        $this->id = $row['id'];
+
+        return true;
+    }
+
     public function validate_ids() {
         $errors = array();
         if (empty($this->kayttajaId) || empty($this->kurssiId) || empty($this->harjoitusRyhmaId)) {
