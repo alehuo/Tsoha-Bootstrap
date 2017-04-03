@@ -119,7 +119,7 @@ class Kayttaja extends BaseModel {
         if ($row) {
             $password_hash = $row["salasana"];
             if (Kayttaja::passwordMatches($password, $password_hash)) {
-                return true;
+                return Kayttaja::find($row["id"]);
             } else {
                 return false;
             }
