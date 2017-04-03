@@ -44,6 +44,7 @@
     <button class="btn btn-success">Ilmoittaudu kurssille</button>    
 </form>
 {% if user_logged_in.tyyppi == 1 %}
+<br/><br/>
 <a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a>
 {% endif %}
 {% endif %}
