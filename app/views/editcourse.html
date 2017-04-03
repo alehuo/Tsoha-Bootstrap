@@ -20,7 +20,7 @@
         <select class="form-control" name="vastuuyksikkoSelect">
             <option value="-1">(Valitse)</option>
             {% for vastuuyksikko in vastuuyksikot %}
-            <option value="{{vastuuyksikko.id}}">{{vastuuyksikko.nimi}}</option>
+            <option value="{{vastuuyksikko.id}}" {% if vastuuyksikko.id == course.vastuuyksikkoId %} selected {% endif %}>{{vastuuyksikko.nimi}}</option>
             {% endfor %}
         </select> 
     </div>
