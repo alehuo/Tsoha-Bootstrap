@@ -32,8 +32,8 @@ class KurssiIlmoittautuminen extends BaseModel {
 
     public function validate_ids() {
         $errors = array();
-        if (empty($this->id) || empty($this->kayttajaId) || empty($this->kurssiId) || empty($this->harjoitusRyhmaId)) {
-            $errors[] = "Kurssi-ilmoittautumisen teko epäonnistui.";
+        if (empty($this->kayttajaId) || empty($this->kurssiId) || empty($this->harjoitusRyhmaId)) {
+            $errors[] = "Kurssi-ilmoittautuminen epäonnistui. Virheellinen pyyntö!";
         }
         return $errors;
     }
