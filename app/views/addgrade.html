@@ -13,7 +13,7 @@
     </ul>
 </div>
 {% endif %}
-<form action="{{base_path}}/addgrade/{{ilmo.id}}">
+<form action="{{base_path}}/addgrade/{{ilmo.id}}" method="POST">
     <table class="table">
         <tr><td><b>Kurssin nimi</b></td><td>{{course.nimi}}</td></tr>
         <tr><td><b>Opiskelijan nimi</b></td><td>{{person.nimi}}</td></tr>
