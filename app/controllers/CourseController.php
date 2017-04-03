@@ -167,7 +167,7 @@ class CourseController extends BaseController {
         $errors = $suoritus->errors();
         if (!$errors) {
             $suoritus->save();
-            Redirect::to('/index', array("message" => "Arvioinnin lisäys onnistui."));
+            Redirect::to('/', array("success" => "Arvioinnin lisäys onnistui."));
         } else {
             Redirect::to('/addgrade/' . $ilmo->id, array("errors" => $errors));
         }

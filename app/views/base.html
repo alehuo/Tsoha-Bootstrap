@@ -17,7 +17,7 @@
 
         <!-- Oma tyylitiedostomme -->
         <link href="{{base_path}}/assets/css/site.css" rel="stylesheet">
-        
+
         <!-- Lukujärjestys -->
         <link href="{{base_path}}/assets/css/timetable.css" rel="stylesheet">
         {% endblock %}
@@ -57,6 +57,11 @@
         </nav>
 
         <div id="main-container">
+            {% if success %}
+            <div class="alert alert-success">
+                {{success}}
+            </div>
+            {% endif %}
             <!-- Dynaaminen sisältö tulee tähän -->
             {% block content %}{% endblock %}
         </div>
