@@ -36,7 +36,7 @@ class UserController extends BaseController {
             Redirect::to("/", array("success" => "Kirjauduttu sisään!"));
         } else {
             //Väärä käyttäjätunnus tai salasana
-            Redirect::to("/login", array("error" => "Väärä käyttäjätunnus tai salasana"));
+            Redirect::to("/login", array("errors" => array("Väärä käyttäjätunnus tai salasana")));
         }
     }
 
