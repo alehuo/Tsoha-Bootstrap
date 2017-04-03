@@ -30,7 +30,8 @@
     <tr><td colspan="2" style="font-weight: normal;">Ei harjoitusryhmiä.</td></tr>
     {% endif %}
 </table>
-<form action="{{base_path}}/addregistration/{{course.id}}" method="POST">
+<form action="{{base_path}}/addregistration" method="POST">
+    <input type="hidden" name="courseId" value="{{course.id}}"/>
     {% if harjoitusryhmat %}
     Harjoitusryhmä: <select name="harjoitusRyhma"> 
         {% set i = 1 %}

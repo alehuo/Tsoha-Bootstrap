@@ -97,6 +97,6 @@ $routes->post('/editcourse/:id', function($id) {
     CourseController::handleCourseEdit($id);
 });
 
-$routes->post('/addregistration/:courseId', function($courseId) {
+$routes->post('/addregistration', function() {
     CourseController::addRegistration();
 });
