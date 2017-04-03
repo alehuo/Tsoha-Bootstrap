@@ -17,7 +17,7 @@
     <table class="table">
         <tr><td><b>Kurssin nimi</b></td><td>{{course.nimi}}</td></tr>
         <tr><td><b>Opiskelijan nimi</b></td><td>{{person.nimi}}</td></tr>
-        <tr><td><b>Arvosana (0 = hylätty, 6 = hyväksytty, 1-5 normaalisti)</b></td><td><input value="5" type="number" min="0" max="6"></td></tr>
+        <tr><td><b>Arvosana</b></td><td>{{% if course.arvosteluTyyppi == 0 %}}<input value="5" type="number" min="0" max="5" name="arvosana">{{% else %}}<select name="arvosana"><option value="6">Hyväksytty</option><option value="0">Hylätty</option></select>{{% endif %}}</td></tr>
         <tr><td colspan="2"><button type="submit" class="btn btn-success">Arvostele</button></td></tr>
     </table>
 </form>

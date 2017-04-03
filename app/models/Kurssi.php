@@ -2,7 +2,7 @@
 
 class Kurssi extends BaseModel {
 
-    public $id, $nimi, $kuvaus, $opintoPisteet, $aloitusPvm, $lopetusPvm, $vastuuYksikkoId, $vastuuYksikko, $opetusajat, $harjoitusryhmat;
+    public $id, $nimi, $kuvaus, $opintoPisteet, $arvosteluTyyppi, $aloitusPvm, $lopetusPvm, $vastuuYksikkoId, $vastuuYksikko, $opetusajat, $harjoitusryhmat;
 
     public function __construct($arguments) {
         parent::__construct($arguments);
@@ -10,7 +10,7 @@ class Kurssi extends BaseModel {
     }
 
     public static function fetchAll() {
-        $query = DB::connection()->prepare('SELECT Kurssi.id, Kurssi.kurssinimi, Kurssi.kuvaus, Kurssi.opintopisteet, Kurssi.aloituspvm, Kurssi.lopetuspvm, Kurssi.vastuuyksikkoid, Vastuuyksikko.nimi FROM Kurssi INNER JOIN Vastuuyksikko ON Kurssi.vastuuyksikkoid = Vastuuyksikko.id');
+        $query = DB::connection()->prepare('SELECT Kurssi.id, Kurssi.kurssinimi, Kurssi.kuvaus, Kurssi.opintopisteet, Kurssi.arvostelutyyppi, Kurssi.aloituspvm, Kurssi.lopetuspvm, Kurssi.vastuuyksikkoid, Vastuuyksikko.nimi FROM Kurssi INNER JOIN Vastuuyksikko ON Kurssi.vastuuyksikkoid = Vastuuyksikko.id');
         $query->execute();
         $rows = $query->fetchAll();
 
@@ -23,6 +23,7 @@ class Kurssi extends BaseModel {
                 'nimi' => $row['kurssinimi'],
                 'kuvaus' => $row['kuvaus'],
                 'opintoPisteet' => $row['opintopisteet'],
+                'arvosteluTyyppi' => $row["arvostelutyyppi"],
                 'aloitusPvm' => $row['aloituspvm'],
                 'lopetusPvm' => $row['lopetuspvm'],
                 'vastuuYksikkoId' => $row['vastuuyksikkoid'],
@@ -34,7 +35,7 @@ class Kurssi extends BaseModel {
     }
 
     public static function findAllByHakusana($hakusana) {
-        $query = DB::connection()->prepare('SELECT Kurssi.id, Kurssi.kurssinimi, Kurssi.kuvaus, Kurssi.opintopisteet, Kurssi.aloituspvm, Kurssi.lopetuspvm, Kurssi.vastuuyksikkoid, Vastuuyksikko.nimi FROM Kurssi INNER JOIN Vastuuyksikko ON Kurssi.vastuuyksikkoid = Vastuuyksikko.id WHERE nimi LIKE :hakusana');
+        $query = DB::connection()->prepare('SELECT Kurssi.id, Kurssi.kurssinimi, Kurssi.kuvaus, Kurssi.opintopisteet, Kurssi.arvostelutyyppi, Kurssi.aloituspvm, Kurssi.lopetuspvm, Kurssi.vastuuyksikkoid, Vastuuyksikko.nimi FROM Kurssi INNER JOIN Vastuuyksikko ON Kurssi.vastuuyksikkoid = Vastuuyksikko.id WHERE nimi LIKE :hakusana');
         $query->execute(array('hakusana' => $hakusana));
         $rows = $query->fetchAll();
 
@@ -47,6 +48,7 @@ class Kurssi extends BaseModel {
                 'nimi' => $row['kurssinimi'],
                 'kuvaus' => $row['kuvaus'],
                 'opintoPisteet' => $row['opintopisteet'],
+                'arvosteluTyyppi' => $row['arvostelutyyppi'],
                 'aloitusPvm' => $row['aloituspvm'],
                 'lopetusPvm' => $row['lopetuspvm'],
                 'vastuuYksikkoId' => $row['vastuuyksikkoid'],
@@ -63,7 +65,7 @@ class Kurssi extends BaseModel {
      * @return \Kurssi
      */
     public static function find($id) {
-        $query = DB::connection()->prepare('SELECT Kurssi.id, Kurssi.kurssinimi, Kurssi.kuvaus, Kurssi.opintopisteet, Kurssi.aloituspvm, Kurssi.lopetuspvm, Kurssi.vastuuyksikkoid, Vastuuyksikko.nimi FROM Kurssi INNER JOIN Vastuuyksikko ON Kurssi.vastuuyksikkoid = Vastuuyksikko.id WHERE Kurssi.id = :id LIMIT 1');
+        $query = DB::connection()->prepare('SELECT Kurssi.id, Kurssi.kurssinimi, Kurssi.kuvaus, Kurssi.opintopisteet, Kurssi.arvostelutyyppi, Kurssi.aloituspvm, Kurssi.lopetuspvm, Kurssi.vastuuyksikkoid, Vastuuyksikko.nimi FROM Kurssi INNER JOIN Vastuuyksikko ON Kurssi.vastuuyksikkoid = Vastuuyksikko.id WHERE Kurssi.id = :id LIMIT 1');
         $query->execute(array('id' => $id));
         $row = $query->fetch();
 
@@ -74,6 +76,7 @@ class Kurssi extends BaseModel {
                 'nimi' => $row['kurssinimi'],
                 'kuvaus' => $row['kuvaus'],
                 'opintoPisteet' => $row['opintopisteet'],
+                'arvosteluTyyppi' => $row['arvostelutyyppi'],
                 'aloitusPvm' => $row['aloituspvm'],
                 'lopetusPvm' => $row['lopetuspvm'],
                 'vastuuYksikkoId' => $row['vastuuyksikkoid'],
@@ -89,12 +92,13 @@ class Kurssi extends BaseModel {
      * Tallentaa kurssin.
      */
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Kurssi (kurssinimi, kuvaus, opintopisteet, aloituspvm, lopetuspvm, vastuuyksikkoid) VALUES (:nimi, :kuvaus, :opintopisteet, :aloituspvm, :lopetuspvm, :vastuuyksikkoid) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Kurssi (kurssinimi, kuvaus, opintopisteet, arvostelutyyppi, aloituspvm, lopetuspvm, vastuuyksikkoid) VALUES (:nimi, :kuvaus, :opintopisteet, :aloituspvm, :lopetuspvm, :vastuuyksikkoid) RETURNING id');
         $query->execute(
                 array(
                     'nimi' => $this->nimi,
                     'kuvaus' => $this->kuvaus,
                     'opintopisteet' => $this->opintoPisteet,
+                    'arvostelutyypi' => $this->arvosteluTyyppi,
                     'aloituspvm' => $this->aloitusPvm,
                     'lopetuspvm' => $this->lopetusPvm,
                     'vastuuyksikkoid' => $this->vastuuYksikkoId
@@ -112,6 +116,14 @@ class Kurssi extends BaseModel {
 
     public function getFormattedLopetusPvm() {
         return date("j.n.Y", $this->lopetusPvm);
+    }
+
+    public function getFormAloitusPvm() {
+        
+    }
+
+    public function getFormLopetusPvm() {
+        
     }
 
     public function validate_name() {

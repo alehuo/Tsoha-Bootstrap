@@ -7,6 +7,7 @@ CREATE TABLE Kurssi(
     kurssinimi varchar(50) NOT NULL,
     kuvaus varchar(255) NOT NULL,
     opintoPisteet INTEGER DEFAULT 5,
+    arvosteluTyyppi INTEGER DEFAULT 0,
     aloitusPvm INTEGER,
     lopetusPvm INTEGER,
     vastuuYksikkoId INTEGER REFERENCES Vastuuyksikko(id)
