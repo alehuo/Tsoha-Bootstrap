@@ -4,5 +4,19 @@
 <div class="page-header">
     <h1>Kirjaudu sisään</h1>
 </div>
+<form action="{{base_path}}/login" method="POST">
+    <!-- Tekstikenttä käyttäjätunnukselle -->
+    <div class="form-group">
+        <label>Käyttäjätunnus</label>
+        <input class="form-control" type="text" name="username">
+    </div>
 
+    <!-- Salasanakentt� salasanalle -->
+    <div class="form-group">
+        <label>Salasana</label>
+        <input class="form-control" type="password" name="password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Kirjaudu sisään</button>
+</form>
 {% endblock %}
