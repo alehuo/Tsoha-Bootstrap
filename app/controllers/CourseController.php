@@ -177,7 +177,7 @@ class CourseController extends BaseController {
         $course = Kurssi::find($id);
         $vastuuyksikot = Vastuuyksikko::all();
         if ($course) {
-            View::make('editcourse.html', array("course" => $course, "vastuuyksikot" => $vastuuyksikot, "selected" => $course->arvosteluTyyppi));
+            View::make('editcourse.html', array("course" => $course, "vastuuyksikot" => $vastuuyksikot));
             exit();
         }
         Redirect::to('/', array("errors" => array("Kurssia ei löydy")));

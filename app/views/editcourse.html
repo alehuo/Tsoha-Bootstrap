@@ -20,7 +20,7 @@
         <select class="form-control" name="vastuuyksikkoSelect">
             <option value="-1">(Valitse)</option>
             {% for vastuuyksikko in vastuuyksikot %}
-            <option value="{{vastuuyksikko.id}}" {% if vastuuyksikko.id == course.vastuuyksikkoId %} selected {% endif %}>{{vastuuyksikko.nimi}}</option>
+            <option value="{{vastuuyksikko.id}}" {% if vastuuyksikko.id == course.vastuuYksikkoId %} selected {% endif %}>{{vastuuyksikko.nimi}}</option>
             {% endfor %}
         </select> 
     </div>
@@ -42,7 +42,7 @@
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="arvosteluTyyppi" {% if selected == 1 %} selected {% endif %}>
+            <input type="checkbox" name="arvosteluTyyppi" {% if course.arvosteluTyyppi == 1 %} selected {% endif %}>
                    Kurssin arvosteluna hyväksytty/hylätty
         </label>
     </div>
