@@ -92,7 +92,7 @@ class Kurssi extends BaseModel {
      * Tallentaa kurssin.
      */
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO Kurssi (kurssinimi, kuvaus, opintopisteet, arvostelutyyppi, aloituspvm, lopetuspvm, vastuuyksikkoid) VALUES (:nimi, :kuvaus, :opintopisteet, :aloituspvm, :lopetuspvm, :vastuuyksikkoid) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO Kurssi (kurssinimi, kuvaus, opintopisteet, arvostelutyyppi, aloituspvm, lopetuspvm, vastuuyksikkoid) VALUES (:nimi, :kuvaus, :opintopisteet, :arvostelutyyppi, :aloituspvm, :lopetuspvm, :vastuuyksikkoid) RETURNING id');
         $query->execute(
                 array(
                     'nimi' => $this->nimi,
