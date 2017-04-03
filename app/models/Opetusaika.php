@@ -6,6 +6,7 @@ class Opetusaika extends BaseModel {
 
     public function __construct($arguments) {
         parent::__construct($arguments);
+        $this->validators = array("validate_room", "validate_time", "validate_type", "validate_weekday");
     }
 
     /**
@@ -82,6 +83,48 @@ class Opetusaika extends BaseModel {
         );
 
         return $viikonpaivat[$this->viikonpaiva];
+    }
+
+    public function validate_weekday() {
+        $errors = array();
+
+        if (!in_array($this->viikonpaiva, range(0, 4))) {
+            $errors[] = "Viikonpäivä on virheellinen";
+        }
+
+        return $errors;
+    }
+
+    public function validate_time() {
+        $errors = array();
+
+        if ($this->aloitusAika > $this->lopetusAika) {
+            $errors[] = "Aloitusaika ei voi olla lopetusajan jälkeen";
+        }
+
+        return $errors;
+    }
+
+    public function validate_type() {
+        $errors = array();
+
+        if (!in_array($this->tyyppi, range(0, 1))) {
+            $errors[] = "Opetusajan tyyppi on virheellinen";
+        }
+
+        return $errors;
+    }
+
+    public function validate_room() {
+        $errors = array();
+
+        $roomLen = 10;
+
+        if (empty($this->huone) || strlen(trim($this->huone)) > $roomLen) {
+            $errors[] = "Huone ei saa olla tyhjä tai yli " . $roomLem . " merkkiä pitkä";
+        }
+
+        return $errors;
     }
 
 }

@@ -54,3 +54,7 @@ $routes->get('/admin', function() {
 $routes->get('/adduser', function() {
     View::make('unauthorized.html');
 });
+
+$routes->get('/login', function() {
+    View::make('login.html');
+});

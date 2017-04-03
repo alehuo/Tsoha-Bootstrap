@@ -6,6 +6,29 @@ class Kayttaja extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array("validate_username", "validate_password", "validate_dates");
+    }
+
+    public static function find($id) {
+        $query = DB::connection()->prepare("SELECT * FROM Kayttaja WHERE id = :id LIMIT 1");
+        $query->execute(array(
+            "id" => $id
+        ));
+
+        $row = $query->fetch();
+
+        if ($row) {
+            $kayttaja = new Kayttaja(array(
+                "id" => $row["id"],
+                "tyyppi" => $row["tyyppi"],
+                "nimi" => $row["nimi"],
+                "salasana" => $row["salasana"]
+            ));
+
+            return $kayttaja;
+        }
+
+        return null;
     }
 
     /**
@@ -32,6 +55,10 @@ class Kayttaja extends BaseModel {
             return true;
         }
         return false;
+    }
+
+    public function destroy() {
+        
     }
 
     /**
@@ -64,6 +91,72 @@ class Kayttaja extends BaseModel {
             $suola .= $merkit[array_rand($merkit)];
         }
         return crypt($merkkijono, sprintf('$2a$%02d$', $it) . $suola);
+    }
+
+    private static function passwordMatches($password, $hash) {
+        if (hash_equals($hash, crypt($password, $hash))) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Käyttäjän autentikointi
+     * @param String $username Käyttäjätunnus
+     * @param String $password Salasana
+     * @return boolean
+     */
+    public static function authenticate($username, $password) {
+        $q = "SELECT id, salasana FROM Kayttaja WHERE nimi = :nimi LIMIT 1";
+        $stmt = DB::connection()->prepare($q);
+        $stmt->execute(array(
+            "nimi" => $username
+        ));
+
+        $row = $stmt->fetch();
+
+        if ($row) {
+            $password_hash = $row["salasana"];
+            if (Kayttaja::passwordMatches($password, $password_hash)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        return false;
+    }
+
+    public function validate_dates() {
+        $errors = array();
+
+        if ($this->aloitusPvm > $this->lopetusPvm) {
+            $errors[] = "Kurssin aloitusaika ei voi olla myöhemmin kuin lopetusaika";
+        }
+
+        return $errors;
+    }
+
+    public function validate_username() {
+        $errors = array();
+
+        $nameMaxLen = 100;
+        if (empty(trim($this->nimi)) || strlen($this->nimi) > $nameMaxLen) {
+            $errors[] = "Käyttäjän nimi ei saa olla tyhjä tai yli " . $nameMaxLen . " merkkiä pitkä.";
+        }
+        return $errors;
+    }
+
+    public function validate_password() {
+        $errors = array();
+
+        $passwdMaxLen = 72;
+
+        if (empty(trim($this->salasana)) || strlen($this->salasana) > $passwdMaxLen) {
+            $errors[] = "Käyttäjän salasana ei saa olla tyhjä tai yli " . $passwdMaxLen . " merkkiä pitkä.";
+        }
+
+        return $errors;
     }
 
 }

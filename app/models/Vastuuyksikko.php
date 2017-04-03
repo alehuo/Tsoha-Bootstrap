@@ -6,6 +6,7 @@ class Vastuuyksikko extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
+        $this->validators = array("validate_name");
     }
 
     public static function find($id) {
@@ -58,6 +59,16 @@ class Vastuuyksikko extends BaseModel {
         $row = $query->fetch();
 
         $this->id = $row['id'];
+    }
+
+    public function validate_name() {
+        $errors = array();
+        $nameLen = 100;
+        if (empty(trim($this->nimi)) || strlen(trim($this->nimi)) > $nameLen) {
+            $errors[] = "Vastuuyksikön nimi ei saa olla tyhjä tai yli " . $nameLen . " merkkiä pitkä";
+        }
+
+        return $errors;
     }
 
 }

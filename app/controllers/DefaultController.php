@@ -13,7 +13,6 @@ class DefaultController extends BaseController {
         // Testaa koodiasi täällä
 //        $kurssi = Kurssi::find(1);
 //        Kint::dump($kurssi);
-
 //        $testikurssi = new Kurssi(
 //                array(
 //            'nimi' => 'Testikurssi',

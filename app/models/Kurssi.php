@@ -6,6 +6,7 @@ class Kurssi extends BaseModel {
 
     public function __construct($arguments) {
         parent::__construct($arguments);
+        $this->validators = array("validate_name", "validate_desc", "validate_dates");
     }
 
     public static function fetchAll() {
@@ -111,6 +112,36 @@ class Kurssi extends BaseModel {
 
     public function getFormattedLopetusPvm() {
         return date("j.n.Y", $this->lopetusPvm);
+    }
+
+    public function validate_name() {
+        $nameMaxLen = 50;
+        $errors = array();
+
+        if (empty(trim($this->nimi)) || strlen(trim($this->nimi) > $nameMaxLen)) {
+            $errors[] = "Kurssin nimi ei saa olla tyhjä tai yli " . $nameMaxLen . " merkkiä pitkä";
+        }
+
+        return $errors;
+    }
+
+    public function validate_desc() {
+        $descMaxLen = 255;
+        $errors = array();
+        if (empty(trim($this->kuvaus)) || strlen(trim($this->kuvaus)) > $descMaxLen) {
+            $errors[] = "Kurssin kuvaus ei saa olla tyhjä tai yli " . $descMaxLen . " merkkiä pitkä";
+        }
+        return $errors;
+    }
+
+    public function validate_dates() {
+        $errors = array();
+
+        if ($this->aloitusPvm > $this->lopetusPvm) {
+            $errors[] = "Kurssin aloitusaika ei voi olla myöhemmin kuin lopetusaika";
+        }
+
+        return $errors;
     }
 
 }

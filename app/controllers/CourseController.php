@@ -91,7 +91,16 @@ class CourseController extends BaseController {
                 'vastuuYksikkoId' => $vastuuyksikko
             ));
 
-            $kurssi->save();
+            $courseErrors = $kurssi->errors();
+
+            if (!$courseErrors) {
+                $kurssi->save();
+            } else {
+                //Uudelleenohjaa kurssisivulle virheiden kera
+                Redirect::to('/addcourse', array("errors" => $courseErrors));
+                exit();
+            }
+
 
             $ajat = array();
 
@@ -111,7 +120,6 @@ class CourseController extends BaseController {
                 $ajat[] = $opetusaika;
             }
 
-            var_dump(count($postData["harjoitusryhmaAloitusaika"]));
             for ($i = 1; $i < count($postData["harjoitusryhmaAloitusaika"]); $i++) {
                 $loppuaika = intval($postData["harjoitusryhmaAloitusaika"][$i]) + 60 * intval($postData["harjoitusryhmaKesto"][$i]);
 
@@ -127,14 +135,22 @@ class CourseController extends BaseController {
                 $ajat[] = $harjoitusryhma;
             }
 
+            $errors = array();
             foreach ($ajat as $key => $opetusaika) {
+                $errors = array_merge($errors, $opetusaika->errors());
                 $opetusaika->save();
             }
 
-            $db->commit();
-
-
-            Redirect::to("/");
+            if (!$errors) {
+                $db->commit();
+                Redirect::to("/", array("courseAdded" => "Kurssi lisätty onnistuneesti"));
+                exit();
+            } else {
+                //Rollback ja vie takaisin lisäyssivuille virheiden kera
+                $db->rollBack();
+                Redirect::to('/addcourse', array("errors" => $errors));
+                exit();
+            }
         } catch (PDOException $ex) {
             $db->rollBack();
         }
