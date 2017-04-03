@@ -72,7 +72,7 @@ $routes->get('/addgrade/:reservationId', function($reservationId) {
     if ($ilmo) {
         $user = Kayttaja::find($ilmo->kayttajaId);
         $kurssi = Kurssi::find($ilmo->kurssiId);
-        View::make('addgrade.html', array("person" => $user, "course" => $kurssi));
+        View::make('addgrade.html', array("person" => $user, "course" => $kurssi, "ilmo" => $ilmo));
     } else {
         Redirect::to('/', error("Kurssi-ilmoittautumista ei löydy"));
         exit();
