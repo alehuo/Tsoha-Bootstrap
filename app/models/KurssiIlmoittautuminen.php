@@ -2,7 +2,7 @@
 
 class KurssiIlmoittautuminen extends BaseModel {
 
-    public $id, $kurssiId, $kayttajaId;
+    public $id, $kurssiId, $kayttajaId, $harjoitusRyhmaId;
 
     public function __construct($attributes = null) {
         parent::__construct($attributes);
@@ -20,7 +20,8 @@ class KurssiIlmoittautuminen extends BaseModel {
             $ilmo = new KurssiIlmoittautuminen(array(
                 "id" => $row["id"],
                 "kurssiId" => $row["kurssiid"],
-                "kayttajaId" => $row["kayttajaid"]
+                "kayttajaId" => $row["kayttajaid"],
+                "harjoitusRyhmaId" => $row["harjoitusryhmaid"]
             ));
 
             return $ilmo;

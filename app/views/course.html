@@ -30,6 +30,19 @@
     <tr><td colspan="2" style="font-weight: normal;">Ei harjoitusryhmiä.</td></tr>
     {% endif %}
 </table>
+<form action="{{base_path}}/addregistration/{{course.id}}" method="POST">
+    {% if harjoitusryhmat %}
+    Harjoitusryhmä: <select>
+        <option value="-1">(Valitse)</option>
+        {% set i = 1 %}
+        {% for harjoitusryhma in harjoitusryhmat %}
+        <option value="{{harjoitusryhma.id}}">{{i}}) {{harjoitusryhma.viikonPaivanNimi}} {{harjoitusryhma.formattedAloitusAika}} - {{harjoitusRyhma.formattedLopetusAika}} ({{harjoitusryhma.huone}})</option>
+        {{ i = i + 1 }}
+        {% endfor %}
+    </select>
+    {% endif %}
+    <button class="btn btn-success">Ilmoittaudu kurssille</button>    
+</form>
 {% if user_logged_in.tyyppi == 1 %}
 <a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a>
 {% endif %}
