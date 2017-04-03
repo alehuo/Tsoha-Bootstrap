@@ -15,7 +15,7 @@ class BaseController {
 
     public static function is_user_admin() {
         //Väliaikaisesti tässä.
-        return 1;
+        return true;
         /*
           $user = BaseController::get_user_logged_in();
           if ($user) {

@@ -141,7 +141,7 @@ class Kayttaja extends BaseModel {
         $errors = array();
 
         $nameMaxLen = 100;
-        if (empty(trim($this->nimi)) || strlen($this->nimi) > $nameMaxLen) {
+        if (empty($this->nimi) || strlen($this->nimi) > $nameMaxLen) {
             $errors[] = "Käyttäjän nimi ei saa olla tyhjä tai yli " . $nameMaxLen . " merkkiä pitkä.";
         }
         return $errors;
@@ -152,7 +152,7 @@ class Kayttaja extends BaseModel {
 
         $passwdMaxLen = 72;
 
-        if (empty(trim($this->salasana)) || strlen($this->salasana) > $passwdMaxLen) {
+        if (empty($this->salasana) || strlen($this->salasana) > $passwdMaxLen) {
             $errors[] = "Käyttäjän salasana ei saa olla tyhjä tai yli " . $passwdMaxLen . " merkkiä pitkä.";
         }
 

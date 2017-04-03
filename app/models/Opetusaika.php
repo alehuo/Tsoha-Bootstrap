@@ -120,7 +120,7 @@ class Opetusaika extends BaseModel {
 
         $roomLen = 10;
 
-        if (empty($this->huone) || strlen(trim($this->huone)) > $roomLen) {
+        if (empty($this->huone) || strlen($this->huone) > $roomLen) {
             $errors[] = "Huone ei saa olla tyhjä tai yli " . $roomLem . " merkkiä pitkä";
         }
 

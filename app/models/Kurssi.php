@@ -118,7 +118,7 @@ class Kurssi extends BaseModel {
         $nameMaxLen = 50;
         $errors = array();
 
-        if (empty(trim($this->nimi)) || strlen(trim($this->nimi)) > $nameMaxLen) {
+        if (empty($this->nimi) || strlen($this->nimi) > $nameMaxLen) {
             $errors[] = "Kurssin nimi ei saa olla tyhjä tai yli " . $nameMaxLen . " merkkiä pitkä";
         }
 
@@ -128,7 +128,7 @@ class Kurssi extends BaseModel {
     public function validate_desc() {
         $descMaxLen = 255;
         $errors = array();
-        if (empty(trim($this->kuvaus)) || strlen(trim($this->kuvaus)) > $descMaxLen) {
+        if (empty($this->kuvaus) || strlen($this->kuvaus) > $descMaxLen) {
             $errors[] = "Kurssin kuvaus ei saa olla tyhjä tai yli " . $descMaxLen . " merkkiä pitkä";
         }
         return $errors;
