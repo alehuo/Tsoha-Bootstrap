@@ -6,6 +6,7 @@ class KurssiIlmoittautuminen extends BaseModel {
 
     public function __construct($attributes = null) {
         parent::__construct($attributes);
+        $this->validators = array("validate_ids");
     }
 
     public static function find($id) {
@@ -27,6 +28,14 @@ class KurssiIlmoittautuminen extends BaseModel {
             return $ilmo;
         }
         return null;
+    }
+
+    public function validate_ids() {
+        $errors = array();
+        if (empty($this->id) || empty($this->kayttajaId) || empty($this->kurssiId) || empty($this->harjoitusRyhmaId)) {
+            $errors[] = "Kurssi-ilmoittautumisen teko epäonnistui.";
+        }
+        return $errors;
     }
 
 }
