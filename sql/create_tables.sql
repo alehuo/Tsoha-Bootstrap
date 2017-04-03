@@ -22,7 +22,7 @@ CREATE TABLE KurssiIlmoittautuminen(
     id SERIAL PRIMARY KEY,
     kurssiId INTEGER REFERENCES Kurssi(id),
     kayttajaId INTEGER REFERENCES Kayttaja(id),
-    harjoitusRyhmaId INTEGER REFERENCES Opetusaika(id)
+    harjoitusRyhmaId INTEGER
 );
 CREATE TABLE Kurssisuoritus(
     id SERIAL PRIMARY KEY,
