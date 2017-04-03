@@ -94,7 +94,8 @@ class Kayttaja extends BaseModel {
     }
 
     private static function passwordMatches($password, $hash) {
-        if (hash_equals($hash, crypt($password, $hash))) {
+        //hash_equals ei toimi tällä PHP-versiolla.
+        if ($hash === crypt($password, $hash)) {
             return true;
         }
         return false;
