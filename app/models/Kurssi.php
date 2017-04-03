@@ -119,11 +119,11 @@ class Kurssi extends BaseModel {
     }
 
     public function getFormAloitusPvm() {
-        
+        return date("d.m.Y", $this->aloitusPvm);
     }
 
     public function getFormLopetusPvm() {
-        
+        return date("d.m.Y", $this->lopetusPvm);
     }
 
     public function validate_name() {
