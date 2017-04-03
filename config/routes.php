@@ -58,7 +58,3 @@ $routes->get('/adduser', function() {
 $routes->get('/login', function() {
     View::make('login.html');
 });
-
-$routes->post('/login', function() {
-    UserController::handleLogin();
-});

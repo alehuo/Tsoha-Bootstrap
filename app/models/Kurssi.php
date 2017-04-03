@@ -118,7 +118,7 @@ class Kurssi extends BaseModel {
         $nameMaxLen = 50;
         $errors = array();
 
-        if (empty(trim($this->nimi)) || strlen(trim($this->nimi)) > $nameMaxLen) {
+        if (empty(trim($this->nimi)) || strlen(trim($this->nimi) > $nameMaxLen)) {
             $errors[] = "Kurssin nimi ei saa olla tyhjä tai yli " . $nameMaxLen . " merkkiä pitkä";
         }
 
