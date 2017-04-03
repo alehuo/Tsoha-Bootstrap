@@ -2,7 +2,7 @@
 
 class KurssiIlmoittautuminen extends BaseModel {
 
-    public $kurssiId, $kayttajaId;
+    public $id, $kurssiId, $kayttajaId;
 
     public function __construct($attributes = null) {
         parent::__construct($attributes);

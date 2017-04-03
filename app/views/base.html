@@ -48,7 +48,7 @@
                         <li><a href="{{base_path}}/grades">Suoritukset</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar-right">
-                        {% if is_user_admin %}<li><a href="{{base_path}}/admin">Hallinta</a></li>{% endif %}
+                        {% if user_logged_in.tyyppi == 1 %}<li><a href="{{base_path}}/admin">Hallinta</a></li>{% endif %}
                         {% if user_logged_in %}<li><a href="{{base_path}}/logout">Kirjaudu ulos</a></li>{% endif %}
                         {% if user_logged_in == false %}<li><a href="{{base_path}}/login">Kirjaudu sisään</a></li>{% endif %}
                     </ul>

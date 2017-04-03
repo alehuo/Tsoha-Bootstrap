@@ -158,4 +158,19 @@ class CourseController extends BaseController {
         }
     }
 
+    public static function addGrade(KurssiIlmoittautuminen $ilmo) {
+        $params = $_POST;
+        $user = Kayttaja::find($ilmo->kayttajaId);
+        $kurssi = Kurssi::find($ilmo->kurssiId);
+
+        $suoritus = new KurssiSuoritus(array("kurssiId" => $kurssi->id, "kayttajaId" => $user->id, "arvosana" => intval($params["arvosana"]), "paivays" => BaseController::get_current_timestamp()));
+        $errors = $suoritus->errors();
+        if (!$errors) {
+            $suoritus->save();
+            Redirect::to('/index', array("message" => "Arvioinnin lisäys onnistui."));
+        } else {
+            Redirect::to('/addgrade/' . $ilmo->id, array("errors" => $errors));
+        }
+    }
+
 }

@@ -4,34 +4,36 @@
 <div class="page-header">
     <h1>Hae kursseja</h1>
 </div>
+{% if user_logged_in.tyyppi == 1 %}
 <a class="btn btn-success" href="{{base_path}}/addcourse">Lisää kurssi</a><br/><br/>
-    <form action="{{base_path}}/courses" method="POST">
-        <div class="form-group">
-            <input class="form-control" name="hakusana" placeholder="Hakusana" type="text">
-        </div>
-        <div class="form-group">
-            <small>Jätä hakusana tyhjäksi, niin haku näyttää kaikki kurssit.</small>
-        </div>
-        <div class="form-group">
-            <button id="submitBtn" type="submit" class="btn btn-primary">Hae</button>
-        </div>
-    </form>
-    {% if searchTerm %}
-    <h2>Hakutulokset hakusanalle '{{searchTerm}}'</h2>
-    {% endif %}
+{% endif %}
+<form action="{{base_path}}/courses" method="POST">
+    <div class="form-group">
+        <input class="form-control" name="hakusana" placeholder="Hakusana" type="text">
+    </div>
+    <div class="form-group">
+        <small>Jätä hakusana tyhjäksi, niin haku näyttää kaikki kurssit.</small>
+    </div>
+    <div class="form-group">
+        <button id="submitBtn" type="submit" class="btn btn-primary">Hae</button>
+    </div>
+</form>
+{% if searchTerm %}
+<h2>Hakutulokset hakusanalle '{{searchTerm}}'</h2>
+{% endif %}
 
 
-    {% if courses %}
-    <table class="table">
-        <thead>
-            <tr><td>Kurssin nimi</td><td>Vastuuyksikkö</td><td>Järjestämisaika</td><td>Opintopisteet</td></tr>
-        </thead>
-        <tbody>
-            {% for course in courses %}
-            <tr><td><a href="{{base_path}}/course/{{course.id}}">{{course.nimi}}</a></td><td>{{course.vastuuYksikko}}</td><td>{{course.formattedAloitusPvm}} - {{course.formattedLopetusPvm}}</td><td>{{course.opintoPisteet}} op</td></tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {% endif %}
+{% if courses %}
+<table class="table">
+    <thead>
+        <tr><td>Kurssin nimi</td><td>Vastuuyksikkö</td><td>Järjestämisaika</td><td>Opintopisteet</td></tr>
+    </thead>
+    <tbody>
+        {% for course in courses %}
+        <tr><td><a href="{{base_path}}/course/{{course.id}}">{{course.nimi}}</a></td><td>{{course.vastuuYksikko}}</td><td>{{course.formattedAloitusPvm}} - {{course.formattedLopetusPvm}}</td><td>{{course.opintoPisteet}} op</td></tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endif %}
 
 {% endblock %}

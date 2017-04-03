@@ -59,6 +59,10 @@ $routes->get('/login', function() {
     View::make('login.html');
 });
 
+$routse->post('/login', function() {
+    UserController::handleLogin();
+});
+
 $routes->get('/grades', function() {
     View::make('grades.html');
 });
@@ -69,6 +73,16 @@ $routes->get('/addgrade/:reservationId', function($reservationId) {
         $user = Kayttaja::find($ilmo->kayttajaId);
         $kurssi = Kurssi::find($ilmo->kurssiId);
         View::make('addgrade.html', array("person" => $user, "course" => $kurssi));
+    } else {
+        Redirect::to('/', error("Kurssi-ilmoittautumista ei löydy"));
+        exit();
+    }
+});
+
+$routes->post('/addgrade/:reservationId', function($reservationId) {
+    $ilmo = KurssiIlmoittautuminen::find($reservationId);
+    if ($ilmo) {
+        CourseController::addGrade($ilmo);
     } else {
         Redirect::to('/', error("Kurssi-ilmoittautumista ei löydy"));
         exit();
