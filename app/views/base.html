@@ -50,7 +50,7 @@
                     <ul class="nav navbar-nav navbar-right">
                         {% if is_user_admin %}<li><a href="{{base_path}}/admin">Hallinta</a></li>{% endif %}
                         {% if user_logged_in %}<li><a href="{{base_path}}/logout">Kirjaudu ulos</a></li>{% endif %}
-                        {% if !user_logged_in %}<li><a href="{{base_path}}/login">Kirjaudu sisään</a></li>{% endif %}
+                        {% if user_logged_in == false %}<li><a href="{{base_path}}/login">Kirjaudu sisään</a></li>{% endif %}
                     </ul>
                 </div>
             </div>
