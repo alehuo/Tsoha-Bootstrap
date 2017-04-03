@@ -59,7 +59,7 @@ $routes->get('/login', function() {
     View::make('login.html');
 });
 
-$routse->post('/login', function() {
+$routes->post('/login', function() {
     UserController::handleLogin();
 });
 
