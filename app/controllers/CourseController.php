@@ -77,9 +77,11 @@ class CourseController extends BaseController {
 
             $op = $postData["op"];
 
-//        if (isset($p["arvosteluTyyppi"])) {
-//            $arvostelu = $p["arvosteluTyyppi"];
-//        }
+            if (isset($p["arvosteluTyyppi"])) {
+                $arvostelu = 1;
+            } else {
+                $arvostelu = 0;
+            }
 
 
             $kuvaus = $postData["kuvaus"];
@@ -88,18 +90,19 @@ class CourseController extends BaseController {
                 'nimi' => $kurssin_nimi,
                 'kuvaus' => $kuvaus,
                 'opintoPisteet' => $op,
+                'arvosteluTyyppi' => $arvostelu,
                 'aloitusPvm' => $alkamisPvm,
                 'lopetusPvm' => $lopetusPvm,
                 'vastuuYksikkoId' => $vastuuyksikko
             ));
 
-            $courseErrors = $kurssi->errors();
+            $errors = array_merge($errors, $kurssi->errors());
 
-            if (!$courseErrors) {
+            if (!$errors) {
                 $kurssi->save();
             } else {
                 //Uudelleenohjaa kurssisivulle virheiden kera
-                Redirect::to('/addcourse', array("errors" => $courseErrors));
+                Redirect::to('/addcourse', array("errors" => $errors));
                 exit();
             }
 
@@ -154,6 +157,7 @@ class CourseController extends BaseController {
                 exit();
             }
         } catch (PDOException $ex) {
+            echo $ex->getMessage();
             $db->rollBack();
         }
     }
