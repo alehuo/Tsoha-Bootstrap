@@ -145,8 +145,7 @@ class CourseController extends BaseController {
                 $errors = array_merge($errors, $opetusaika->errors());
                 $opetusaika->save();
             }
-            var_dump($errors);
-            die();
+
             if (!$errors) {
                 $db->commit();
                 Redirect::to("/", array("courseAdded" => "Kurssi lisätty onnistuneesti"));
