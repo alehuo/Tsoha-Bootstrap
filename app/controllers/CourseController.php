@@ -173,4 +173,13 @@ class CourseController extends BaseController {
         }
     }
 
+    public static function editCourse($id) {
+        $course = Kurssi::find($id);
+        if ($course) {
+            View::make('editcourse.html', array("course" => $course));
+            exit();
+        }
+        Redirect::to('/', array("errors" => array("Kurssia ei löydy")));
+    }
+
 }

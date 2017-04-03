@@ -88,3 +88,11 @@ $routes->post('/addgrade/:reservationId', function($reservationId) {
         exit();
     }
 });
+
+$routes->get('/editcourse/:id', function($id) {
+    CourseController::editCourse($id);
+});
+
+$routes->post('/editcourse/:id', function($id) {
+    CourseController::handleCourseEdit($id);
+});

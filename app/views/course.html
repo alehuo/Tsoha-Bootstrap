@@ -3,9 +3,9 @@
 {% block content %}
 {% if course %}
 <h1>Kurssin tiedot</h1>
-{% if is_user_admin %}
+{% if user_logged_in.tyyppi == 1 %}
 <p>
-    <a class="btn btn-success" href="{{base_path}}/addgrades/{{course.id}}">Arvostele suorituksia</a>
+    <a class="btn btn-success" href="{{base_path}}/listparticipants/{{course.id}}">Arvostele suorituksia</a>
 </p>
 {% endif %}
 <table class="table">
@@ -30,8 +30,8 @@
     <tr><td colspan="2" style="font-weight: normal;">Ei harjoitusryhmiä.</td></tr>
     {% endif %}
 </table>
-{% if is_user_admin %}
-<a class="btn btn-primary" href="">Muokkaa kurssia</a>
+{% if user_logged_in.tyyppi == 1 %}
+<a class="btn btn-primary" href="{{base_url}}/editcourse/{{course.id}}">Muokkaa kurssia</a>
 {% endif %}
 {% endif %}
 {% endblock %}
