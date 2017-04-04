@@ -18,16 +18,11 @@ CREATE TABLE Kayttaja(
     nimi varchar(100) NOT NULL UNIQUE,
     salasana varchar(255) NOT NULL
 );
+
 CREATE TABLE KurssiIlmoittautuminen(
     id SERIAL PRIMARY KEY,
     kurssiId INTEGER REFERENCES Kurssi(id),
     kayttajaId INTEGER REFERENCES Kayttaja(id)
-);
-
-CREATE TABLE HarjoitusRyhmaIlmoittautuminen(
-    id SERIAL PRIMARY KEY,
-    kurssiIlmoId INTEGER REFERENCES KurssiIlmoitautuminen(id),
-    opetusaikaId INTEGER REFERENCES Opetusaika(id)
 );
 
 CREATE TABLE Kurssisuoritus(
@@ -45,4 +40,10 @@ CREATE TABLE Opetusaika(
     lopetusAika INTEGER,
     kurssiId INTEGER REFERENCES Kurssi(id),
     tyyppi INTEGER DEFAULT 0
+);
+
+CREATE TABLE HarjoitusRyhmaIlmoittautuminen(
+    id SERIAL PRIMARY KEY,
+    kurssiIlmoId INTEGER REFERENCES KurssiIlmoittautuminen(id),
+    opetusaikaId INTEGER REFERENCES Opetusaika(id)
 );

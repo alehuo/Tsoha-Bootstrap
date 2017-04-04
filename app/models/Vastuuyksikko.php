@@ -2,7 +2,7 @@
 
 class Vastuuyksikko extends BaseModel {
 
-    public $id, $nimi;
+    public $id, $nimi, $kurssiSuoritukset;
 
     public function __construct($attributes) {
         parent::__construct($attributes);

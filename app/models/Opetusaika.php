@@ -43,6 +43,33 @@ class Opetusaika extends BaseModel {
         return $opetusajat;
     }
 
+    public static function find($id) {
+        $query = DB::connection()->prepare('SELECT * FROM Opetusaika WHERE id = :id LIMIT 1');
+        $query->execute(
+                array(
+                    'id' => $id
+                )
+        );
+
+        $row = $query->fetch();
+
+        $opetusaika = null;
+
+        if ($row) {
+            $opetusaika = new Opetusaika(array(
+                'id' => $row['id'],
+                'huone' => $row['huone'],
+                'viikonpaiva' => $row['viikonpaiva'],
+                'aloitusAika' => $row['aloitusaika'],
+                'lopetusAika' => $row['lopetusaika'],
+                'kurssiId' => $row['kurssiid'],
+                'tyyppi' => $row['tyyppi']
+            ));
+        }
+
+        return $opetusaika;
+    }
+
     /**
      * Tallennus.
      */

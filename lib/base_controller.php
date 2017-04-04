@@ -17,7 +17,7 @@ class BaseController {
         // Toteuta kirjautumisen tarkistus tähän.
         // Jos käyttäjä ei ole kirjautunut sisään, ohjaa hänet toiselle sivulle (esim. kirjautumissivulle).
         if (!BaseController::get_user_logged_in()) {
-            Redirect::to("/login", array("message" => "Ole hyvä ja kirjaudu sisään."));
+            Redirect::to("/login", array("errors" => array("Ole hyvä ja kirjaudu sisään.")));
         }
     }
 

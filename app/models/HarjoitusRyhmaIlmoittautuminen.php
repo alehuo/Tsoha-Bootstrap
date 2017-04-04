@@ -2,14 +2,57 @@
 
 class HarjoitusRyhmaIlmoittautuminen extends BaseModel {
 
-    public $id, $kurssiIlmoId, $opetusaikaId;
+    public $id, $kurssiIlmoId, $opetusaikaId, $opetusaika;
 
     public function __construct($attributes = null) {
         parent::__construct($attributes);
     }
 
-    public static function find($id) {
-        
+    public static function find($ilmoid) {
+        $q = "SELECT * FROM HarjoitusRyhmaIlmoittautuminen WHERE kurssiilmoid = :id LIMIT 1";
+        $stmt = DB::connection()->prepare($q);
+        $stmt->execute(array(
+            "id" => $ilmoid
+        ));
+
+        $row = $stmt->fetch();
+        if ($row) {
+
+
+            $ilmo = new HarjoitusRyhmaIlmoittautuminen(array(
+                "id" => $row["id"],
+                "kurssiId" => $row["kurssiilmoid"],
+                "opetusaikaId" => $row["opetusaikaid"]
+            ));
+
+            return $ilmo;
+        }
+        return null;
+    }
+
+    public static function findByUserAndCourse($userid, $courseid) {
+        $q = "SELECT * FROM HarjoitusRyhmaIlmoittautuminen "
+                . "INNER JOIN KurssiIlmoittautuminen ON HarjoitusRyhmaIlmoittautuminen.kurssiilmoid = KurssiIlmoittautuminen.id "
+                . "WHERE KurssiIlmoittautuminen.kayttajaid = :kayttajaid AND KurssiIlmoittautuminen.kurssiid = :kurssiid LIMIT 1";
+
+        $stmt = DB::connection()->prepare($q);
+        $stmt->execute(array(
+            "kayttajaid" => $userid,
+            "kurssiid" => $courseid
+        ));
+
+        $row = $stmt->fetch();
+        if ($row) {
+
+            $ilmo = new HarjoitusRyhmaIlmoittautuminen(array(
+                "id" => $row["id"],
+                "kurssiIlmoId" => $row["kurssiilmoid"],
+                "opetusaikaId" => $row["opetusaikaid"]
+            ));
+
+            return $ilmo;
+        }
+        return null;
     }
 
     public function save() {
@@ -21,12 +64,16 @@ class HarjoitusRyhmaIlmoittautuminen extends BaseModel {
                     'oid' => $this->opetusaikaId
                 )
         );
-        e;
 
         $row = $query->fetch();
 
         $this->id = $row['id'];
         return true;
+    }
+
+    public function destroy() {
+        $query = DB::connection()->prepare("DELETE FROM HarjoitusRyhmaIlmoittautuminen WHERE kurssiilmoid = :id");
+        return $query->execute(array("id" => $this->kurssiIlmoId));
     }
 
 }

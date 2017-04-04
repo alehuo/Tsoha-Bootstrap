@@ -2,7 +2,7 @@
 
 class KurssiIlmoittautuminen extends BaseModel {
 
-    public $id, $kurssiId, $kayttajaId;
+    public $id, $kurssiId, $kayttajaId, $harjoitusryhma, $kayttaja, $kurssi;
 
     public function __construct($attributes = null) {
         parent::__construct($attributes);
@@ -18,16 +18,84 @@ class KurssiIlmoittautuminen extends BaseModel {
 
         $row = $stmt->fetch();
         if ($row) {
+
             $ilmo = new KurssiIlmoittautuminen(array(
                 "id" => $row["id"],
                 "kurssiId" => $row["kurssiid"],
-                "kayttajaId" => $row["kayttajaid"],
-                "harjoitusRyhmaId" => $row["harjoitusryhmaid"]
+                "kayttajaId" => $row["kayttajaid"]
             ));
 
             return $ilmo;
         }
         return null;
+    }
+
+    public static function findByUserAndCourse($kayttajaid, $kurssiid) {
+        $q = "SELECT * FROM KurssiIlmoittautuminen WHERE kayttajaid = :kayttajaid AND kurssiid = :kurssiid LIMIT 1";
+        $stmt = DB::connection()->prepare($q);
+        $stmt->execute(array(
+            "kayttajaid" => $kayttajaid,
+            "kurssiid" => $kurssiid
+        ));
+
+        $row = $stmt->fetch();
+        if ($row) {
+
+            $ilmo = new KurssiIlmoittautuminen(array(
+                "id" => $row["id"],
+                "kurssiId" => $row["kurssiid"],
+                "kayttajaId" => $row["kayttajaid"]
+            ));
+
+            return $ilmo;
+        }
+        return null;
+    }
+
+    public static function findByCourse($kurssiid) {
+        $q = "SELECT * FROM KurssiIlmoittautuminen WHERE kurssiid = :kurssiid";
+        $stmt = DB::connection()->prepare($q);
+        $stmt->execute(array(
+            "kurssiid" => $kurssiid
+        ));
+
+        $rows = $stmt->fetchAll();
+
+        $ilmot = array();
+
+        foreach ($rows as $row) {
+            $ilmot[] = new KurssiIlmoittautuminen(array(
+                "id" => $row["id"],
+                "kurssiId" => $row["kurssiid"],
+                "kayttajaId" => $row["kayttajaid"]
+            ));
+        }
+
+        return $ilmot;
+    }
+
+    public static function findByUser($userid) {
+        $q = "SELECT * FROM KurssiIlmoittautuminen WHERE kayttajaid = :kayttajaid";
+        $stmt = DB::connection()->prepare($q);
+        $stmt->execute(array(
+            "kayttajaid" => $userid
+        ));
+
+        $rows = $stmt->fetchAll();
+
+        $ilmot = array();
+
+        foreach ($rows as $row) {
+
+
+            $ilmot[] = new KurssiIlmoittautuminen(array(
+                "id" => $row["id"],
+                "kurssiId" => $row["kurssiid"],
+                "kayttajaId" => $row["kayttajaid"]
+            ));
+        }
+
+        return $ilmot;
     }
 
     public function save() {
@@ -44,6 +112,11 @@ class KurssiIlmoittautuminen extends BaseModel {
         $this->id = $row['id'];
 
         return true;
+    }
+
+    public function destroy() {
+        $query = DB::connection()->prepare("DELETE FROM KurssiIlmoittautuminen WHERE id = :id");
+        return $query->execute(array("id" => $this->id));
     }
 
     public function validate_ids() {

@@ -69,6 +69,7 @@ $routes->get('/grades', function() {
 
 $routes->get('/addgrade/:reservationId', function($reservationId) {
     $ilmo = KurssiIlmoittautuminen::find($reservationId);
+    $ilmo->harjoitusryhma = HarjoitusRyhmaIlmoittautuminen::find($ilmo->id);
     if ($ilmo) {
         $user = Kayttaja::find($ilmo->kayttajaId);
         $kurssi = Kurssi::find($ilmo->kurssiId);
@@ -81,6 +82,8 @@ $routes->get('/addgrade/:reservationId', function($reservationId) {
 
 $routes->post('/addgrade/:reservationId', function($reservationId) {
     $ilmo = KurssiIlmoittautuminen::find($reservationId);
+    $ilmo->harjoitusryhma = HarjoitusRyhmaIlmoittautuminen::find($ilmo->id);
+
     if ($ilmo) {
         CourseController::addGrade($ilmo);
     } else {
@@ -98,5 +101,13 @@ $routes->post('/editcourse/:id', function($id) {
 });
 
 $routes->post('/addregistration', function() {
-    CourseController::addRegistration();
+    RegistrationController::addRegistration();
+});
+
+$routes->post('/cancelregistration', function() {
+    RegistrationController::cancelRegistration();
+});
+
+$routes->get('/listparticipants/:courseId', function($courseId) {
+    CourseController::listParticipants($courseId);
 });

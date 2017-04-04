@@ -30,6 +30,7 @@
     <tr><td colspan="2" style="font-weight: normal;">Ei harjoitusryhmiä.</td></tr>
     {% endif %}
 </table>
+{% if ilmo == false %}
 <form action="{{base_path}}/addregistration" method="POST">
     <input type="hidden" name="courseId" value="{{course.id}}"/>
     {% if harjoitusryhmat %}
@@ -43,9 +44,20 @@
     {% endif %}
     <button class="btn btn-success">Ilmoittaudu kurssille</button>    
 </form>
-{% if user_logged_in.tyyppi == 1 %}
-<br/><br/>
-<a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a>
-{% endif %}
+{% else %}
+{% if ilmo.harjoitusryhma %}
+Olet ilmoittautunut kurssille seuraavaan harjoitusryhmään: <b>{{ilmo.harjoitusryhma.opetusaika.viikonPaivanNimi}} {{ilmo.harjoitusryhma.opetusaika.formattedAloitusAika}} - {{ilmo.harjoitusryhma.opetusaika.formattedLopetusAika}} ({{ilmo.harjoitusryhma.opetusaika.huone}})</b>
+    {% else %}
+    Olet ilmoittautunut kurssille.
+    {% endif %}
+    <form action="{{base_path}}/cancelregistration" method="POST">
+        <input type="hidden" name="courseId" value="{{course.id}}"/>
+        <button class="btn btn-danger" type="submit">Peru ilmoittautuminen</button>
+    </form>
+    {% endif %}
+    {% if user_logged_in.tyyppi == 1 %}
+    <br/><br/>
+    <a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a>
+    {% endif %}
 {% endif %}
 {% endblock %}

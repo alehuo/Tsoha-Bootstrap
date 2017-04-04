@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="page-header">
+    <h1>Kurssille ilmoittautuneet henkilöt</h1>
+</div>
+{% if ilmot %}
+<ul>
+    {% for kurssiilmo in ilmot %}
+    <li><a href="{{base_path}}/addgrade/{{kurssiilmo.id}}">{{kurssiilmo.kayttaja.nimi}}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<b>Ei ilmoittautuneita henkilöitä.</b>
+{% endif %}
+{% endblock %}

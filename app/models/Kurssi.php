@@ -110,6 +110,10 @@ class Kurssi extends BaseModel {
         $this->id = $row['id'];
     }
 
+    public function update() {
+        
+    }
+
     public function getFormattedAloitusPvm() {
         return date("j.n.Y", $this->aloitusPvm);
     }

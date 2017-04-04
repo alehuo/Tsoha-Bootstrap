@@ -1,3 +1,4 @@
+DROP TABLE IF EXISTS HarjoitusRyhmaIlmoittautuminen;
 DROP TABLE IF EXISTS Opetusaika CASCADE;
 DROP TABLE IF EXISTS Kurssisuoritus CASCADE;
 DROP TABLE IF EXISTS KurssiIlmoittautuminen CASCADE;
