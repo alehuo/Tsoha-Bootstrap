@@ -54,34 +54,37 @@
         <hr/>
         <label><small>Paina "Lisää uusi opetusaika"-nappia lisätäksesi kurssille opetusaikoja.</small></label><br/>
         <div id="opetusajat">
-            <div class="opetusaika" id="opAika" style="display: none;">
+            {% for opetusaika in opetusajat %}
+            <div class="opetusaika">
+                <input type="hidden" name="opetusaikaId[]" value="{{opetusaika.id}}"/>
                 <div>
                     <label>Huone</label>
-                    <input name="opetusaikaHuone[]" class="form-control" placeholder="A123"/>
+                    <input name="opetusaikaHuone[]" class="form-control" placeholder="A123" value="{{opetusaika.huone}}"/>
                 </div>
                 <div>
                     <label>Aloitusaika</label>
                     <select name="opetusaikaAloitusaika[]" class="form-control">
                         {% for aika in ajat %}
-                        <option value='{{aika.id}}'>{{aika.arvo}}</option>
+                        <option value='{{aika.id}}' {% if aika.id == opetusaika.aloitusAika %}selected{% endif %}>{{aika.arvo}}</option>
                         {% endfor %}
                     </select> 
                 </div>
                 <div>
                     <label>Kesto (tuntia)</label>
-                    <input name="opetusaikaKesto[]" class="form-control" value="2" type="number" min="1" max="3">
+                    <input name="opetusaikaKesto[]" class="form-control" value="{{(opetusaika.lopetusAika - oletusaika.aloitusAika)/60}}" type="number" min="1" max="3">
                 </div>
                 <div>
                     <label>Viikonpäivä</label>
                     <select name="opetusaikaViikonpaiva[]" class="form-control">
-                        <option value="0" selected>Ma</option>
-                        <option value="1">Ti</option>
-                        <option value="2">Ke</option>
-                        <option value="3">To</option>
-                        <option value="4">Pe</option>
+                        <option value="0" {% if opetusaika.viikonpaiva == 0 %}selected{% endif %}>Ma</option>
+                        <option value="1" {% if opetusaika.viikonpaiva == 1 %}selected{% endif %}>Ti</option>
+                        <option value="2" {% if opetusaika.viikonpaiva == 2 %}selected{% endif %}>Ke</option>
+                        <option value="3" {% if opetusaika.viikonpaiva == 3 %}selected{% endif %}>To</option>
+                        <option value="4" {% if opetusaika.viikonpaiva == 4 %}selected{% endif %}>Pe</option>
                     </select> 
                 </div>
             </div>
+            {% endfor %}
         </div>
 
         <input class="btn btn-primary" type="button" value="Lisää uusi opetusaika" onClick="luoOpetusAikaKentta()">

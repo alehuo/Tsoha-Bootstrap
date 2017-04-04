@@ -58,7 +58,8 @@ class Kayttaja extends BaseModel {
     }
 
     public function destroy() {
-        
+        //TODO
+        $q = "";
     }
 
     /**
