@@ -92,6 +92,24 @@ class Opetusaika extends BaseModel {
         $this->id = $row['id'];
     }
 
+    public function update() {
+        $q = "UPDATE Opetusaika SET "
+                . "huone = :huone, "
+                . "viikonpaiva = :viikonpaiva, "
+                . "aloitusAika = :aloitusaika, "
+                . "lopetusAika = :lopetusaika, "
+                . "tyyppi = :tyyppi WHERE id = :id";
+        $qry = DB::connection()->prepare($q);
+        $qry->execute(array(
+            "huone" => $this->huone,
+            "viikonpaiva" => $this->viikonpaiva,
+            "aloitusaika" => $this->aloitusAika,
+            "lopetusaika" => $this->lopetusAika,
+            "tyyppi" => $this->tyyppi,
+            "id" => $this->id
+        ));
+    }
+
     public function getFormattedAloitusAika() {
         return str_pad(floor($this->aloitusAika / 60), 2, "0", STR_PAD_LEFT) . ":" . str_pad($this->aloitusAika % 60, 2, "0", STR_PAD_LEFT);
     }
