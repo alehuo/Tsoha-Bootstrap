@@ -6,7 +6,7 @@ class Kayttaja extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array("validate_username", "validate_password");
+        $this->validators = array("validate_username", "validate_password", "validate_dates");
     }
 
     public static function find($id) {
@@ -128,11 +128,21 @@ class Kayttaja extends BaseModel {
         return false;
     }
 
+    public function validate_dates() {
+        $errors = array();
+
+        if ($this->aloitusPvm > $this->lopetusPvm) {
+            $errors[] = "Kurssin aloitusaika ei voi olla myöhemmin kuin lopetusaika";
+        }
+
+        return $errors;
+    }
+
     public function validate_username() {
         $errors = array();
 
-        parent::validateStringLength($errors, "Käyttäjätunnus", $this->nimi, 100);
-        parent::validateStringNotNull($errors, "Käyttäjätunnus", $this->nimi);
+        $errors[] = parent::validateStringLength("Käyttäjätunnus", $this->nimi, 100);
+        $errors[] = parent::validateStringNotNull("Käyttäjätunnus", $this->nimi);
 
         return $errors;
     }
@@ -140,8 +150,8 @@ class Kayttaja extends BaseModel {
     public function validate_password() {
         $errors = array();
 
-        parent::validateStringLength($errors, "Salasana", $this->salasana, 72);
-        parent::validateStringNotNull($errors, "Salasana", $this->salasana);
+        $errors[] = parent::validateStringLength("Salasana", $this->salasana, 72);
+        $errors[] = parent::validateStringNotNull("Salasana", $this->salasana);
 
         return $errors;
     }
