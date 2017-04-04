@@ -2,7 +2,7 @@
 
 class KurssiIlmoittautuminen extends BaseModel {
 
-    public $id, $kurssiId, $kayttajaId, $harjoitusRyhmaId;
+    public $id, $kurssiId, $kayttajaId;
 
     public function __construct($attributes = null) {
         parent::__construct($attributes);
@@ -31,12 +31,11 @@ class KurssiIlmoittautuminen extends BaseModel {
     }
 
     public function save() {
-        $query = DB::connection()->prepare('INSERT INTO KurssiIlmoittautuminen (kurssiid, kayttajaid, harjoitusryhmaid) VALUES (:kurssiid, :kayttajaid, :harjoitusryhmaid) RETURNING id');
+        $query = DB::connection()->prepare('INSERT INTO KurssiIlmoittautuminen (kurssiid, kayttajaid) VALUES (:kurssiid, :kayttajaid) RETURNING id');
         $query->execute(
                 array(
                     'kurssiid' => $this->kurssiId,
-                    'kayttajaid' => $this->kayttajaId,
-                    'harjoitusryhmaid' => $this->harjoitusRyhmaId
+                    'kayttajaid' => $this->kayttajaId
                 )
         );
 
@@ -52,7 +51,6 @@ class KurssiIlmoittautuminen extends BaseModel {
 
         $errors[] = parent::validateStringNotNull("Käyttäjän id", $this->kayttajaId);
         $errors[] = parent::validateStringNotNull("Kurssin id", $this->kurssiId);
-        $errors[] = parent::validateStringNotNull("Harjoitysryhmän id", $this->harjoitusRyhmaId);
 
         return $errors;
     }

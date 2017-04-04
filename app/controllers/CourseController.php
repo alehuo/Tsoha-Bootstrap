@@ -191,10 +191,14 @@ class CourseController extends BaseController {
         $user = BaseController::get_user_logged_in();
         $course = Kurssi::find($params["courseId"]);
         if ($user && $course) {
-            $ilmo = new KurssiIlmoittautuminen(array("kurssiId" => $course->id, "kayttajaId" => $user->id, "harjoitusRyhmaId" => $params["harjoitusRyhma"]));
+            $ilmo = new KurssiIlmoittautuminen(array("kurssiId" => $course->id, "kayttajaId" => $user->id));
             $errors = $ilmo->errors();
             if (!$errors) {
                 $ilmo->save();
+                $harjoitusryhmaIlmo = new HarjoitusRyhmaIlmoittautuminen(array("kurssiIlmoId" => $ilmo->id, "opetusaikaId" => $params["harjoitusRyhma"]));
+
+                $harjoitusryhmaIlmo->save();
+
                 Redirect::to('/course/' . $course->id, array("success" => "Kurssi-ilmoittautuminen tallennettu."));
             } else {
                 Redirect::to('/course/' . $course->id, array("errors" => array("Kurssi-ilmoittautuminen epäonnistui.")));

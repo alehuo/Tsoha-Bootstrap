@@ -13,7 +13,20 @@ class HarjoitusRyhmaIlmoittautuminen extends BaseModel {
     }
 
     public function save() {
-        
+
+        $query = DB::connection()->prepare('INSERT INTO HarjoitusRyhmaIlmoittautuminen (kurssiilmoid, opetusaikaid) VALUES (:kid, :oid) RETURNING id');
+        $query->execute(
+                array(
+                    'kid' => $this->kurssiIlmoId,
+                    'oid' => $this->opetusaikaId
+                )
+        );
+        e;
+
+        $row = $query->fetch();
+
+        $this->id = $row['id'];
+        return true;
     }
 
 }
