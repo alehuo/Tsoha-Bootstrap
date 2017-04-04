@@ -108,9 +108,7 @@ class Opetusaika extends BaseModel {
     public function validate_type() {
         $errors = array();
 
-        if (!in_array($this->tyyppi, range(0, 1))) {
-            $errors[] = "Opetusajan tyyppi on virheellinen";
-        }
+        $errors[] = parent::validateRange("Opetusajan tyyppi", $this->tyyppi, 0, 1);
 
         return $errors;
     }
@@ -118,11 +116,8 @@ class Opetusaika extends BaseModel {
     public function validate_room() {
         $errors = array();
 
-        $roomLen = 10;
-
-        if (empty($this->huone) || strlen($this->huone) > $roomLen) {
-            $errors[] = "Huone ei saa olla tyhjä tai yli " . $roomLem . " merkkiä pitkä";
-        }
+        $errors[] = parent::validateStringLength("Huone", $this->huone, 10);
+        $errors[] = parent::validateStringNotNull("Huone", $this->huone);
 
         return $errors;
     }

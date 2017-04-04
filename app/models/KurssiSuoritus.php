@@ -53,9 +53,7 @@ class KurssiSuoritus extends BaseModel {
     public function validate_grade() {
         $errors = array();
 
-        if (!in_array($this->arvosana, range(0, 6))) {
-            $errors[] = "Arvosana on virheellinen";
-        }
+        $errors[] = parent::validateRange("Arvosana", $this->arvosana, 0, 6);
 
         return $errors;
     }

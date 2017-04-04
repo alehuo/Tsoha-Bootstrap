@@ -127,22 +127,20 @@ class Kurssi extends BaseModel {
     }
 
     public function validate_name() {
-        $nameMaxLen = 50;
         $errors = array();
 
-        if (empty($this->nimi) || strlen($this->nimi) > $nameMaxLen) {
-            $errors[] = "Kurssin nimi ei saa olla tyhjä tai yli " . $nameMaxLen . " merkkiä pitkä";
-        }
+        $errors[] = parent::validateStringLength("Kurssin nimi", $this->nimi, 50);
+        $errors[] = parent::validateStringNotNull("Kurssin nimi", $this->nimi);
 
         return $errors;
     }
 
     public function validate_desc() {
-        $descMaxLen = 255;
         $errors = array();
-        if (empty($this->kuvaus) || strlen($this->kuvaus) > $descMaxLen) {
-            $errors[] = "Kurssin kuvaus ei saa olla tyhjä tai yli " . $descMaxLen . " merkkiä pitkä";
-        }
+
+        $errors[] = parent::validateStringLength("Kurssin kuvaus", $this->kuvaus, 255);
+        $errors[] = parent::validateStringNotNull("Kurssin kuvaus", $this->kuvaus);
+
         return $errors;
     }
 

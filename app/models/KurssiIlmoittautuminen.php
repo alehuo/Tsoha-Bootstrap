@@ -49,9 +49,11 @@ class KurssiIlmoittautuminen extends BaseModel {
 
     public function validate_ids() {
         $errors = array();
-        if (empty($this->kayttajaId) || empty($this->kurssiId) || empty($this->harjoitusRyhmaId)) {
-            $errors[] = "Kurssi-ilmoittautuminen epäonnistui. Virheellinen pyyntö!";
-        }
+
+        $errors[] = parent::validateStringNotNull("Käyttäjän id", $this->kayttajaId);
+        $errors[] = parent::validateStringNotNull("Kurssin id", $this->kurssiId);
+        $errors[] = parent::validateStringNotNull("Harjoitysryhmän id", $this->harjoitusRyhmaId);
+
         return $errors;
     }
 

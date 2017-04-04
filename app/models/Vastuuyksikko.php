@@ -63,10 +63,8 @@ class Vastuuyksikko extends BaseModel {
 
     public function validate_name() {
         $errors = array();
-        $nameLen = 100;
-        if (empty($this->nimi) || strlen(trim($this->nimi)) > $nameLen) {
-            $errors[] = "Vastuuyksikön nimi ei saa olla tyhjä tai yli " . $nameLen . " merkkiä pitkä";
-        }
+
+        $errors[] = parent::validateStringLength("Vastuuyksikön nimi", $this->nimi, 100);
 
         return $errors;
     }

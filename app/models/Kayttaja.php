@@ -141,21 +141,17 @@ class Kayttaja extends BaseModel {
     public function validate_username() {
         $errors = array();
 
-        $nameMaxLen = 100;
-        if (empty($this->nimi) || strlen($this->nimi) > $nameMaxLen) {
-            $errors[] = "Käyttäjän nimi ei saa olla tyhjä tai yli " . $nameMaxLen . " merkkiä pitkä.";
-        }
+        $errors[] = parent::validateStringLength("Käyttäjätunnus", $this->nimi, 100);
+        $errors[] = parent::validateStringNotNull("Käyttäjätunnus", $this->nimi);
+
         return $errors;
     }
 
     public function validate_password() {
         $errors = array();
 
-        $passwdMaxLen = 72;
-
-        if (empty($this->salasana) || strlen($this->salasana) > $passwdMaxLen) {
-            $errors[] = "Käyttäjän salasana ei saa olla tyhjä tai yli " . $passwdMaxLen . " merkkiä pitkä.";
-        }
+        $errors[] = parent::validateStringLength("Salasana", $this->salasana, 72);
+        $errors[] = parent::validateStringNotNull("Salasana", $this->salasana);
 
         return $errors;
     }

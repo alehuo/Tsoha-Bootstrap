@@ -28,4 +28,27 @@ class BaseModel {
         return $errors;
     }
 
+    public static function validateStringLength($name, $string, $length) {
+        if (strlen($string) > $length) {
+            return $name . " ei saa olla yli " . $length . " merkkiä pitkä.";
+        }
+        return null;
+    }
+
+    public static function validateStringNotNull($name, $string) {
+        $string = trim($string);
+        if (empty($string) || strlen($string) == 0) {
+            return $name . " ei saa olla tyhjä.";
+        }
+        return null;
+    }
+
+    public static function validateRange($name, $num, $start, $end) {
+        if (!in_array($num, range($start, $end))) {
+            return $name . " täytyy olla väliltä " . $start . " ja " . $end;
+        }
+
+        return null;
+    }
+
 }
