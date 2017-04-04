@@ -6,7 +6,7 @@ class Kayttaja extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array("validate_username", "validate_password", "validate_dates");
+        $this->validators = array("validate_username", "validate_password");
     }
 
     public static function find($id) {
