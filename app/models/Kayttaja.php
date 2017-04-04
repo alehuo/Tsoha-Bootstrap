@@ -141,8 +141,8 @@ class Kayttaja extends BaseModel {
     public function validate_username() {
         $errors = array();
 
-        $errors[] = parent::validateStringLength("Käyttäjätunnus", $this->nimi, 100);
-        $errors[] = parent::validateStringNotNull("Käyttäjätunnus", $this->nimi);
+        parent::validateStringLength($errors, "Käyttäjätunnus", $this->nimi, 100);
+        parent::validateStringNotNull($errors, "Käyttäjätunnus", $this->nimi);
 
         return $errors;
     }
@@ -150,8 +150,8 @@ class Kayttaja extends BaseModel {
     public function validate_password() {
         $errors = array();
 
-        $errors[] = parent::validateStringLength("Salasana", $this->salasana, 72);
-        $errors[] = parent::validateStringNotNull("Salasana", $this->salasana);
+        parent::validateStringLength($errors, "Salasana", $this->salasana, 72);
+        parent::validateStringNotNull($errors, "Salasana", $this->salasana);
 
         return $errors;
     }

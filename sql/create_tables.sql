@@ -21,9 +21,15 @@ CREATE TABLE Kayttaja(
 CREATE TABLE KurssiIlmoittautuminen(
     id SERIAL PRIMARY KEY,
     kurssiId INTEGER REFERENCES Kurssi(id),
-    kayttajaId INTEGER REFERENCES Kayttaja(id),
-    harjoitusRyhmaId INTEGER
+    kayttajaId INTEGER REFERENCES Kayttaja(id)
 );
+
+CREATE TABLE HarjoitusRyhmaIlmoittautuminen(
+    id SERIAL PRIMARY KEY,
+    kurssiIlmoId INTEGER REFERENCES KurssiIlmoitautuminen(id),
+    opetusaikaId INTEGER REFERENCES Opetusaika(id)
+);
+
 CREATE TABLE Kurssisuoritus(
     id SERIAL PRIMARY KEY,
     kurssiId INTEGER REFERENCES Kurssi(id),

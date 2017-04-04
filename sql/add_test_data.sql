@@ -6,6 +6,6 @@ INSERT INTO Kurssi (kurssinimi, kuvaus, opintopisteet, arvosteluTyyppi, aloitusP
 INSERT INTO Kurssi (kurssinimi, kuvaus, opintopisteet, arvosteluTyyppi, aloitusPvm, lopetusPvm, vastuuYksikkoId) VALUES('Lineaarialgebra ja matriisilaskenta I','Matriisien laskutoimitukset ja sovellukset','5','0','1476057600','1486684800','2');
 INSERT INTO Opetusaika (huone,viikonpaiva,aloitusAika,lopetusAika,kurssiId,tyyppi) VALUES('A111','0','795','840','1','0');
 INSERT INTO Kayttaja (tyyppi,nimi,salasana) VALUES ('1','admin','$2a$07$u83cCmViLjABIinOhXwWaOt6yyzxCSInw3qo5Q7lBXS3AkFeHuj3O'); --admin::admin
-INSERT INTO KurssiIlmoittautuminen (kurssiId,kayttajaId, harjoitusRyhmaId) VALUES('1','1','1');
-INSERT INTO KurssiIlmoittautuminen (kurssiId,kayttajaId, harjoitusRyhmaId) VALUES('2','1','1');
+INSERT INTO KurssiIlmoittautuminen (kurssiId,kayttajaId) VALUES('1','1');
+INSERT INTO KurssiIlmoittautuminen (kurssiId,kayttajaId) VALUES('2','1');
 INSERT INTO Kurssisuoritus (kurssiId, kayttajaId, arvosana, paivays) VALUES('3','1','5','1541203200');

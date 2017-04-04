@@ -23,7 +23,8 @@ class DefaultController extends BaseController {
 //                )
 //        );
 //        $testikurssi->save();
-//        $kayttaja = new Kayttaja(array("tyyppi" => 1, "nimi" => "admin", "salasana" => "admin"));
+        $kayttaja = new Kayttaja(array("tyyppi" => 1, "nimi" => "admidasldökaöldkaölksdölaksöldkaölskdölaksöldkasöldkaölskdölaskdpowieproweikrölwkeölsdkflsdjfklwejiorjwejkln", "salasana" => "admin"));
+        var_dump($kayttaja->errors());
 //        $kayttaja->save();
 //        var_dump($kayttaja);
     }

@@ -22,33 +22,31 @@ class BaseModel {
 
         foreach ($this->validators as $validator) {
             // Kutsu validointimetodia tässä ja lisää sen palauttamat virheet errors-taulukkoon
-            $errors = array_merge($errors, $this->{$validator}());
+            if (!empty($this->{$validator}())) {
+                $errors = array_merge($errors, $this->{$validator}());
+            }
         }
 
         return $errors;
     }
 
-    public static function validateStringLength($name, $string, $length) {
+    public static function validateStringLength($errors, $name, $string, $length) {
         if (strlen($string) > $length) {
-            return $name . " ei saa olla yli " . $length . " merkkiä pitkä.";
+            $errors[] = $name . " ei saa olla yli " . $length . " merkkiä pitkä.";
         }
-        return null;
     }
 
-    public static function validateStringNotNull($name, $string) {
+    public static function validateStringNotNull($errors, $name, $string) {
         $string = trim($string);
         if (empty($string) || strlen($string) == 0) {
-            return $name . " ei saa olla tyhjä.";
+            $errors[] = $name . " ei saa olla tyhjä.";
         }
-        return null;
     }
 
-    public static function validateRange($name, $num, $start, $end) {
+    public static function validateRange($errors, $name, $num, $start, $end) {
         if (!in_array($num, range($start, $end))) {
-            return $name . " täytyy olla väliltä " . $start . " ja " . $end;
+            $errors[] = $name . " täytyy olla väliltä " . $start . " ja " . $end;
         }
-
-        return null;
     }
 
 }
