@@ -128,16 +128,6 @@ class Kayttaja extends BaseModel {
         return false;
     }
 
-    public function validate_dates() {
-        $errors = array();
-
-        if ($this->aloitusPvm > $this->lopetusPvm) {
-            $errors[] = "Kurssin aloitusaika ei voi olla myöhemmin kuin lopetusaika";
-        }
-
-        return $errors;
-    }
-
     public function validate_username() {
         $errors = array();
 
