@@ -61,6 +61,15 @@ class Vastuuyksikko extends BaseModel {
         $this->id = $row['id'];
     }
 
+    public function update() {
+        $q = "UPDATE Vastuuyksikko SET nimi = :nimi WHERE id = :id";
+        $qry = DB::connection()->prepare($q);
+        $qry->execute(array(
+            "nimi" => $this->nimi,
+            "id" => $this->id
+        ));
+    }
+
     public function validate_name() {
         $errors = array();
 
