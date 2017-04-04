@@ -111,7 +111,26 @@ class Kurssi extends BaseModel {
     }
 
     public function update() {
-        
+        $q = "UPDATE Kurssi SET "
+                . "kurssinimi = :kurssinimi, "
+                . "kuvaus = :kuvaus, "
+                . "opintoPisteet = :opintopisteet, "
+                . "arvosteluTyyppi = :arvostelutyyppi, "
+                . "aloitusPvm = :aloituspvm, "
+                . "lopetusPvm = :lopetuspvm, "
+                . "vastuuYksikkoId = :vastuuyksikkoid "
+                . "WHERE id = :id";
+        $qry = DB::connection()->prepare($q);
+        $qry->execute(array(
+            "kurssinimi" => $this->nimi,
+            "kuvaus" => $this->kuvaus,
+            "opintopisteet" => $this->opintoPisteet,
+            "arvostelutyyppi" => $this->arvosteluTyyppi,
+            "aloituspvm" => $this->aloitusPvm,
+            "lopetuspvm" => $this->lopetusPvm,
+            "vastuuyksikkoid" => $this->vastuuYksikkoId,
+            "id" => $this->id
+        ));
     }
 
     public function getFormattedAloitusPvm() {
