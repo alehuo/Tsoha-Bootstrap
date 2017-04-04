@@ -5,24 +5,15 @@
 <div class="page-header">
     <h1>Muokkaa kurssia</h1>
 </div>
-{% if errors %}
-<div class="alert alert-danger">
-    <ul>
-        {% for error in errors %}
-        <li>{{error}}</li>
-        {% endfor %}
-    </ul>
-</div>
-{% endif %}
-<form action="{{base_path}}/addcourse" method="POST">
+<form action="{{base_path}}/editcourse/{{course.id}}" method="POST">
     <div class="form-group">
         <label>Vastuuyksikkö</label>
         <select class="form-control" name="vastuuyksikkoSelect">
-            <option value="-1">(Valitse)</option>
-            {% for vastuuyksikko in vastuuyksikot %}
-            <option value="{{vastuuyksikko.id}}" {% if vastuuyksikko.id == course.vastuuYksikkoId %} selected {% endif %}>{{vastuuyksikko.nimi}}</option>
-            {% endfor %}
-        </select> 
+    <option value="-1">(Valitse)</option>
+    {% for vastuuyksikko in vastuuyksikot %}
+    <option value="{{vastuuyksikko.id}}" {% if vastuuyksikko.id == course.vastuuYksikkoId %} selected {% endif %}>{{vastuuyksikko.nimi}}</option>
+    {% endfor %}
+</select> 
     </div>
     <div class="form-group">
         <label>Nimi</label>
@@ -38,7 +29,7 @@
     </div>
     <div class="form-group">
         <label>Saatavat opintopisteet</label>
-        <input class="form-control" value="5" type="number" min="0" max="150" name="op" value="{{course.nopat}}">
+        <input class="form-control" value="5" type="number" min="0" max="150" name="op" value="{{course.opintoPisteet}}">
     </div>
     <div class="checkbox">
         <label>
@@ -52,9 +43,13 @@
     </div>
     <div class="form-group">
         <hr/>
-        <label><small>Paina "Lisää uusi opetusaika"-nappia lisätäksesi kurssille opetusaikoja.</small></label><br/>
+        <label>Opetusajat</label>
+        <br/>
+        <br/>
+        <!--<label><small>Paina "Lisää uusi opetusaika"-nappia lisätäksesi kurssille opetusaikoja.</small></label><br/>-->
+        {% if course.opetusajat %}
         <div id="opetusajat">
-            {% for opetusaika in opetusajat %}
+            {% for opetusaika in course.opetusajat %}
             <div class="opetusaika">
                 <input type="hidden" name="opetusaikaId[]" value="{{opetusaika.id}}"/>
                 <div>
@@ -71,7 +66,7 @@
                 </div>
                 <div>
                     <label>Kesto (tuntia)</label>
-                    <input name="opetusaikaKesto[]" class="form-control" value="{{(opetusaika.lopetusAika - oletusaika.aloitusAika)/60}}" type="number" min="1" max="3">
+                    <input name="opetusaikaKesto[]" class="form-control" value="{{(opetusaika.lopetusAika - opetusaika.aloitusAika) / 60}}" type="number" min="1" max="3">
                 </div>
                 <div>
                     <label>Viikonpäivä</label>
@@ -86,48 +81,61 @@
             </div>
             {% endfor %}
         </div>
+        {% else %}
+        Ei opetusaikoja.
+        {% endif %}
 
-        <input class="btn btn-primary" type="button" value="Lisää uusi opetusaika" onClick="luoOpetusAikaKentta()">
+        <!--<input class="btn btn-primary" type="button" value="Lisää uusi opetusaika" onClick="luoOpetusAikaKentta()">-->
     </div>
     <div class="form-group">
         <hr/>
-        <label><small>Paina "Lisää uusi harjoitusryhmä"-nappia lisätäksesi kurssille harjoitusryhmiä.</small></label><br/>
+        <label>Harjoitusryhmät</label>
+        <br/>
+        <br/>
+        <!--<label><small>Paina "Lisää uusi harjoitusryhmä"-nappia lisätäksesi kurssille harjoitusryhmiä.</small></label><br/>-->
+        {% if course.harjoitusryhmat %}
         <div id="harjoitusryhmat">
-            <div class="harjoitusryhma" id="harjRyhma" style="display: none;">
+            {% for harjoitusryhma in course.harjoitusryhmat %}
+            <div class="harjoitusryhma" id="harjRyhma">
+                <input type="hidden" name="harjoitusryhmaId[]" value="{{harjoitusryhma.id}}"/>
                 <div>
                     <label>Huone</label>
-                    <input name="harjoitusryhmaHuone[]" class="form-control" placeholder="A123"/>
+                    <input name="harjoitusryhmaHuone[]" class="form-control" placeholder="A123" value="{{harjoitusryhma.huone}}"/>
                 </div>
                 <div>
                     <label>Aloitusaika</label>
                     <select name="harjoitusryhmaAloitusaika[]" class="form-control">
                         {% for aika in ajat %}
-                        <option value='{{aika.id}}'>{{aika.arvo}}</option>
+                        <option value='{{aika.id}}'  {% if aika.id == harjoitusryhma.aloitusAika %}selected{% endif %}>{{aika.arvo}}</option>
                         {% endfor %}
                     </select> 
                 </div>
                 <div>
                     <label>Kesto (tuntia)</label>
-                    <input name="harjoitusryhmaKesto[]" class="form-control" value="2" type="number" min="1" max="3">
+                    <input name="harjoitusryhmaKesto[]" class="form-control" value="{{(harjoitusryhma.lopetusAika - harjoitusryhma.aloitusAika) / 60}}" type="number" min="1" max="3">
                 </div>
                 <div>
                     <label>Viikonpäivä</label>
                     <select name="harjoitusryhmaViikonpaiva[]" class="form-control">
-                        <option value="0" selected>Ma</option>
-                        <option value="1">Ti</option>
-                        <option value="2">Ke</option>
-                        <option value="3">To</option>
-                        <option value="4">Pe</option>
+                        <option value="0" {% if harjoitusryhma.viikonpaiva == 0 %}selected{% endif %}>Ma</option>
+                        <option value="1" {% if harjoitusryhma.viikonpaiva == 1 %}selected{% endif %}>Ti</option>
+                        <option value="2" {% if harjoitusryhma.viikonpaiva == 2 %}selected{% endif %}>Ke</option>
+                        <option value="3" {% if harjoitusryhma.viikonpaiva == 3 %}selected{% endif %}>To</option>
+                        <option value="4" {% if harjoitusryhma.viikonpaiva == 4 %}selected{% endif %}>Pe</option>
                     </select> 
                 </div>
             </div>
+            {% endfor %}
         </div>
+        {% else %}
+        Ei harjoitusryhmiä.
+        {% endif %}
         <br/>
-        <input class="btn btn-primary" type="button" value="Lisää uusi harjoitusryhmä" onClick="luoHarjoitusRyhmaKentta()">
+        <!--<input class="btn btn-primary" type="button" value="Lisää uusi harjoitusryhmä" onClick="luoHarjoitusRyhmaKentta()">-->
     </div>
     <div class="form-group">
         <hr/>
-        <button type="submit" class="btn btn-primary">Luo kurssi</button>
+        <button type="submit" class="btn btn-success">Tallenna muutokste</button>
     </div>
 </form>
 {% endblock %}

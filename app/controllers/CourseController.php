@@ -31,6 +31,14 @@ class CourseController extends BaseController {
     }
 
     public static function addCourseForm() {
+        $ajat = luoAjat();
+
+        $vastuuyksikot = Vastuuyksikko::all();
+
+        View::make('addcourse.html', array("ajat" => $ajat, "vastuuyksikot" => $vastuuyksikot));
+    }
+
+    public static function luoAjat() {
         $ajat = array();
         $hours = 7;
         $minutes = 0;
@@ -49,10 +57,7 @@ class CourseController extends BaseController {
 
             $start += 15;
         }
-
-        $vastuuyksikot = Vastuuyksikko::all();
-
-        View::make('addcourse.html', array("ajat" => $ajat, "vastuuyksikot" => $vastuuyksikot));
+        return $ajat;
     }
 
     /**
@@ -185,9 +190,17 @@ class CourseController extends BaseController {
 
     public static function editCourse($id) {
         $course = Kurssi::find($id);
+        $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($course->id, 0);
+        $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($course->id, 1);
+        $course->opetusajat = $opetusajat;
+        $course->harjoitusryhmat = $harjoitusryhmat;
+
+        $ajat = CourseController::luoAjat();
+
         $vastuuyksikot = Vastuuyksikko::all();
+
         if ($course) {
-            View::make('editcourse.html', array("course" => $course, "vastuuyksikot" => $vastuuyksikot));
+            View::make('editcourse.html', array("course" => $course, "vastuuyksikot" => $vastuuyksikot, "ajat" => $ajat));
             exit();
         }
         Redirect::to('/', array("errors" => array("Kurssia ei löydy")));
@@ -205,6 +218,157 @@ class CourseController extends BaseController {
         }
 
         View::make('listparticipants.html', array("ilmot" => $kurssiIlmot));
+    }
+
+    public static function handleCourseEdit($id) {
+        $params = $_POST;
+        $errors = array();
+
+        $kurssinNimi = $params["nimi"];
+        $alkamisPaivays = $params["startingDate"];
+        $loppumisPaivays = $params["endingDate"];
+        $op = $params["op"];
+
+        if (isset($p["arvosteluTyyppi"])) {
+            $arvostelu = 1;
+        } else {
+            $arvostelu = 0;
+        }
+
+
+        $kurssi = Kurssi::find($id);
+        $kurssi->nimi = $kurssinNimi;
+        $kurssi->aloitusPvm = strtotime($alkamisPaivays);
+        $kurssi->lopetusPvm = strtotime($loppumisPaivays);
+        $kurssi->opintoPisteet = intval($op);
+        $kurssi->arvosteluTyyppi = $arvostelu;
+
+        $errors = array_merge($errors, $kurssi->errors());
+
+        $opetusaikaIdt = $params["opetusaikaId"];
+        $opetusaikaHuoneet = $params["opetusaikaHuone"];
+        $opetusaikaAloitusajat = $params["opetusaikaAloitusaika"];
+        $opetusaikaKestot = $params["opetusaikaKesto"];
+        $opetusaikaViikonpaivat = $params["opetusaikaViikonpaiva"];
+
+        $opetusaikojenMaara = count($opetusaikaIdt);
+
+        $opetusajat = array();
+
+
+        //Alkuperäiset
+        for ($i = 0; $i < $opetusaikojenMaara; $i++) {
+            $id = $opetusaikaIdt[$i];
+            $huone = $opetusaikaHuoneet[$i];
+            $aloitusAika = $opetusaikaAloitusajat[$i];
+            $kesto = $opetusaikaKestot[$i];
+            $viikonpaiva = $opetusaikaViikonpaivat[$i];
+
+            $opetusaika = Opetusaika::find($id);
+            $opetusaika->huone = $huone;
+            $opetusaika->aloitusAika = intval($aloitusAika);
+            $opetusaika->lopetusAika = intval($aloitusAika) + 60 * intval($kesto);
+            $opetusaika->viikonpaiva = $viikonpaiva;
+
+            $errors = array_merge($errors, $opetusaika->errors());
+
+            $opetusajat[] = $opetusaika;
+        }
+
+        $uudetopetusajat = array();
+
+        $loput = count($opetusaikaViikonpaivat) - $opetusaikojenMaara;
+
+        //Loput (eli uudet)
+        for ($i = $opetusaikojenMaara; $i < $loput; $i++) {
+            $huone = $opetusaikaHuoneet[$i];
+            $aloitusAika = $opetusaikaAloitusajat[$i];
+            $kesto = $opetusaikaKestot[$i];
+            $viikonpaiva = $opetusaikaViikonpaivat[$i];
+
+            $opetusaika = new Opetusaika(array(
+                "huone" => $huone,
+                "aloitusAika" => $aloitusAika,
+                "lopetusAika" => intval($aloitusAika) + 60 * intval($kesto),
+                "viikonpaiva" => $viikonpaiva,
+                "tyyppi" => 0
+            ));
+
+            $errors = array_merge($errors, $opetusaika->errors());
+
+            $uudetopetusajat[] = $opetusaika;
+        }
+
+        $harjoitusryhmaIdt = $params["harjoitusryhmaId"];
+        $harjoitusryhmaHuoneet = $params["harjoitusryhmaHuone"];
+        $harjoitusryhmaAloitusajat = $params["harjoitusryhmaAloitusaika"];
+        $harjoitusryhmaKestot = $params["harjoitusryhmaKesto"];
+        $harjoitusryhmaViikonpaivat = $params["harjoitusryhmaViikonpaiva"];
+
+        $harjoitusryhmienMaara = count($harjoitusryhmaIdt);
+
+        $harjoitusryhmat = array();
+
+        for ($i = 0; $i < $harjoitusryhmienMaara; $i++) {
+            $id = $harjoitusryhmaIdt[$i];
+            $huone = $harjoitusryhmaHuoneet[$i];
+            $aloitusAika = $harjoitusryhmaAloitusajat[$i];
+            $kesto = $harjoitusryhmaKestot[$i];
+            $viikonpaiva = $harjoitusryhmaViikonpaivat[$i];
+
+            $harjoitusryhma = new Opetusaika(array(
+                "id" => $id,
+                "huone" => $huone,
+                "aloitusAika" => $aloitusAika,
+                "lopetusAIka" => intval($aloitusAika) + 60 * intval($kesto),
+                "viikonpaiva" => $viikonpaiva,
+                "tyyppi" => 1
+            ));
+
+            $errors = array_merge($errors, $harjoitusryhma->errors());
+
+            $harjoitusryhmat[] = $harjoitusryhma;
+        }
+
+        $uudetharjoitusryhmat = array();
+
+        $loput = count($harjoitusryhmaViikonpaivat) - $harjoitusryhmienMaara;
+
+        //Loput (eli uudet)
+        for ($i = $harjoitusryhmienMaara; $i < $loput; $i++) {
+            $huone = $harjoitusryhmaHuoneet[$i];
+            $aloitusAika = $harjoitusryhmaAloitusajat[$i];
+            $kesto = $harjoitusryhmaKestot[$i];
+            $viikonpaiva = $harjoitusryhmaViikonpaivat[$i];
+
+            $harjoitusryhma = new Opetusaika(array(
+                "huone" => $huone,
+                "aloitusAika" => $aloitusAika,
+                "lopetusAIka" => intval($aloitusAika) + 60 * intval($kesto),
+                "viikonpaiva" => $viikonpaiva,
+                "tyyppi" => 1
+            ));
+
+            $errors = array_merge($errors, $harjoitusryhma->errors());
+
+            $uudetharjoitusryhmat[] = $harjoitusryhma;
+        }
+
+        if (!$errors) {
+            $kurssi->update();
+            foreach ($opetusajat as $opetusaika) {
+                $opetusaika->update();
+            }
+            foreach ($uudetopetusajat as $uusiopetussaika) {
+                $opetusaika->save();
+            }
+            foreach ($harjoitusryhmat as $harjoitusryhma) {
+                $harjoitusryhma->update();
+            }
+            foreach ($uudetharjoitusryhmat as $harjoitusryhma) {
+                $harjoitusryhma->save();
+            }
+        }
     }
 
 }
