@@ -9,6 +9,8 @@ Linkkejä:
 
 Sovelluksen ideana on toimia kuin WebOodi. Sovelluksessa pystyy selaamaan saatavilla olevia kursseja, lisäämään tai poistamaan ilmoittautumisia sekä tarkastaa omia arvosanojaan. Ylläpitohenkilö voi hallita kurssisuorituksia ja kursseja mielensä mukaan. Sovellus vaatii kirjautumisen.
 
+Sovellukseen kirjaudutaan tällä hetkellä käyttäjätunnuksella *admin* ja salasanalla *admin*
+
 ## Linkit HTML-sivuihin
 
 * [Etusivu](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/index.html)
@@ -29,3 +31,5 @@ Sovelluksen ideana on toimia kuin WebOodi. Sovelluksessa pystyy selaamaan saatav
 * [Arvosanan antaminen](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/addGrade.html)
 * [Kurssin lisääminen](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/addCourse.html)
 * [Käyttäjätilin lisääminen](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/addUser.html)
+
+
