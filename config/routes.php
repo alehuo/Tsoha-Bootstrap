@@ -52,7 +52,7 @@ $routes->get('/admin', function() {
 });
 
 $routes->get('/adduser', function() {
-    View::make('unauthorized.html');
+    View::make('adduser.html');
 });
 
 $routes->get('/login', function() {
@@ -112,6 +112,6 @@ $routes->get('/listparticipants/:courseId', function($courseId) {
     CourseController::listParticipants($courseId);
 });
 
-$routes->post('/deletecourse', function() {
-    CourseController::deleteCourse();
+$routes->post('/deletecourse/:id', function($id) {
+    CourseController::deleteCourse($id);
 });

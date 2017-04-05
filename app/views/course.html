@@ -56,8 +56,8 @@ Olet ilmoittautunut kurssille.
 </form>
 {% endif %}
 {% if user_logged_in.tyyppi == 1 %}
-<br/><br/>
-<a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a><form action="{{base_path}}/deletecourse" method="POST"><button class="btn btn-danger" href="{{base_path}}/editcourse/{{course.id}}">Poista kurssi</button></form>
+<br/>
+<a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a><br/><br/><form action="{{base_path}}/deletecourse/{{course.id}}" method="POST"><button class="btn btn-danger">Poista kurssi</button></form>
 {% endif %}
 {% endif %}
 {% endblock %}

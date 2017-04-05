@@ -50,6 +50,7 @@
         <label><small>Paina "Lisää uusi opetusaika"-nappia lisätäksesi kurssille opetusaikoja.</small></label><br/>
         <div id="opetusajat">
             <div class="opetusaika" id="opAika" style="display: none;">
+                <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
                 <div>
                     <label>Huone</label>
                     <input name="opetusaikaHuone[]" class="form-control" placeholder="A123"/>
@@ -86,6 +87,7 @@
         <label><small>Paina "Lisää uusi harjoitusryhmä"-nappia lisätäksesi kurssille harjoitusryhmiä.</small></label><br/>
         <div id="harjoitusryhmat">
             <div class="harjoitusryhma" id="harjRyhma" style="display: none;">
+                <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
                 <div>
                     <label>Huone</label>
                     <input name="harjoitusryhmaHuone[]" class="form-control" placeholder="A123"/>

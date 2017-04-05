@@ -230,6 +230,9 @@ class CourseController extends BaseController {
         try {
             $params = $_POST;
 
+            var_dump($params);
+//            die();
+
             $errors = array();
 
             $idt = Opetusaika::haeIdt($kurssiId);
@@ -261,17 +264,16 @@ class CourseController extends BaseController {
             $uudetopetusajat = array();
 
             //Vanhat&uudet opetusajat
-            if (isset($params["opetusaikaId"], $params["opetusaikaHuone"], $params["opetusaikaAloitusaika"], $params["opetusaikaAloitusaika"], $params["opetusaikaKesto"], $params["opetusaikaViikonpaiva"])) {
-
+            if (isset($params["opetusaikaId"], $params["opetusaikaHuone"], $params["opetusaikaAloitusaika"], $params["opetusaikaKesto"], $params["opetusaikaViikonpaiva"])) {
+//                die("Täällä on");
                 $opetusaikaIdt = $params["opetusaikaId"];
                 $opetusaikaHuoneet = $params["opetusaikaHuone"];
                 $opetusaikaAloitusajat = $params["opetusaikaAloitusaika"];
                 $opetusaikaKestot = $params["opetusaikaKesto"];
                 $opetusaikaViikonpaivat = $params["opetusaikaViikonpaiva"];
 
+
                 $opetusaikojenMaara = count($opetusaikaIdt);
-
-
 
                 //Alkuperäiset
                 for ($i = 0; $i < $opetusaikojenMaara; $i++) {
@@ -297,7 +299,7 @@ class CourseController extends BaseController {
                     $opetusajat[] = $opetusaika;
                 }
 
-                $loput = count($opetusaikaViikonpaivat) - $opetusaikojenMaara;
+                $loput = count($opetusaikaViikonpaivat);
 
                 //Loput (eli uudet)
                 for ($i = $opetusaikojenMaara; $i < $loput; $i++) {
@@ -311,18 +313,18 @@ class CourseController extends BaseController {
                         "aloitusAika" => $aloitusAika,
                         "lopetusAika" => intval($aloitusAika) + 60 * intval($kesto),
                         "viikonpaiva" => $viikonpaiva,
+                        "kurssiId" => $kurssiId,
                         "tyyppi" => 0
                     ));
-
 
                     $errors = array_merge($errors, $opetusaika->errors());
 
                     $uudetopetusajat[] = $opetusaika;
                 }
             } else if (isset($params["opetusaikaHuone"], $params["opetusaikaAloitusaika"], $params["opetusaikaAloitusaika"], $params["opetusaikaKesto"], $params["opetusaikaViikonpaiva"])) {
+
                 //Tähän uusien lisäys
                 //Loput (eli uudet)
-
                 $loput = count($params["opetusaikaHuone"]);
 
                 $opetusaikaHuoneet = $params["opetusaikaHuone"];
@@ -341,6 +343,7 @@ class CourseController extends BaseController {
                         "aloitusAika" => $aloitusAika,
                         "lopetusAika" => intval($aloitusAika) + 60 * intval($kesto),
                         "viikonpaiva" => $viikonpaiva,
+                        "kurssiId" => $kurssiId,
                         "tyyppi" => 0
                     ));
 
@@ -383,6 +386,7 @@ class CourseController extends BaseController {
                         "aloitusAika" => $aloitusAika,
                         "lopetusAika" => intval($aloitusAika) + 60 * intval($kesto),
                         "viikonpaiva" => $viikonpaiva,
+                        "kurssiId" => $kurssiId,
                         "tyyppi" => 1
                     ));
 
@@ -391,9 +395,7 @@ class CourseController extends BaseController {
                     $harjoitusryhmat[] = $harjoitusryhma;
                 }
 
-
-
-                $loput = count($harjoitusryhmaViikonpaivat) - $harjoitusryhmienMaara;
+                $loput = count($harjoitusryhmaViikonpaivat);
 
                 //Loput (eli uudet)
                 for ($i = $harjoitusryhmienMaara; $i < $loput; $i++) {
@@ -405,8 +407,9 @@ class CourseController extends BaseController {
                     $harjoitusryhma = new Opetusaika(array(
                         "huone" => $huone,
                         "aloitusAika" => $aloitusAika,
-                        "lopetusAIka" => intval($aloitusAika) + 60 * intval($kesto),
+                        "lopetusAika" => intval($aloitusAika) + 60 * intval($kesto),
                         "viikonpaiva" => $viikonpaiva,
+                        "kurssiId" => $kurssiId,
                         "tyyppi" => 1
                     ));
 
@@ -424,7 +427,7 @@ class CourseController extends BaseController {
                 $loput = count($params["harjoitusryhmaHuone"]);
 
                 //Loput (eli uudet)
-                for ($i = $harjoitusryhmienMaara; $i < $loput; $i++) {
+                for ($i = 0; $i < $loput; $i++) {
                     $huone = $harjoitusryhmaHuoneet[$i];
                     $aloitusAika = $harjoitusryhmaAloitusajat[$i];
                     $kesto = $harjoitusryhmaKestot[$i];
@@ -433,8 +436,9 @@ class CourseController extends BaseController {
                     $harjoitusryhma = new Opetusaika(array(
                         "huone" => $huone,
                         "aloitusAika" => $aloitusAika,
-                        "lopetusAIka" => intval($aloitusAika) + 60 * intval($kesto),
+                        "lopetusAika" => intval($aloitusAika) + 60 * intval($kesto),
                         "viikonpaiva" => $viikonpaiva,
+                        "kurssiId" => $kurssiId,
                         "tyyppi" => 1
                     ));
 
@@ -464,8 +468,8 @@ class CourseController extends BaseController {
                 foreach ($opetusajat as $opetusaika) {
                     $opetusaika->update();
                 }
-                foreach ($uudetopetusajat as $uusiopetussaika) {
-                    $opetusaika->save();
+                foreach ($uudetopetusajat as $uusiopetusaika) {
+                    $uusiopetusaika->save();
                 }
                 foreach ($harjoitusryhmat as $harjoitusryhma) {
                     $harjoitusryhma->update();
@@ -485,12 +489,53 @@ class CourseController extends BaseController {
         }
     }
 
-    public static function deleteCourse() {
-        $params = $_POST;
-        //1. poista kurssisuoritukset
-        //2. poista harjoitusryhmäilmoittautumiset
-        //3. poista kurssi-ilmoittautumiset
-        //4. poista kurssi
+    public static function deleteCourse($courseId) {
+        $db = DB::connection();
+        $db->beginTransaction();
+
+        try {
+
+            $kurssisuoritukset = array();
+            $harjIlmot = array();
+            $kurssiIlmot = array();
+            $opetusajat = array();
+            $harjoitusryhmat = array();
+
+            //1. poista kurssisuoritukset
+            $kurssisuoritukset = KurssiSuoritus::findByCourse($courseId);
+            foreach ($kurssisuoritukset as $kurssisuoritus) {
+                $kurssisuoritus->destroy();
+            }
+            //2. poista harjoitusryhmäilmoittautumiset
+            $harjIlmot = HarjoitusRyhmaIlmoittautuminen::findByCourse($courseId);
+            foreach ($harjIlmot as $harjIlmo) {
+                $harjIlmo->destroy();
+            }
+            //3. poista kurssi-ilmoittautumiset
+            $kurssiIlmot = KurssiIlmoittautuminen::findByCourse($courseId);
+            foreach ($kurssiIlmot as $kurssiIlmo) {
+                $kurssiIlmo->destroy();
+            }
+            //4. poista opetusajat ja harjoitusryhmät
+            $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($courseId, 0);
+            foreach ($opetusajat as $opetusaika) {
+                $opetusaika->destroy();
+            }
+            $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($courseId, 1);
+            foreach ($harjoitusryhmat as $harjoitusryhma) {
+                $harjoitusryhma->destroy();
+            }
+            //5. poista kurssi
+            $kurssi = Kurssi::find($courseId);
+            if ($kurssi) {
+                $kurssi->destroy();
+            }
+            $db->commit();
+            Redirect::to("/courses", array("success" => "Kurssi poistettu onnistuneesti."));
+        } catch (PDOException $ex) {
+            $db->rollBack();
+            Redirect::to("/course/" . $courseId, array("errors" => array("Kurssin poisto epäonnistui: " . $ex->getMessage())));
+        }
     }
 
 }

@@ -47,8 +47,38 @@
         <br/>
         <br/>
         <!--<label><small>Paina "Lisää uusi opetusaika"-nappia lisätäksesi kurssille opetusaikoja.</small></label><br/>-->
-        {% if course.opetusajat %}
+        <div class="opetusaika" id="opAika" style="display: none;">
+            <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button> 
+            <div>
+                <label>Huone</label>
+                <input name="opetusaikaHuone[]" disabled="disabled" class="form-control" placeholder="A123"/>
+            </div>
+            <div>
+                <label>Aloitusaika</label>
+                <select name="opetusaikaAloitusaika[]" disabled="disabled" class="form-control">
+                    {% for aika in ajat %}
+                    <option value='{{aika.id}}'>{{aika.arvo}}</option>
+                    {% endfor %}
+                </select> 
+            </div>
+            <div>
+                <label>Kesto (tuntia)</label>
+                <input name="opetusaikaKesto[]" class="form-control" value="2" disabled="disabled" type="number" min="1" max="3"/>
+            </div>
+            <div>
+                <label>Viikonpäivä</label>
+                <select name="opetusaikaViikonpaiva[]" disabled="disabled" class="form-control">
+                    <option value="0">Ma</option>
+                    <option value="1">Ti</option>
+                    <option value="2">Ke</option>
+                    <option value="3">To</option>
+                    <option value="4">Pe</option>
+                </select> 
+            </div>
+        </div>
+
         <div id="opetusajat">
+            {% if course.opetusajat %}
             {% for opetusaika in course.opetusajat %}
             <div class="opetusaika">
                 <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
@@ -81,10 +111,10 @@
                 </div>
             </div>
             {% endfor %}
+            {% endif %}
+
         </div>
-        {% else %}
-        Ei opetusaikoja.
-        {% endif %}
+        <button type="button" class="btn btn-primary" onClick="luoEditSivulleOpetusAikaKentta()">Lisää uusi</button>
 
         <!--<input class="btn btn-primary" type="button" value="Lisää uusi opetusaika" onClick="luoOpetusAikaKentta()">-->
     </div>
@@ -94,8 +124,38 @@
         <br/>
         <br/>
         <!--<label><small>Paina "Lisää uusi harjoitusryhmä"-nappia lisätäksesi kurssille harjoitusryhmiä.</small></label><br/>-->
-        {% if course.harjoitusryhmat %}
+        <div class="harjoitusryhma" id="hryhma" style="display: none;">
+            <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button> 
+            <div>
+                <label>Huone</label>
+                <input name="harjoitusryhmaHuone[]" class="form-control" placeholder="A123" disabled="disabled"/>
+            </div>
+            <div>
+                <label>Aloitusaika</label>
+                <select name="harjoitusryhmaAloitusaika[]" disabled="disabled" class="form-control">
+                    {% for aika in ajat %}
+                    <option value='{{aika.id}}'>{{aika.arvo}}</option>
+                    {% endfor %}
+                </select> 
+            </div>
+            <div>
+                <label>Kesto (tuntia)</label>
+                <input name="harjoitusryhmaKesto[]" class="form-control" disabled="disabled" type="number" min="1" max="3" value="2">
+            </div>
+            <div>
+                <label>Viikonpäivä</label>
+                <select name="harjoitusryhmaViikonpaiva[]" disabled="disabled" class="form-control">
+                    <option value="0">Ma</option>
+                    <option value="1">Ti</option>
+                    <option value="2">Ke</option>
+                    <option value="3">To</option>
+                    <option value="4">Pe</option>
+                </select> 
+            </div>
+        </div>
+
         <div id="harjoitusryhmat">
+            {% if course.harjoitusryhmat %}
             {% for harjoitusryhma in course.harjoitusryhmat %}
             <div class="harjoitusryhma">
                 <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
@@ -128,10 +188,10 @@
                 </div>
             </div>
             {% endfor %}
+            {% endif %}
+
         </div>
-        {% else %}
-        Ei harjoitusryhmiä.
-        {% endif %}
+        <button type="button" class="btn btn-primary" onClick="luoEditSivulleHarjoitusRyhmaKentta()">Lisää uusi</button>
         <br/>
         <!--<input class="btn btn-primary" type="button" value="Lisää uusi harjoitusryhmä" onClick="luoHarjoitusRyhmaKentta()">-->
     </div>

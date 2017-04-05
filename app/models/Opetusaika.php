@@ -167,7 +167,7 @@ class Opetusaika extends BaseModel {
         $errors = array();
 
         if ($this->aloitusAika > $this->lopetusAika) {
-            $errors[] = "Opetusajan loitusaika ei voi olla lopetusajan jälkeen";
+            $errors[] = "Opetusajan aloitusaika ei voi olla lopetusajan jälkeen";
         }
 
         return $errors;
