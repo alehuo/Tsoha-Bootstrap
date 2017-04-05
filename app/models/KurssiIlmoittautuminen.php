@@ -98,6 +98,29 @@ class KurssiIlmoittautuminen extends BaseModel {
         return $ilmot;
     }
 
+    public static function findByOpetusaikaId($opetusaikaId) {
+        $q = "SELECT kurssiilmoittautuminen.id, kurssiilmoittautuminen.kurssiid, kurssiilmoittautuminen.kayttajaid FROM harjoitusryhmailmoittautuminen INNER JOIN kurssiilmoittautuminen ON harjoitusryhmailmoittautuminen.kurssiilmoid = kurssiilmoittautuminen.id WHERE harjoitusryhmailmoittautuminen.opetusaikaid = :opetusaikaid";
+
+        $qry = DB::connection()->prepare($q);
+        $qry->execute(array(
+            "opetusaikaid" => $opetusaikaId
+        ));
+
+        $rows = $qry->fetchAll();
+
+        $kurssiIlmot = array();
+
+        foreach ($rows as $row) {
+            $kurssiIlmot[] = new KurssiIlmoittautuminen(array(
+                "id" => $row["id"],
+                "kurssiId" => $row["kurssiid"],
+                "kayttajaId" => $row["kayttajaid"]
+            ));
+        }
+
+        return $kurssiIlmot;
+    }
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO KurssiIlmoittautuminen (kurssiid, kayttajaid) VALUES (:kurssiid, :kayttajaid) RETURNING id');
         $query->execute(

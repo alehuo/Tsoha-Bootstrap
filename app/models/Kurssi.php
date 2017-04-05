@@ -133,6 +133,12 @@ class Kurssi extends BaseModel {
         ));
     }
 
+    public function destroy() {
+        $q = "DELETE FROM Kurssi WHERE id = :id";
+        $qry = DB::connection()->prepare($q);
+        return $qry->execute(array("id" => $this->id));
+    }
+
     public function getFormattedAloitusPvm() {
         return date("j.n.Y", $this->aloitusPvm);
     }

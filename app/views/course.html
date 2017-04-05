@@ -47,17 +47,17 @@
 {% else %}
 {% if ilmo.harjoitusryhma %}
 Olet ilmoittautunut kurssille seuraavaan harjoitusryhmään: <b>{{ilmo.harjoitusryhma.opetusaika.viikonPaivanNimi}} {{ilmo.harjoitusryhma.opetusaika.formattedAloitusAika}} - {{ilmo.harjoitusryhma.opetusaika.formattedLopetusAika}} ({{ilmo.harjoitusryhma.opetusaika.huone}})</b>
-    {% else %}
-    Olet ilmoittautunut kurssille.
-    {% endif %}
-    <form action="{{base_path}}/cancelregistration" method="POST">
-        <input type="hidden" name="courseId" value="{{course.id}}"/>
-        <button class="btn btn-danger" type="submit">Peru ilmoittautuminen</button>
-    </form>
-    {% endif %}
-    {% if user_logged_in.tyyppi == 1 %}
-    <br/><br/>
-    <a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a>
-    {% endif %}
+{% else %}
+Olet ilmoittautunut kurssille.
+{% endif %}
+<form action="{{base_path}}/cancelregistration" method="POST">
+    <input type="hidden" name="courseId" value="{{course.id}}"/>
+    <button class="btn btn-danger" type="submit">Peru ilmoittautuminen</button>
+</form>
+{% endif %}
+{% if user_logged_in.tyyppi == 1 %}
+<br/><br/>
+<a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a><form action="{{base_path}}/deletecourse" method="POST"><button class="btn btn-danger" href="{{base_path}}/editcourse/{{course.id}}">Poista kurssi</button></form>
+{% endif %}
 {% endif %}
 {% endblock %}

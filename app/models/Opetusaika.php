@@ -70,6 +70,21 @@ class Opetusaika extends BaseModel {
         return $opetusaika;
     }
 
+    public static function haeIdt($kurssiId) {
+        $ids = array();
+        $q = "SELECT id FROM Opetusaika WHERE kurssiid = :kurssiid";
+        $qry = DB::connection()->prepare($q);
+        $qry->execute(array("kurssiid" => $kurssiId));
+
+        $rows = $qry->fetchAll();
+
+        foreach ($rows as $row) {
+            $ids[] = intval($row["id"]);
+        }
+
+        return $ids;
+    }
+
     /**
      * Tallennus.
      */
@@ -90,6 +105,14 @@ class Opetusaika extends BaseModel {
         $row = $query->fetch();
 
         $this->id = $row['id'];
+    }
+
+    public function destroy() {
+        $q = "DELETE FROM Opetusaika WHERE id = :id";
+        $qry = DB::connection()->prepare($q);
+        return $qry->execute(array(
+                    "id" => $this->id
+        ));
     }
 
     public function update() {
@@ -144,7 +167,7 @@ class Opetusaika extends BaseModel {
         $errors = array();
 
         if ($this->aloitusAika > $this->lopetusAika) {
-            $errors[] = "Aloitusaika ei voi olla lopetusajan jälkeen";
+            $errors[] = "Opetusajan loitusaika ei voi olla lopetusajan jälkeen";
         }
 
         return $errors;

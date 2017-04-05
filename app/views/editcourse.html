@@ -9,11 +9,11 @@
     <div class="form-group">
         <label>Vastuuyksikkö</label>
         <select class="form-control" name="vastuuyksikkoSelect">
-    <option value="-1">(Valitse)</option>
-    {% for vastuuyksikko in vastuuyksikot %}
-    <option value="{{vastuuyksikko.id}}" {% if vastuuyksikko.id == course.vastuuYksikkoId %} selected {% endif %}>{{vastuuyksikko.nimi}}</option>
-    {% endfor %}
-</select> 
+            <option value="-1">(Valitse)</option>
+            {% for vastuuyksikko in vastuuyksikot %}
+            <option value="{{vastuuyksikko.id}}" {% if vastuuyksikko.id == course.vastuuYksikkoId %} selected {% endif %}>{{vastuuyksikko.nimi}}</option>
+            {% endfor %}
+        </select> 
     </div>
     <div class="form-group">
         <label>Nimi</label>
@@ -51,6 +51,7 @@
         <div id="opetusajat">
             {% for opetusaika in course.opetusajat %}
             <div class="opetusaika">
+                <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
                 <input type="hidden" name="opetusaikaId[]" value="{{opetusaika.id}}"/>
                 <div>
                     <label>Huone</label>
@@ -96,7 +97,8 @@
         {% if course.harjoitusryhmat %}
         <div id="harjoitusryhmat">
             {% for harjoitusryhma in course.harjoitusryhmat %}
-            <div class="harjoitusryhma" id="harjRyhma">
+            <div class="harjoitusryhma">
+                <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
                 <input type="hidden" name="harjoitusryhmaId[]" value="{{harjoitusryhma.id}}"/>
                 <div>
                     <label>Huone</label>
@@ -135,7 +137,7 @@
     </div>
     <div class="form-group">
         <hr/>
-        <button type="submit" class="btn btn-success">Tallenna muutokste</button>
+        <button type="submit" class="btn btn-success">Tallenna muutokset</button>
     </div>
 </form>
 {% endblock %}

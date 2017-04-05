@@ -111,3 +111,7 @@ $routes->post('/cancelregistration', function() {
 $routes->get('/listparticipants/:courseId', function($courseId) {
     CourseController::listParticipants($courseId);
 });
+
+$routes->post('/deletecourse', function() {
+    CourseController::deleteCourse();
+});
