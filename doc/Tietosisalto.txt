@@ -3,4 +3,5 @@
 [Kayttaja]1-*[Kurssisuoritus]
 [Kayttaja]1-*[KurssiIlmoittautuminen]
 [KurssiIlmoittautuminen]*-*<>[Kurssi]
+[KurssiIlmoittautuminen]1-0..1[HarjoitusRyhmaIlmoittautuminen]
 [Kurssisuoritus]*-*<>[Kurssi]
