@@ -30,6 +30,7 @@
     <tr><td colspan="2" style="font-weight: normal;">Ei harjoitusryhmiä.</td></tr>
     {% endif %}
 </table>
+{% if user_logged_in %}
 {% if ilmo == false %}
 <form action="{{base_path}}/addregistration" method="POST">
     <input type="hidden" name="courseId" value="{{course.id}}"/>
@@ -54,6 +55,7 @@ Olet ilmoittautunut kurssille.
     <input type="hidden" name="courseId" value="{{course.id}}"/>
     <button class="btn btn-danger" type="submit">Peru ilmoittautuminen</button>
 </form>
+{% endif %}
 {% endif %}
 {% if user_logged_in.tyyppi == 1 %}
 <br/>
