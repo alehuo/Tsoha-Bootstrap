@@ -29,4 +29,8 @@ class DefaultController extends BaseController {
 //        var_dump($kayttaja);
     }
 
+    public static function unauthorizedPage() {
+        View::make('unauthorized.html');
+    }
+
 }

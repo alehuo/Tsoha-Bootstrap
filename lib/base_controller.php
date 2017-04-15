@@ -13,6 +13,16 @@ class BaseController {
         return null;
     }
 
+    public static function is_user_admin() {
+        //Jos on kirjauduttu sisään
+        $user = self::get_user_logged_in();
+        if ($user) {
+            if ($user->tyyppi === 0) {
+                Redirect::to('/unauthorized');
+            }
+        }
+    }
+
     public static function check_logged_in() {
         // Toteuta kirjautumisen tarkistus tähän.
         // Jos käyttäjä ei ole kirjautunut sisään, ohjaa hänet toiselle sivulle (esim. kirjautumissivulle).
