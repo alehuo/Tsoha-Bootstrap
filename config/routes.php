@@ -4,7 +4,7 @@ function check_logged_in() {
     BaseController::check_logged_in();
 }
 
-function check_admin() {
+function is_user_admin() {
     BaseController::is_user_admin();
 }
 
