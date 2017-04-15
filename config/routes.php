@@ -1,5 +1,9 @@
 <?php
 
+function check_logged_in() {
+    BaseController::check_logged_in();
+}
+
 $routes->get('/', function() {
     DefaultController::index();
 });
@@ -32,26 +36,26 @@ $routes->get('/course/:id', function($id) {
 /**
  * Kurssin lisääminen.
  */
-$routes->get('/addcourse', function() {
+$routes->get('/addcourse', 'check_logged_in', function() {
     CourseController::addCourseForm();
 });
 
 /**
  * Kurssin lisäämislomakkeen käsittely.
  */
-$routes->post('/addcourse', function() {
+$routes->post('/addcourse', 'check_logged_in', function() {
     CourseController::addCourse();
 });
 
-$routes->get('/registrations', function() {
+$routes->get('/registrations', 'check_logged_in', function() {
     RegistrationController::showRegistrations();
 });
 
-$routes->get('/admin', function() {
+$routes->get('/admin', 'check_logged_in', function() {
     AdminController::showAdminPage();
 });
 
-$routes->get('/adduser', function() {
+$routes->get('/adduser', 'check_logged_in', function() {
     View::make('adduser.html');
 });
 
@@ -63,11 +67,11 @@ $routes->post('/login', function() {
     UserController::handleLogin();
 });
 
-$routes->get('/grades', function() {
+$routes->get('/grades', 'check_logged_in', function() {
     View::make('grades.html');
 });
 
-$routes->get('/addgrade/:reservationId', function($reservationId) {
+$routes->get('/addgrade/:reservationId', 'check_logged_in', function($reservationId) {
     $ilmo = KurssiIlmoittautuminen::find($reservationId);
     $ilmo->harjoitusryhma = HarjoitusRyhmaIlmoittautuminen::find($ilmo->id);
     if ($ilmo) {
@@ -80,7 +84,7 @@ $routes->get('/addgrade/:reservationId', function($reservationId) {
     }
 });
 
-$routes->post('/addgrade/:reservationId', function($reservationId) {
+$routes->post('/addgrade/:reservationId', 'check_logged_in', function($reservationId) {
     $ilmo = KurssiIlmoittautuminen::find($reservationId);
     $ilmo->harjoitusryhma = HarjoitusRyhmaIlmoittautuminen::find($ilmo->id);
 
@@ -92,26 +96,26 @@ $routes->post('/addgrade/:reservationId', function($reservationId) {
     }
 });
 
-$routes->get('/editcourse/:id', function($id) {
+$routes->get('/editcourse/:id', 'check_logged_in', function($id) {
     CourseController::editCourse($id);
 });
 
-$routes->post('/editcourse/:id', function($id) {
+$routes->post('/editcourse/:id', 'check_logged_in', function($id) {
     CourseController::handleCourseEdit($id);
 });
 
-$routes->post('/addregistration', function() {
+$routes->post('/addregistration', 'check_logged_in', function() {
     RegistrationController::addRegistration();
 });
 
-$routes->post('/cancelregistration', function() {
+$routes->post('/cancelregistration', 'check_logged_in', function() {
     RegistrationController::cancelRegistration();
 });
 
-$routes->get('/listparticipants/:courseId', function($courseId) {
+$routes->get('/listparticipants/:courseId', 'check_logged_in', function($courseId) {
     CourseController::listParticipants($courseId);
 });
 
-$routes->post('/deletecourse/:id', function($id) {
+$routes->post('/deletecourse/:id', 'check_logged_in', function($id) {
     CourseController::deleteCourse($id);
 });
