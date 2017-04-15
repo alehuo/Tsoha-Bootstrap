@@ -77,6 +77,14 @@ $routes->get('/login', function() {
 });
 
 /**
+ * Uloskirjautuminen.
+ */
+$routes->get('/logout', 'check_logged_in', function() {
+    UserController::handleLogout();
+});
+
+
+/**
  * Sisäänkirjautuminen.
  */
 $routes->post('/login', function() {
