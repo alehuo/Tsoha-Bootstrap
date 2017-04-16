@@ -40,4 +40,9 @@ class UserController extends BaseController {
         }
     }
 
+    public static function handleLogout() {
+        $_SESSION['user'] = null;
+        Redirect::to('/login', array('success' => 'Olet kirjautunut ulos!'));
+    }
+
 }
