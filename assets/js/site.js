@@ -33,3 +33,13 @@ function luoEditSivulleHarjoitusRyhmaKentta() {
     element.show();
     element.appendTo("#harjoitusryhmat");
 }
+
+/**
+ * Hakutulosten lataus
+ */
+$("#searchInput").on("input", function() {
+  var input = $(this).val();
+  $.post('/searchres', {searchTerm : input}, function(data){
+  	alert(data);
+  });
+});
