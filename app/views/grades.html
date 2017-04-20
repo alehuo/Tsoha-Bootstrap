@@ -47,7 +47,7 @@
 {% endif %}
 
 <hr/>
-Suorituksia yhteensä: {{user_logged_in.totalNopat}} op<br/>
+Suorituksia yhteensä: {{user_logged_in.totalNopat}} op (Hylättyjä suorituksia ei lasketa tähän.)<br/>
 Keskimääräinen hyväksytyn suorituksen arvosana: {{user_logged_in.averageGrade}}<br/>
 Hylättyjä suorituksia: {{user_logged_in.failedCourses}}<br/>
 {% endblock %}

@@ -221,7 +221,7 @@ class Kayttaja extends BaseModel {
     }
 
     public function averageGrade() {
-        $query = DB::connection()->prepare("SELECT avg(arvosana) AS average FROM Kurssisuoritus WHERE arvosana != 6 AND kayttajaId = :id");
+        $query = DB::connection()->prepare("SELECT avg(arvosana) AS average FROM Kurssisuoritus WHERE arvosana != 6 AND arvosana != 0 AND kayttajaId = :id");
         $query->execute(array("id" => $this->id));
 
         $row = $query->fetch();
