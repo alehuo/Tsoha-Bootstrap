@@ -12,18 +12,14 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/assets/js/site.js</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/views/courses.html</file>
             <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/views/course.html</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/models/KurssiIlmoittautuminen.php</file>
+            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/models/Kayttaja.php</file>
             <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/models/HarjoitusRyhmaIlmoittautuminen.php</file>
             <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/config/routes.php</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/views/addcourse.html</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/views/editcourse.html</file>
+            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/sql/create_tables.sql</file>
             <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/models/KurssiSuoritus.php</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/controllers/CourseController.php</file>
             <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/controllers/UserController.php</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/models/Opetusaika.php</file>
+            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/views/macros/forms.html</file>
         </group>
     </open-files>
 </project-private>

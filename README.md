@@ -33,3 +33,4 @@ Sovellukseen kirjaudutaan tällä hetkellä käyttäjätunnuksella *admin* ja sa
 * [Käyttäjätilin lisääminen](https://htmlpreview.github.io/?https://raw.githubusercontent.com/alehuo/Tsoha-Bootstrap/master/doc/html-sivut/addUser.html)
 
 
+Tämä teos on lisensoitu Creative Commons Nimeä 4.0 Kansainvälinen -lisenssillä. 

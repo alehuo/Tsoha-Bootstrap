@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Lisää käyttäjä</h1>
+<a href="{{base_path}}/listusers" class="btn btn-primary">Takaisin</a><br/><br/><br/>
+<form action="{{base_path}}/adduser" method="POST">
+    <table class="table">
+        <tr><td><b>Käyttäjätunnus</b></td><td><input type="text" name="username" value="{{form.username}}" placeholder="Käyttäjätunnus"/></td></tr>
+        <tr><td><b>Tunnuksen tyyppi</b></td><td><select name="type"><option value="0">Peruskäyttäjä</option><option value="1">Pääkäyttäjä</option></select></td></tr>
+        <tr><td><b>Salasana</b></td><td><input type="password" name="password" value="{{form.password}}" placeholder="Salasana"/></td></tr>
+        <tr><td><b>Salasana uudestaan</b></td><td><input type="password" name="repeatPassword" value="{{form.repeatPassword}}" placeholder="Salasana uudestaan"/></td></tr>
+        <tr><td colspan="2"><button type="submit" class="btn btn-success">Lisää käyttäjä</button></td></tr>
+    </table>
+</form>
+{% endblock %}

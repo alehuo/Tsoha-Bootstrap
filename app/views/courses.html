@@ -9,15 +9,21 @@
 {% endif %}
 <form action="{{base_path}}/courses" method="POST">
     <div class="form-group">
-        <input class="form-control" name="hakusana" placeholder="Hakusana" type="text">
+        <input class="form-control" name="hakusana" id="searchInput" placeholder="Kirjoita jotain, hakutulokset ilmestyvät alle." autocomplete="off" type="text">
     </div>
+    <noscript>
     <div class="form-group">
         <small>Jätä hakusana tyhjäksi, niin haku näyttää kaikki kurssit.</small>
     </div>
     <div class="form-group">
         <button id="submitBtn" type="submit" class="btn btn-primary">Hae</button>
     </div>
+    </noscript>
 </form>
+<table id="searchRes">
+
+</table>
+<noscript>
 {% if searchTerm %}
 <h2>Hakutulokset hakusanalle '{{searchTerm}}'</h2>
 {% endif %}
@@ -37,5 +43,5 @@
 {% else %}
 <b>Ei kursseja.</b>
 {% endif %}
-
+</noscript>
 {% endblock %}

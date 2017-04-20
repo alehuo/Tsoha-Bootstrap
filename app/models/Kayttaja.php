@@ -6,7 +6,7 @@ class Kayttaja extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array("validate_username", "validate_password", "validate_dates");
+        $this->validators = array("validate_username", "validate_password");
     }
 
     public static function find($id) {
@@ -57,9 +57,40 @@ class Kayttaja extends BaseModel {
         return false;
     }
 
+    public function update() {
+        $q = "UPDATE Kayttaja SET "
+                . "nimi = :nimi,"
+                . "tyyppi = :tyyppi WHERE id = :id";
+        $query = DB::connection()->prepare($q);
+        $query->execute(array(
+            "nimi" => $this->nimi,
+            "tyyppi" => $this->tyyppi,
+            "id" => $this->id
+        ));
+    }
+
     public function destroy() {
-        //TODO
-        $q = "";
+        //1. poista kurssisuoritukset
+        $kurssisuoritukset = KurssiSuoritus::findByUser($this->id);
+        foreach ($kurssisuoritukset as $kurssisuoritus) {
+            $kurssisuoritus->destroy();
+        }
+        //2. poista harjoitusryhmäilmoittautuminen
+        $harjIlmot = HarjoitusRyhmaIlmoittautuminen::findByUser($this->id);
+        foreach ($harjIlmot as $hilmo) {
+            $hilmo->destroy();
+        }
+        //3. poista kurssi-ilmoittautumiset
+        $kurssiIlmot = KurssiIlmoittautuminen::findByUser($this->id);
+        foreach ($kurssiIlmot as $kilmo) {
+            $kilmo->destroy();
+        }
+        //4. poista käyttäjä
+        $q = "DELETE FROM Kayttaja WHERE id = :id";
+        $qry = DB::connection()->prepare($q);
+        $qry->execute(array(
+            "id" => $this->id
+        ));
     }
 
     /**
@@ -129,16 +160,6 @@ class Kayttaja extends BaseModel {
         return false;
     }
 
-    public function validate_dates() {
-        $errors = array();
-
-        if ($this->aloitusPvm > $this->lopetusPvm) {
-            $errors[] = "Kurssin aloitusaika ei voi olla myöhemmin kuin lopetusaika";
-        }
-
-        return $errors;
-    }
-
     public function validate_username() {
         $errors = array();
 
@@ -155,6 +176,48 @@ class Kayttaja extends BaseModel {
         $errors[] = parent::validateStringNotNull("Salasana", $this->salasana);
 
         return $errors;
+    }
+
+    public static function findByUsername($username) {
+        $query = DB::connection()->prepare("SELECT * FROM Kayttaja WHERE nimi = :username LIMIT 1");
+        $query->execute(array(
+            "username" => $username
+        ));
+
+        $row = $query->fetch();
+
+        if ($row) {
+            $kayttaja = new Kayttaja(array(
+                "id" => $row["id"],
+                "tyyppi" => $row["tyyppi"],
+                "nimi" => $row["nimi"],
+                "salasana" => $row["salasana"]
+            ));
+
+            return $kayttaja;
+        }
+
+        return null;
+    }
+
+    public static function fetchAll() {
+        $query = DB::connection()->prepare('SELECT * FROM Kayttaja');
+        $query->execute();
+        $rows = $query->fetchAll();
+
+        $kayttajat = array();
+
+        foreach ($rows as $row) {
+
+            $kayttajat[] = $kayttaja = new Kayttaja(array(
+                "id" => $row["id"],
+                "tyyppi" => $row["tyyppi"],
+                "nimi" => $row["nimi"],
+                "salasana" => $row["salasana"]
+            ));
+        }
+
+        return $kayttajat;
     }
 
 }

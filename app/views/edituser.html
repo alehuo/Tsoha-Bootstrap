@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
+{% block content %}
+<h1>Muokkaa käyttäjätiliä</h1>
+<a href="{{base_path}}/listusers" class="btn btn-primary">Takaisin</a><br/><br/><br/>
+<form action="{{base_path}}/edituser/{{id}}" method="POST">
+    <table class="table">
+        <tr><td><b>Käyttäjätunnus</b></td><td><input type="text" name="username" value="{{form.username}}" placeholder="Käyttäjätunnus"/></td></tr>
+        <tr><td><b>Tunnuksen tyyppi</b></td><td><select name="type"><option value="0" {% if form.type == 0 %}selected{% endif %}>Peruskäyttäjä</option><option value="1" {% if form.type == 1 %}selected{% endif %}>Pääkäyttäjä</option></select></td></tr>
+        <tr><td colspan="2"><button type="submit" class="btn btn-success">Tallenna muutokset</button></td></tr>
+    </table>
+</form>
+{{forms.destroy_button("#{base_path}/deleteuser/#{id}", "Poista", "Haluatko varmasti poistaa käyttäjän?")}}
+{% endblock%}

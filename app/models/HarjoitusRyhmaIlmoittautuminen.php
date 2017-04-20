@@ -55,6 +55,30 @@ class HarjoitusRyhmaIlmoittautuminen extends BaseModel {
         return null;
     }
 
+    public static function findByUser($kayttajaId) {
+        $q = "SELECT * FROM HarjoitusRyhmaIlmoittautuminen "
+                . "INNER JOIN KurssiIlmoittautuminen ON HarjoitusRyhmaIlmoittautuminen.kurssiilmoid = KurssiIlmoittautuminen.id "
+                . "WHERE KurssiIlmoittautuminen.kayttajaid = :kayttajaid";
+
+        $stmt = DB::connection()->prepare($q);
+        $stmt->execute(array(
+            "kayttajaid" => $kayttajaId
+        ));
+
+        $ilmot = array();
+
+        $rows = $stmt->fetchAll();
+        foreach ($rows as $row) {
+
+            $ilmot[] = new HarjoitusRyhmaIlmoittautuminen(array(
+                "id" => $row["id"],
+                "kurssiIlmoId" => $row["kurssiilmoid"],
+                "opetusaikaId" => $row["opetusaikaid"]
+            ));
+        }
+        return $ilmot;
+    }
+
     public static function findByCourse($courseid) {
         $q = "SELECT * FROM HarjoitusRyhmaIlmoittautuminen "
                 . "INNER JOIN KurssiIlmoittautuminen ON HarjoitusRyhmaIlmoittautuminen.kurssiilmoid = KurssiIlmoittautuminen.id "

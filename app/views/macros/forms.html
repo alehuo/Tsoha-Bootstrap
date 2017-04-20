@@ -1,0 +1,8 @@
+{% macro destroy_button(action, buttonText, confirmText) %}
+<form method="post" action="{{action}}" class="destroy-form" data-confirm="{{confirmText|default('Poistetaanko?')}}" style="display: inline-block;">
+    <button type="submit" class="btn btn-danger">{{buttonText|default('Poista')}}</button>
+</form>
+{% endmacro %}
+{% macro edituser(id) %}
+<a href="{{base_path}}/oodi/edituser/{{id}}" class="btn btn-primary">Muokkaa</a>
+{% endmacro %}

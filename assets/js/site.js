@@ -33,13 +33,53 @@ function luoEditSivulleHarjoitusRyhmaKentta() {
     element.show();
     element.appendTo("#harjoitusryhmat");
 }
+var delay = (function () {
+    var timer = 0;
+    return function (callback, ms) {
+        clearTimeout(timer);
+        timer = setTimeout(callback, ms);
+    };
+})();
+$("#searchInput").keyup(function () {
+    delay(function () {
+        //Tyhjennä hakusivu
+        document.getElementById("searchRes").innerHTML = "";
+        var input = $("#searchInput").val();
+        if (input) {
+            $.post("/oodi/searchres", {searchTerm: input}, function (data) {
+                $.each(jQuery.parseJSON(data), function (i, obj) {
+                    var tableRow = document.createElement("tr");
+                    var linkki = document.createElement("a");
+                    linkki.href = "/oodi/course/" + obj.id;
+                    linkki.innerHTML = obj.nimi;
+                    var nimi = document.createElement("td");
+                    var vastuuYksikko = document.createElement("td");
+                    vastuuYksikko.innerHTML = obj.vastuuyksikko;
+                    var aloitusJaLopetus = document.createElement("td");
+                    aloitusJaLopetus.innerHTML = moment(obj.aloituspvm*1000).format("DD.MM.YYYY") + " - " + moment(obj.lopetuspvm*1000).format("DD.MM.YYYY");
+                    var nopat = document.createElement("td");
+                    nopat.innerHTML = obj.nopat;
 
-/**
- * Hakutulosten lataus
- */
-$("#searchInput").on("input", function() {
-  var input = $(this).val();
-  $.post('/searchres', {searchTerm : input}, function(data){
-  	alert(data);
-  });
+                    nimi.appendChild(linkki);
+                    tableRow.appendChild(nimi);
+                    tableRow.appendChild(vastuuYksikko);
+                    tableRow.appendChild(aloitusJaLopetus);
+                    tableRow.appendChild(nopat);
+
+                    document.getElementById("searchRes").appendChild(tableRow);
+                });
+
+            });
+
+        }
+    }, 300);
+});
+
+$(document).ready(function () {
+    $('form.destroy-form').on('submit', function (submit) {
+        var confirm_message = $(this).attr('data-confirm');
+        if (!confirm(confirm_message)) {
+            submit.preventDefault();
+        }
+    });
 });

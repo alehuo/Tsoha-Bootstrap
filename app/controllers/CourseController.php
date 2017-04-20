@@ -160,7 +160,7 @@ class CourseController extends BaseController {
 
             if (!$errors) {
                 $db->commit();
-                Redirect::to("/", array("courseAdded" => "Kurssi lisätty onnistuneesti"));
+                Redirect::to("/", array("success" => "Kurssi lisätty onnistuneesti"));
                 exit();
             } else {
                 //Rollback ja vie takaisin lisäyssivuille virheiden kera
@@ -536,6 +536,25 @@ class CourseController extends BaseController {
             $db->rollBack();
             Redirect::to("/course/" . $courseId, array("errors" => array("Kurssin poisto epäonnistui: " . $ex->getMessage())));
         }
+    }
+
+    public static function searchResults() {
+        Header("Content-type: application/json");
+        $params = $_POST;
+        $searchTerm = $params['searchTerm'];
+        $res = Kurssi::findAllByHakusana('%' . strtolower($searchTerm) . '%');
+        $results = array();
+        foreach ($res as $result) {
+            $results[] = array(
+                "id" => $result->id,
+                "nimi" => $result->nimi,
+                "vastuuyksikko" => Vastuuyksikko::find($result->vastuuYksikkoId)->nimi,
+                "aloituspvm" => $result->aloitusPvm,
+                "lopetuspvm" => $result->lopetusPvm,
+                "nopat" => $result->opintoPisteet
+            );
+        }
+        echo json_encode($results);
     }
 
 }

@@ -19,21 +19,21 @@ $routes->get('/sandbox', function() {
 /**
  * Kurssien hakusivu.
  */
-$routes->get('/courses', 'check_logged_in', function() {
+$routes->get('/courses', function() {
     CourseController::searchPage();
 });
 
 /**
  * Kurssihaun käsittely.
  */
-$routes->post('/courses', 'check_logged_in', function() {
+$routes->post('/courses', function() {
     CourseController::search();
 });
 
 /**
  * Yksittäisen kurssin selaaminen.
  */
-$routes->get('/course/:id', 'check_logged_in', function($id) {
+$routes->get('/course/:id', function($id) {
     CourseController::viewCourse($id);
 });
 
@@ -67,6 +67,13 @@ $routes->get('/admin', 'check_logged_in', 'is_user_admin', function() {
  */
 $routes->get('/adduser', 'check_logged_in', 'is_user_admin', function() {
     View::make('adduser.html');
+});
+
+/**
+ * Käyttäjän lisääminen.
+ */
+$routes->post('/adduser', 'check_logged_in', 'is_user_admin', function() {
+    UserController::addUser();
 });
 
 /**
@@ -172,4 +179,25 @@ $routes->post('/deletecourse/:id', 'check_logged_in', 'is_user_admin', function(
 });
 $routes->get('/unauthorized', function() {
     DefaultController::unauthorizedPage();
+});
+/**
+ * Hakutulosten palauttaminen JSON-muodossa
+ */
+$routes->post('/searchres', function() {
+    CourseController::searchResults();
+});
+/**
+ * Käyttäjätunnusten listaus
+ */
+$routes->get('/listusers', 'check_logged_in', 'is_user_admin', function() {
+    UserController::listAllUsers();
+});
+$routes->post('/deleteuser/:id', 'check_logged_in', 'is_user_admin', function($id) {
+    UserController::deleteUser($id);
+});
+$routes->get('/edituser/:id', 'check_logged_in', 'is_user_admin', function($id) {
+    UserController::editUserPage($id);
+});
+$routes->post('/edituser/:id', 'check_logged_in', 'is_user_admin', function($id) {
+    UserController::handleEditUser($id);
 });

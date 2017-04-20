@@ -57,6 +57,31 @@ class KurssiSuoritus extends BaseModel {
         return $suoritukset;
     }
 
+    public static function findByUser($userId) {
+        $query = DB::connection()->prepare('SELECT * FROM KurssiSuoritus WHERE kayttajaid = :id');
+        $query->execute(
+                array(
+                    'id' => $userId
+                )
+        );
+
+        $suoritukset = array();
+
+        $rows = $query->fetchAll();
+
+        foreach ($rows as $row) {
+            $suoritukset[] = new KurssiSuoritus(array(
+                'id' => $row['id'],
+                'kurssiId' => $row['kurssiid'],
+                'kayttajaId' => $row['kayttajaid'],
+                'arvosana' => $row['arvosana'],
+                'paivays' => $row['paivays']
+            ));
+        }
+
+        return $suoritukset;
+    }
+
     public function save() {
         $query = DB::connection()->prepare('INSERT INTO KurssiSuoritus (kurssiid, kayttajaid, arvosana, paivays) VALUES (:kurssiid, :kayttajaid, :arvosana, :paivays) RETURNING id');
         $query->execute(

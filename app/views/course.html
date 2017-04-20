@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% import "macros/forms.html" as forms %}
 {% block content %}
 {% if course %}
 <h1>Kurssin tiedot</h1>
@@ -59,7 +59,8 @@ Olet ilmoittautunut kurssille.
 {% endif %}
 {% if user_logged_in.tyyppi == 1 %}
 <br/>
-<a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a><br/><br/><form action="{{base_path}}/deletecourse/{{course.id}}" method="POST"><button class="btn btn-danger">Poista kurssi</button></form>
+<a class="btn btn-primary" href="{{base_path}}/editcourse/{{course.id}}">Muokkaa kurssia</a><br/><br/>
+{{forms.destroy_button("#{base_path}/deletecourse/#{course.id}", "Poista kurssi", "Haluatko varmasti poistaa kurssin?")}}
 {% endif %}
 {% endif %}
 {% endblock %}
