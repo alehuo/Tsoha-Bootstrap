@@ -89,7 +89,7 @@ class CourseController extends BaseController {
 
             $op = $postData["op"];
 
-            if (isset($p["arvosteluTyyppi"])) {
+            if (isset($postData["arvosteluTyyppi"])) {
                 $arvostelu = 1;
             } else {
                 $arvostelu = 0;
@@ -170,6 +170,7 @@ class CourseController extends BaseController {
             }
         } catch (PDOException $ex) {
             $db->rollBack();
+            die($ex);
         }
     }
 
@@ -177,12 +178,18 @@ class CourseController extends BaseController {
         $params = $_POST;
         $user = Kayttaja::find($ilmo->kayttajaId);
         $kurssi = Kurssi::find($ilmo->kurssiId);
+        $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $kurssi->id);
+        $harjIlmo = HarjoitusRyhmaIlmoittautuminen::findByUserAndCourse($user->id, $kurssi->id);
 
         $suoritus = new KurssiSuoritus(array("kurssiId" => $kurssi->id, "kayttajaId" => $user->id, "arvosana" => intval($params["arvosana"]), "paivays" => BaseController::get_current_timestamp()));
         $errors = $suoritus->errors();
         if (!$errors) {
             $suoritus->save();
-            Redirect::to('/', array("success" => "Arvioinnin lisäys onnistui."));
+            if ($harjIlmo) {
+                $harjIlmo->destroy();
+            }
+            $ilmo->destroy();
+            Redirect::to('/course/' . $kurssi->id, array("success" => "Arvioinnin lisäys onnistui."));
         } else {
             Redirect::to('/addgrade/' . $ilmo->id, array("errors" => $errors));
         }
@@ -212,7 +219,10 @@ class CourseController extends BaseController {
         //Lisää mukaan harjoitusryhmä ja käyttäjä
         foreach ($kurssiIlmot as $kurssiIlmo) {
             $hji = HarjoitusRyhmaIlmoittautuminen::find($kurssiIlmo->id);
-            $hji->opetusaika = Opetusaika::find($hji->opetusaikaId);
+            if ($hji) {
+                $hji->opetusaika = Opetusaika::find($hji->opetusaikaId);
+            }
+
 
             $kurssiIlmo->harjoitusRyhma = $hji;
             $kurssiIlmo->kayttaja = Kayttaja::find($kurssiIlmo->kayttajaId);

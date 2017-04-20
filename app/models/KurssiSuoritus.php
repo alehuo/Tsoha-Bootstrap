@@ -2,7 +2,7 @@
 
 class KurssiSuoritus extends BaseModel {
 
-    public $id, $kurssiId, $kayttajaId, $arvosana, $paivays;
+    public $id, $kurssiId, $kayttajaId, $arvosana, $paivays, $vastuuyksikko, $kurssi;
 
     public function __construct($attributes = null) {
         parent::__construct($attributes);
@@ -114,6 +114,10 @@ class KurssiSuoritus extends BaseModel {
         $errors[] = parent::validateRange("Arvosana", $this->arvosana, 0, 6);
 
         return $errors;
+    }
+
+    public function formattedTimestamp() {
+        return date("d.m.Y", $this->paivays);
     }
 
 }

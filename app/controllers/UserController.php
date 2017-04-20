@@ -95,4 +95,15 @@ class UserController extends BaseController {
         }
     }
 
+    public static function viewGrades() {
+        $user = self::get_user_logged_in();
+        $suoritukset = KurssiSuoritus::findByUser($user->id);
+        foreach ($suoritukset as $suoritus) {
+            $suoritus->vastuuyksikko = Vastuuyksikko::find($suoritus->vastuuyksikko);
+            $suoritus->kurssi = Kurssi::find($suoritus->kurssiId);
+        }
+        $facultys = Vastuuyksikko::all();
+        View::make('grades.html', array("grades" => $suoritukset, "facultys" => $facultys));
+    }
+
 }

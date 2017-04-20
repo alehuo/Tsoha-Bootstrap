@@ -102,7 +102,8 @@ $routes->post('/login', function() {
  * Arvosanojen tarkastelu.
  */
 $routes->get('/grades', 'check_logged_in', function() {
-    View::make('grades.html');
+    UserController::viewGrades();
+//    View::make('grades.html');
 });
 
 /**

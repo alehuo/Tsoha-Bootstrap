@@ -220,4 +220,43 @@ class Kayttaja extends BaseModel {
         return $kayttajat;
     }
 
+    public function averageGrade() {
+        $query = DB::connection()->prepare("SELECT avg(arvosana) AS average FROM Kurssisuoritus WHERE arvosana != 6 AND kayttajaId = :id");
+        $query->execute(array("id" => $this->id));
+
+        $row = $query->fetch();
+
+        if ($row) {
+            return number_format((!$row["average"] ? 0 : $row["average"]), 2);
+        }
+
+        return 0;
+    }
+
+    public function totalNopat() {
+        $query = DB::connection()->prepare("SELECT SUM(Kurssi.opintoPisteet) AS nopat FROM Kurssisuoritus INNER JOIN Kurssi ON Kurssisuoritus.kurssiId = Kurssi.id WHERE Kurssisuoritus.arvosana != 0 AND Kurssisuoritus.kayttajaId = :id");
+        $query->execute(array("id" => $this->id));
+
+        $row = $query->fetch();
+
+        if ($row) {
+            return (!$row["nopat"]) ? 0 : $row["nopat"];
+        }
+
+        return 0;
+    }
+
+    public function failedCourses() {
+        $query = DB::connection()->prepare("SELECT COUNT(*) AS failedNum FROM Kurssisuoritus WHERE arvosana = 0 AND kayttajaId = :id");
+        $query->execute(array("id" => $this->id));
+
+        $row = $query->fetch();
+
+        if ($row) {
+            return (!$row["failednum"]) ? 0 : $row["failednum"];
+        }
+
+        return 0;
+    }
+
 }
