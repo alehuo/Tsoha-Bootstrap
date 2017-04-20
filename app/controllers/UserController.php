@@ -70,6 +70,9 @@ class UserController extends BaseController {
 
     public static function editUserPage($id) {
         $user = Kayttaja::find($id);
+        if (!$user) {
+            Redirect::to('/', array("errors" => array("Käyttäjää ei löydy!")));
+        }
         View::make("edituser.html", array("form" => array(
                 "username" => $user->nimi,
 //                "password" => $user->salasana,

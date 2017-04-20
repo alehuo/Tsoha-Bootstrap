@@ -17,6 +17,9 @@ class CourseController extends BaseController {
 
     public static function viewCourse($id) {
         $course = Kurssi::find($id);
+        if (!$course) {
+            Redirect::to("/", array("errors" => array("Kurssia ei löydy!")));
+        }
         $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($id, '0');
         $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($id, '1');
 
@@ -198,6 +201,9 @@ class CourseController extends BaseController {
     public static function editCourse($id) {
 
         $course = Kurssi::find($id);
+        if (!$course) {
+            Redirect::to('/', array("errors" => array("Kurssia ei löydy")));
+        }
         $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($course->id, 0);
         $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($course->id, 1);
         $course->opetusajat = $opetusajat;
@@ -211,10 +217,13 @@ class CourseController extends BaseController {
             View::make('editcourse.html', array("course" => $course, "vastuuyksikot" => $vastuuyksikot, "ajat" => $ajat));
             exit();
         }
-        Redirect::to('/', array("errors" => array("Kurssia ei löydy")));
     }
 
     public static function listParticipants($courseId) {
+        $course = Kurssi::find($courseId);
+        if (!$course) {
+            Redirect::to('/', array("errors" => array("Kurssia ei löydy!")));
+        }
         $kurssiIlmot = KurssiIlmoittautuminen::findByCourse($courseId);
         //Lisää mukaan harjoitusryhmä ja käyttäjä
         foreach ($kurssiIlmot as $kurssiIlmo) {
