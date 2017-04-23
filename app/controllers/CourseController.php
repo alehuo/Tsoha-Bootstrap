@@ -43,9 +43,9 @@ class CourseController extends BaseController {
 
     public static function luoAjat() {
         $ajat = array();
-        $hours = 7;
+        $hours = 8;
         $minutes = 0;
-        $start = 7 * 60;
+        $start = $hours * 60;
         for ($i = 0; $i < 65; $i++) {
             $val = str_pad($hours, 2, "0", STR_PAD_LEFT) . ":" . str_pad($minutes, 2, "0", STR_PAD_LEFT);
 

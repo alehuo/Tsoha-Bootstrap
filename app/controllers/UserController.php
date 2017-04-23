@@ -1,5 +1,12 @@
 <?php
 
+use \Alehuo\Time2 as Time2;
+use \Alehuo\Date2 as Date2;
+use \Alehuo\Course as Course;
+use \Alehuo\Timetable as Timetable;
+use \Alehuo\WeekDay as WeekDay;
+use \Alehuo\Color as Color;
+
 class UserController extends BaseController {
 
     public static function viewAddUserPage() {
@@ -107,6 +114,60 @@ class UserController extends BaseController {
         }
         $facultys = Vastuuyksikko::all();
         View::make('grades.html', array("grades" => $suoritukset, "facultys" => $facultys));
+    }
+
+    public static function renderTimetable() {
+        $day = date('N') - 1;
+        $week_start = date('j-n-Y', strtotime('-' . $day . ' days'));
+        $week_end = date('j-n-Y', strtotime('+' . (6 - $day) . ' days'));
+
+        $startingString = explode("-", $week_start);
+        $endingString = explode("-", $week_end);
+
+        $timetable = new Timetable("Lukujärjestys tälle viikolle");
+        $timetable->setStartingDate(new Date2($startingString[0], $startingString[1], $startingString[2]));
+        $timetable->setEndingDate(new Date2($endingString[0], $endingString[1], $endingString[2]));
+
+        $user = self::get_user_logged_in();
+
+        $kurssiIlmot = KurssiIlmoittautuminen::findByUserAndBetweenDates($user->id, strtotime($week_start), strtotime($week_end));
+
+
+        foreach ($kurssiIlmot as $kurssiIlmo) {
+            $harjRyhmaIlmo = HarjoitusRyhmaIlmoittautuminen::findByUserAndCourse($user->id, $kurssiIlmo->kurssiId);
+            if ($harjRyhmaIlmo) {
+                $kurssiIlmo->harjoitusryhma = $harjRyhmaIlmo;
+            }
+            $course = Kurssi::find($kurssiIlmo->kurssiId);
+            $course->opetusajat = Opetusaika::findByKurssiIdAndTyyppi($kurssiIlmo->kurssiId, 0);
+
+
+            foreach ($course->opetusajat as $opetusaika) {
+                $kurssi = new Course($course->nimi);
+                $viikonpaiva = $opetusaika->viikonpaiva + 1;
+                $start_time = new Time2((int) floor($opetusaika->aloitusAika / 60), $opetusaika->aloitusAika % 60);
+                $end_time = new Time2((int) floor($opetusaika->lopetusAika / 60), $opetusaika->lopetusAika % 60);
+                $kurssi->addLecture($viikonpaiva, $start_time, $end_time);
+                $kurssi->setClassroom($opetusaika->huone);
+                $timetable->addCourse($kurssi);
+            }
+            if ($kurssiIlmo->harjoitusryhma) {
+                $kurssi = new Course("Harjoitusryhmä");
+                $harjRyhmat = Opetusaika::findByKurssiIdAndTyyppi($course->id, 1);
+                foreach ($harjRyhmat as $harjRyhma) {
+//                    if ($harjRyhma->id == $harjRyhmaIlmo->id) {
+                        $viikonpaiva = $harjRyhma->viikonpaiva + 1;
+                        $start_time = new Time2((int) floor($harjRyhma->aloitusAika / 60), $harjRyhma->aloitusAika % 60);
+                        $end_time = new Time2((int) floor($harjRyhma->lopetusAika / 60), $harjRyhma->lopetusAika % 60);
+                        $kurssi->addLecture($harjRyhma->viikonpaiva, $start_time, $end_time);
+                        $kurssi->setClassroom($harjRyhma->huone);
+                        $timetable->addCourse($kurssi);
+                        break;
+//                    }
+                }
+            }
+        }
+        return $timetable->render(true);
     }
 
 }

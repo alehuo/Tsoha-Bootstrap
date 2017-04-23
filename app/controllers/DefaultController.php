@@ -6,11 +6,11 @@ class DefaultController extends BaseController {
      * Etusivu.
      */
     public static function index() {
-        View::make('index.html');
+        View::make('index.html', array("timetable" => UserController::renderTimetable()));
     }
 
     public static function sandbox() {
-        echo "42";
+        UserController::renderTimetable();
     }
 
     public static function unauthorizedPage() {

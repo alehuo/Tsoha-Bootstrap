@@ -98,6 +98,32 @@ class KurssiIlmoittautuminen extends BaseModel {
         return $ilmot;
     }
 
+    public static function findByUserAndBetweenDates($userid, $startingDate, $endingDate) {
+        $q = "SELECT * FROM KurssiIlmoittautuminen INNER JOIN Kurssi ON KurssiIlmoittautuminen.kurssiid = Kurssi.id WHERE kayttajaid = :kayttajaid AND Kurssi.aloitusPvm < :startingDate AND Kurssi.lopetusPvm > :endingDate";
+        $stmt = DB::connection()->prepare($q);
+        $stmt->execute(array(
+            "kayttajaid" => $userid,
+            "startingDate" => $startingDate,
+            "endingDate" => $endingDate
+        ));
+        
+        $rows = $stmt->fetchAll();
+
+        $ilmot = array();
+
+        foreach ($rows as $row) {
+
+
+            $ilmot[] = new KurssiIlmoittautuminen(array(
+                "id" => $row["id"],
+                "kurssiId" => $row["kurssiid"],
+                "kayttajaId" => $row["kayttajaid"]
+            ));
+        }
+
+        return $ilmot;
+    }
+
     public static function findByOpetusaikaId($opetusaikaId) {
         $q = "SELECT kurssiilmoittautuminen.id, kurssiilmoittautuminen.kurssiid, kurssiilmoittautuminen.kayttajaid FROM harjoitusryhmailmoittautuminen INNER JOIN kurssiilmoittautuminen ON harjoitusryhmailmoittautuminen.kurssiilmoid = kurssiilmoittautuminen.id WHERE harjoitusryhmailmoittautuminen.opetusaikaid = :opetusaikaid";
 
