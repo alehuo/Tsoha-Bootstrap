@@ -16,6 +16,8 @@ class RegistrationController extends BaseController {
     }
 
     public static function addRegistration() {
+        $db = DB::connection();
+        $db->beginTransaction();
         BaseController::check_logged_in();
 
         $params = $_POST;
@@ -28,16 +30,26 @@ class RegistrationController extends BaseController {
             $ilmo = new KurssiIlmoittautuminen(array("kurssiId" => $course->id, "kayttajaId" => $user->id));
             $errors = $ilmo->errors();
             if (!$errors) {
+
                 $ilmo->save();
 
                 if (isset($params["harjoitusRyhma"])) {
+                    $opetusaika = Opetusaika::find($params["harjoitusRyhma"]);
+                    if (!$opetusaika) {
+                        $db->rollBack();
+                        Redirect::to('/course/' . $course->id, array("errors" => array("Opetusaikaa ei löydy.")));
+                    }
                     $harjoitusryhmaIlmo = new HarjoitusRyhmaIlmoittautuminen(array("kurssiIlmoId" => $ilmo->id, "opetusaikaId" => $params["harjoitusRyhma"]));
                     $harjoitusryhmaIlmo->save();
                 }
 
+                $db->commit();
+
+
                 Redirect::to('/course/' . $course->id, array("success" => "Kurssi-ilmoittautuminen tallennettu."));
             } else {
-                Redirect::to('/course/' . $course->id, array("errors" => array("Kurssi-ilmoittautuminen epäonnistui.")));
+                $db->rollBack();
+                Redirect::to('/course/' . $course->id, array("errors" => $errors));
             }
         } else {
             //Kurssille on jo ilmoittauduttu
@@ -53,13 +65,11 @@ class RegistrationController extends BaseController {
         $harjRyhma = HarjoitusRyhmaIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
 
         if ($harjRyhma) {
-//            $harjRyhma->opetusaika = Opetusaika::find($harjRyhma->opetusaikaId);
             $harjRyhma->destroy();
         }
 
         $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
-//        $ilmo->harjoitusryhma = HarjoitusRyhmaIlmoittautuminen::find($ilmo->id);
-//        $ilmo->harjoitusryhma->opetusaika = Opetusaika::find($ilmo->harjoitusryhma->opetusaikaId);
+
 
         if ($ilmo) {
             if ($ilmo->destroy()) {

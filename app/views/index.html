@@ -6,7 +6,9 @@
     <h1>Tervetuloa, {{user_logged_in.nimi}}</h1>
 </div>
 {% autoescape false %}
+<div style="height: 500px; overflow-y: scroll; overflow-x: none;">
     {{timetable}}
+</div>
 {% endautoescape %}
 {% endif %}
 {% endblock %}

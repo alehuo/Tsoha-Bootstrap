@@ -19,15 +19,19 @@ class UserController extends BaseController {
 
         $user = new Kayttaja(array(
             "tyyppi" => intval($params["type"]),
-            "nimi" => $params["username"],
+            "nimi" => trim($params["username"]),
             "salasana" => $params["password"]
         ));
+
+        if (!in_array($user->tyyppi, range(0, 1))) {
+            $errors[] = "Virheellinen käyttäjätilin tyyppi!";
+        }
 
         if ($params["password"] != $params["repeatPassword"]) {
             $errors[] = "Salasanat eivät täsmää!";
         }
 
-        $usr = Kayttaja::findByUsername($params["username"]);
+        $usr = Kayttaja::findByUsername(strtolower(trim($params["username"])));
 
         if (!$usr) {
             $errors = array_merge($errors, $user->errors());
@@ -89,13 +93,27 @@ class UserController extends BaseController {
     }
 
     public static function handleEditUser($id) {
+        $errors = array();
         $params = $_POST;
         $user = Kayttaja::find($id);
         if ($user) {
-            $user->nimi = $params["username"];
+            $uusinimi = $params["username"];
+
+            if (Kayttaja::userExists(strtolower($uusinimi)) && strtolower(trim($uusinimi)) != strtolower(trim($user->nimi))) {
+                $errors[] = "Käyttäjänimi on jo käytössä!";
+            } else {
+                $user->nimi = $uusinimi;
+            }
+
 //            $user->salasana = Kayttaja::createPassword($params["password"]);
-            $user->tyyppi = $params["type"];
-            $errors = $user->errors();
+            $user->tyyppi = intval($params["type"]);
+            if (!in_array($user->tyyppi, range(0, 1))) {
+                $errors[] = "Virheellinen käyttäjätilin tyyppi!";
+            }
+
+
+
+            $errors = array_merge($errors, $user->errors());
             if (!$errors) {
                 $user->update();
                 Redirect::to('/edituser/' . $id, array("form" => $params, "success" => "Käyttäjätilin muokkaus onnistui."));
@@ -117,57 +135,73 @@ class UserController extends BaseController {
     }
 
     public static function renderTimetable() {
-        $day = date('N') - 1;
-        $week_start = date('j-n-Y', strtotime('-' . $day . ' days'));
-        $week_end = date('j-n-Y', strtotime('+' . (6 - $day) . ' days'));
-
-        $startingString = explode("-", $week_start);
-        $endingString = explode("-", $week_end);
-
-        $timetable = new Timetable("Lukujärjestys tälle viikolle");
-        $timetable->setStartingDate(new Date2($startingString[0], $startingString[1], $startingString[2]));
-        $timetable->setEndingDate(new Date2($endingString[0], $endingString[1], $endingString[2]));
 
         $user = self::get_user_logged_in();
 
-        $kurssiIlmot = KurssiIlmoittautuminen::findByUserAndBetweenDates($user->id, strtotime($week_start), strtotime($week_end));
+        if ($user) {
+
+            $day = date('N') - 1;
+            $week_start = date('j-n-Y', strtotime('-' . $day . ' days'));
+            $week_end = date('j-n-Y', strtotime('+' . (6 - $day) . ' days'));
+
+            $startingString = explode("-", $week_start);
+            $endingString = explode("-", $week_end);
+
+            $timetable = new Timetable("Lukujärjestys tälle viikolle");
+            $timetable->setStartingDate(new Date2($startingString[0], $startingString[1], $startingString[2]));
+            $timetable->setEndingDate(new Date2($endingString[0], $endingString[1], $endingString[2]));
+            $timetable->setEndingTime(new Time2(23, 00));
 
 
-        foreach ($kurssiIlmot as $kurssiIlmo) {
-            $harjRyhmaIlmo = HarjoitusRyhmaIlmoittautuminen::findByUserAndCourse($user->id, $kurssiIlmo->kurssiId);
-            if ($harjRyhmaIlmo) {
-                $kurssiIlmo->harjoitusryhma = $harjRyhmaIlmo;
-            }
-            $course = Kurssi::find($kurssiIlmo->kurssiId);
-            $course->opetusajat = Opetusaika::findByKurssiIdAndTyyppi($kurssiIlmo->kurssiId, 0);
+
+            $kurssiIlmot = KurssiIlmoittautuminen::findByUserAndBetweenDates($user->id, strtotime($week_start), strtotime($week_end));
 
 
-            foreach ($course->opetusajat as $opetusaika) {
+            //Käydään kurssi-ilmot yksitellen läpi
+            foreach ($kurssiIlmot as $kurssiIlmo) {
+
+                $course = Kurssi::find($kurssiIlmo->kurssiId);
+
+                //Harjoitusryhmäilmoittautuminen
+                $harjRyhmaIlmo = HarjoitusRyhmaIlmoittautuminen::findByUserAndCourse($user->id, $kurssiIlmo->kurssiId);
+
+                if ($harjRyhmaIlmo) {
+                    $kurssiIlmo->harjoitusryhma = $harjRyhmaIlmo;
+                    $harjoitusRyhmaOpetusaika = Opetusaika::findByHarjoitusRyhmaIlmo($harjRyhmaIlmo->id);
+                    
+                    if ($harjoitusRyhmaOpetusaika) {
+                        $harjRyhma = new Course("Harjoitusryhmä (" . $course->nimi . ")");
+                        $harjRyhma->setColor($timetable->nextColor());
+                        $huone = $harjoitusRyhmaOpetusaika->huone;
+                        $harjRyhma->setClassroom($huone);
+                        $viikonpaiva = $harjoitusRyhmaOpetusaika->viikonpaiva + 1;
+                        $start_time = new Time2((int) floor($harjoitusRyhmaOpetusaika->aloitusAika / 60), $harjoitusRyhmaOpetusaika->aloitusAika % 60);
+                        $end_time = new Time2((int) floor($harjoitusRyhmaOpetusaika->lopetusAika / 60), $harjoitusRyhmaOpetusaika->lopetusAika % 60);
+                        $harjRyhma->addLecture($viikonpaiva, $start_time, $end_time);
+
+                        //Lisää opetusaika lukujärjestykseen
+                        $timetable->addCourse($harjRyhma);
+                    }
+                }
+
+
+                $course->opetusajat = Opetusaika::findByKurssiIdAndTyyppi($kurssiIlmo->kurssiId, 0);
                 $kurssi = new Course($course->nimi);
-                $viikonpaiva = $opetusaika->viikonpaiva + 1;
-                $start_time = new Time2((int) floor($opetusaika->aloitusAika / 60), $opetusaika->aloitusAika % 60);
-                $end_time = new Time2((int) floor($opetusaika->lopetusAika / 60), $opetusaika->lopetusAika % 60);
-                $kurssi->addLecture($viikonpaiva, $start_time, $end_time);
-                $kurssi->setClassroom($opetusaika->huone);
-                $timetable->addCourse($kurssi);
-            }
-            if ($kurssiIlmo->harjoitusryhma) {
-                $kurssi = new Course("Harjoitusryhmä");
-                $harjRyhmat = Opetusaika::findByKurssiIdAndTyyppi($course->id, 1);
-                foreach ($harjRyhmat as $harjRyhma) {
-//                    if ($harjRyhma->id == $harjRyhmaIlmo->id) {
-                        $viikonpaiva = $harjRyhma->viikonpaiva + 1;
-                        $start_time = new Time2((int) floor($harjRyhma->aloitusAika / 60), $harjRyhma->aloitusAika % 60);
-                        $end_time = new Time2((int) floor($harjRyhma->lopetusAika / 60), $harjRyhma->lopetusAika % 60);
-                        $kurssi->addLecture($harjRyhma->viikonpaiva, $start_time, $end_time);
-                        $kurssi->setClassroom($harjRyhma->huone);
-                        $timetable->addCourse($kurssi);
-                        break;
-//                    }
+                $kurssi->setColor($timetable->nextColor());
+                foreach ($course->opetusajat as $opetusaika) {
+                    $huone = $opetusaika->huone;
+                    $kurssi->setClassroom($huone);
+                    $viikonpaiva = $opetusaika->viikonpaiva + 1;
+                    $start_time = new Time2((int) floor($opetusaika->aloitusAika / 60), $opetusaika->aloitusAika % 60);
+                    $end_time = new Time2((int) floor($opetusaika->lopetusAika / 60), $opetusaika->lopetusAika % 60);
+                    $kurssi->addLecture($viikonpaiva, $start_time, $end_time);
+
+                    //Lisää opetusaika lukujärjestykseen
+                    $timetable->addCourse($kurssi);
                 }
             }
+            return $timetable->render(true);
         }
-        return $timetable->render(true);
     }
 
 }

@@ -3,13 +3,6 @@
     margin: 0;
     padding: 0;
 }
-body{
-    font-family: Trebuchet MS;
-    width: 297mm;
-    height: 210mm;
-    background-color: #606060;
-    color: white;
-}
 .timetable{
     font-size: 8pt;
     border-collapse: collapse;

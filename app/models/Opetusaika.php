@@ -190,4 +190,33 @@ class Opetusaika extends BaseModel {
         return $errors;
     }
 
+    public static function findByHarjoitusRyhmaIlmo($harjoitusRyhmaIlmoId) {
+        $q = "SELECT Opetusaika.id, Opetusaika.huone, Opetusaika.viikonpaiva, Opetusaika.aloitusAika, Opetusaika.lopetusAika, Opetusaika.kurssiId, Opetusaika.tyyppi FROM HarjoitusRyhmaIlmoittautuminen INNER JOIN Opetusaika ON HarjoitusRyhmaIlmoittautuminen.opetusaikaId = Opetusaika.id WHERE HarjoitusRyhmaIlmoittautuminen.kurssiIlmoId = :id";
+
+        $stmt = DB::connection()->prepare($q);
+        $stmt->execute(
+                array(
+                    'id' => $harjoitusRyhmaIlmoId
+                )
+        );
+
+        $row = $stmt->fetch();
+
+        $opetusaika = null;
+
+        if ($row) {
+            $opetusaika = new Opetusaika(array(
+                'id' => $row['id'],
+                'huone' => $row['huone'],
+                'viikonpaiva' => $row['viikonpaiva'],
+                'aloitusAika' => $row['aloitusaika'],
+                'lopetusAika' => $row['lopetusaika'],
+                'kurssiId' => $row['kurssiid'],
+                'tyyppi' => $row['tyyppi']
+            ));
+        }
+
+        return $opetusaika;
+    }
+
 }

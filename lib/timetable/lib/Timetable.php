@@ -12,6 +12,8 @@ class Timetable {
     private $startingDate;
     private $endingDate;
     private $showSubTimes = false;
+    private $colors = array(Color::DefaultColor, Color::Blue, Color::Green, Color::Orange, Color::Red, Color::Teal, Color::Lime);
+    private $currentColor = 0;
 
     /**
      * Constructor
@@ -52,6 +54,10 @@ class Timetable {
     public function addCourse(\Alehuo\Course $course) {
         $this->courses = \array_replace_recursive($this->courses, $course->getArray());
         return $this;
+    }
+    
+    public function nextColor() {
+       return $this->colors[$this->currentColor++];
     }
 
     /**

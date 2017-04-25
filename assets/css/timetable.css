@@ -5,8 +5,8 @@ Lukujärjestyksen tyylitiedosto
     font-size: 8pt;
     border-collapse: collapse;
     border-spacing: 0;
-    width: 297mm;
-    height: 210mm;
+    max-width: 297mm;
+    width: auto;
 }
 .nobordertop{
     border-top: 0 !important;

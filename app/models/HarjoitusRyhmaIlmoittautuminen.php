@@ -21,7 +21,7 @@ class HarjoitusRyhmaIlmoittautuminen extends BaseModel {
 
             $ilmo = new HarjoitusRyhmaIlmoittautuminen(array(
                 "id" => $row["id"],
-                "kurssiId" => $row["kurssiilmoid"],
+                "kurssiIlmoId" => $row["kurssiilmoid"],
                 "opetusaikaId" => $row["opetusaikaid"]
             ));
 

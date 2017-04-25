@@ -25,10 +25,20 @@ class CourseController extends BaseController {
 
         $ilmo = null;
 
-        if (isset($_SESSION["user"])) {
-            $user = Kayttaja::find($_SESSION["user"]);
-            $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
+        $user = Kayttaja::find($_SESSION["user"]);
+        $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
+
+        if ($ilmo) {
+            $harjIlmo = HarjoitusRyhmaIlmoittautuminen::find($ilmo->id);
+            if ($harjIlmo) {
+                $opaika = Opetusaika::find($harjIlmo->opetusaikaId);
+                $harjIlmo->opetusaika = $opaika;
+            }
+            $ilmo->harjoitusryhma = $harjIlmo;
         }
+
+
+
 
         View::make('course.html', array("course" => $course, "opetusajat" => $opetusajat, "harjoitusryhmat" => $harjoitusryhmat, "ilmo" => $ilmo));
     }
@@ -84,6 +94,15 @@ class CourseController extends BaseController {
                 $errors = array_merge($errors, $uusiVastuuyksikko->errors());
                 $uusiVastuuyksikko->save();
                 $vastuuyksikko = $uusiVastuuyksikko->id;
+            }
+
+            $vy = Vastuuyksikko::find($vastuuyksikko);
+
+            if (!$vy) {
+                $errors = array_merge($errors, array("Vastuuyksikköä ei löydy kyseisellä ID:llä"));
+                $db->rollBack();
+                Redirect::to('/addcourse', array($postData, "errors" => $errors));
+                exit();
             }
 
             $alkamisPvm = strtotime($postData["startingDate"]);
@@ -183,9 +202,16 @@ class CourseController extends BaseController {
         $kurssi = Kurssi::find($ilmo->kurssiId);
         $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $kurssi->id);
         $harjIlmo = HarjoitusRyhmaIlmoittautuminen::findByUserAndCourse($user->id, $kurssi->id);
-
+        $errors = array();
+        //0-5
+        if ($kurssi->arvosteluTyyppi == 0 && !in_array(intval($params["arvosana"]), range(0, 5))) {
+            $errors[] = "Arvosanan on oltava väliltä 0-5.";
+        } else if ($kurssi->arvosteluTyyppi == 1 && (intval($params["arvosana"]) != 0 || intval($params["arvosana"]) != 6)) {
+            //0 tai 6 (hylätty tai hyväksytty)
+            $errors[] = "Arvosanan on oltava joko hyväksytty tai hylätty.";
+        }
         $suoritus = new KurssiSuoritus(array("kurssiId" => $kurssi->id, "kayttajaId" => $user->id, "arvosana" => intval($params["arvosana"]), "paivays" => BaseController::get_current_timestamp()));
-        $errors = $suoritus->errors();
+        $errors = array_merge($errors, $suoritus->errors());
         if (!$errors) {
             $suoritus->save();
             if ($harjIlmo) {

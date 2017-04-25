@@ -12,14 +12,10 @@
     </editor-bookmarks>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/models/KurssiIlmoittautuminen.php</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/controllers/DefaultController.php</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/models/HarjoitusRyhmaIlmoittautuminen.php</file>
             <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/sql/create_tables.sql</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/lib/timetable/lib/Timetable.php</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/models/Kurssi.php</file>
-            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/lib/timetable/lib/Course.php</file>
+            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/composer.json</file>
             <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/controllers/UserController.php</file>
+            <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/deploy.sh</file>
             <file>file:/cs/home/ahuotala/NetBeansProjects/Tsoha-Bootstrap/app/models/Opetusaika.php</file>
         </group>
     </open-files>

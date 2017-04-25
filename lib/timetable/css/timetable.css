@@ -3,15 +3,14 @@
     margin: 0;
     padding: 0;
 }
-body{
-    font-family: Trebuchet MS;
-    width: 297mm;
-    height: 210mm;
-}
 .timetable{
     font-size: 8pt;
     border-collapse: collapse;
     border-spacing: 0;
+    max-width: 80%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
 }
 .nobordertop{
     border-top: 0 !important;
