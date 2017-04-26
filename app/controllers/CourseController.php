@@ -25,9 +25,10 @@ class CourseController extends BaseController {
 
         $ilmo = null;
 
-        $user = Kayttaja::find($_SESSION["user"]);
-        $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
-
+        $user = self::get_user_logged_in();
+        if ($user) {
+            $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
+        }
         if ($ilmo) {
             $harjIlmo = HarjoitusRyhmaIlmoittautuminen::find($ilmo->id);
             if ($harjIlmo) {
