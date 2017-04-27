@@ -17,9 +17,10 @@
 
         <!-- Oma tyylitiedostomme -->
         <link href="{{base_path}}/assets/css/site.css" rel="stylesheet">
-
+        {% if timetablePage %}
         <!-- Lukujärjestys -->
         <link href="{{base_path}}/assets/css/timetable.css" rel="stylesheet">
+        {% endif %}
         {% endblock %}
     </head>
 
