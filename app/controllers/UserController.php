@@ -74,15 +74,22 @@ class UserController extends BaseController {
     }
 
     public static function deleteUser($id) {
+        $id = intval($id);
         $user = Kayttaja::find($id);
+        if (!$user) {
+            Redirect::to('/listusers', array("errors" => array("Käyttäjää ei löydy!")));
+            exit();
+        }
         $user->destroy();
         Redirect::to('/listusers', array("success" => "Käyttäjä poistettu onnistuneesti."));
     }
 
     public static function editUserPage($id) {
+        $id = intval($id);
         $user = Kayttaja::find($id);
         if (!$user) {
-            Redirect::to('/', array("errors" => array("Käyttäjää ei löydy!")));
+            Redirect::to('/listusers', array("errors" => array("Käyttäjää ei löydy!")));
+            exit();
         }
         View::make("edituser.html", array("form" => array(
                 "username" => $user->nimi,
@@ -168,7 +175,7 @@ class UserController extends BaseController {
                 if ($harjRyhmaIlmo) {
                     $kurssiIlmo->harjoitusryhma = $harjRyhmaIlmo;
                     $harjoitusRyhmaOpetusaika = Opetusaika::findByHarjoitusRyhmaIlmo($harjRyhmaIlmo->id);
-                    
+
                     if ($harjoitusRyhmaOpetusaika) {
                         $harjRyhma = new Course("Harjoitusryhmä (" . $course->nimi . ")");
                         $harjRyhma->setColor($timetable->nextColor());

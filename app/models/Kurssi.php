@@ -6,7 +6,7 @@ class Kurssi extends BaseModel {
 
     public function __construct($arguments) {
         parent::__construct($arguments);
-        $this->validators = array("validate_name", "validate_desc", "validate_dates");
+        $this->validators = array("validate_name", "validate_desc", "validate_dates", "validate_nopat");
     }
 
     public static function fetchAll() {
@@ -160,6 +160,9 @@ class Kurssi extends BaseModel {
 
         $errors[] = parent::validateStringLength("Kurssin nimi", $this->nimi, 50);
         $errors[] = parent::validateStringNotNull("Kurssin nimi", $this->nimi);
+        if (strpos(strtolower(trim($this->nimi)), '*.*') !== false) {
+            $errors[] = "Kurssin nimessä on kielletty merkkijono '*.*'";
+        }
 
         return $errors;
     }
@@ -180,6 +183,9 @@ class Kurssi extends BaseModel {
             $errors[] = "Kurssin aloitusaika ei voi olla myöhemmin kuin lopetusaika";
         }
 
+        $errors[] = parent::validateStringNotNull("Kurssin aloitusaika", $this->aloitusPvm);
+        $errors[] = parent::validateStringNotNull("Kurssin lopetusaika", $this->lopetusPvm);
+
         return $errors;
     }
 
@@ -188,6 +194,22 @@ class Kurssi extends BaseModel {
 
         if ($this->vastuuYksikko == -1) {
             $errors[] = "Vastuuyksikkö on virheellinen";
+        }
+
+        return $errors;
+    }
+
+    public function validate_nopat() {
+        $errors = array();
+        if (empty($this->opintoPisteet) || !filter_var($this->opintoPisteet, FILTER_VALIDATE_INT)) {
+            $errors[] = "Opintopisteiden tulee olla kokonaisluku.";
+        } else {
+            if ($this->opintoPisteet < 0) {
+                $errors[] = "Opintopisteiden tulee olla ei-negatiivinen luku.";
+            }
+            if ($this->opintoPisteet > 150) {
+                $errors[] = "Opintopisteiden yläraja on 150.";
+            }
         }
 
         return $errors;

@@ -10,25 +10,29 @@ class Kayttaja extends BaseModel {
     }
 
     public static function find($id) {
-        $query = DB::connection()->prepare("SELECT * FROM Kayttaja WHERE id = :id LIMIT 1");
-        $query->execute(array(
-            "id" => $id
-        ));
-
-        $row = $query->fetch();
-
-        if ($row) {
-            $kayttaja = new Kayttaja(array(
-                "id" => $row["id"],
-                "tyyppi" => $row["tyyppi"],
-                "nimi" => $row["nimi"],
-                "salasana" => $row["salasana"]
+        try {
+            $query = DB::connection()->prepare("SELECT * FROM Kayttaja WHERE id = :id LIMIT 1");
+            $query->execute(array(
+                "id" => $id
             ));
 
-            return $kayttaja;
-        }
+            $row = $query->fetch();
 
-        return null;
+            if ($row) {
+                $kayttaja = new Kayttaja(array(
+                    "id" => $row["id"],
+                    "tyyppi" => $row["tyyppi"],
+                    "nimi" => $row["nimi"],
+                    "salasana" => $row["salasana"]
+                ));
+
+                return $kayttaja;
+            } else {
+                return null;
+            }
+        } catch (PDOException $ex) {
+            return null;
+        }
     }
 
     /**

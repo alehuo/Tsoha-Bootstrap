@@ -16,9 +16,10 @@ class CourseController extends BaseController {
     }
 
     public static function viewCourse($id) {
+        $id = intval($id);
         $course = Kurssi::find($id);
         if (!$course) {
-            Redirect::to("/", array("errors" => array("Kurssia ei löydy!")));
+            View::make("blank.html", array("errors" => array("Kurssia ei löydy!")));
         }
         $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($id, '0');
         $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($id, '1');
@@ -37,9 +38,6 @@ class CourseController extends BaseController {
             }
             $ilmo->harjoitusryhma = $harjIlmo;
         }
-
-
-
 
         View::make('course.html', array("course" => $course, "opetusajat" => $opetusajat, "harjoitusryhmat" => $harjoitusryhmat, "ilmo" => $ilmo));
     }
@@ -81,30 +79,62 @@ class CourseController extends BaseController {
     public static function addCourse() {
         $db = DB::connection();
         $db->beginTransaction();
+
         $errors = array();
+
+        $postData = $_POST;
+
+        $ajat = array();
+
+        for ($i = 1; $i < count($postData["opetusaikaAloitusaika"]); $i++) {
+
+            $loppuaika = intval($postData["opetusaikaAloitusaika"][$i]) + 60 * intval($postData["opetusaikaKesto"][$i]);
+
+            $opetusaika = new Opetusaika(array(
+                'huone' => $postData['opetusaikaHuone'][$i],
+                'viikonpaiva' => intval($postData["opetusaikaViikonpaiva"][$i]),
+                'aloitusAika' => intval($postData["opetusaikaAloitusaika"][$i]),
+                'lopetusAika' => $loppuaika,
+                'kurssiId' => -1,
+                'tyyppi' => 0
+            ));
+
+            $ajat[] = $opetusaika;
+        }
+
+        for ($i = 1; $i < count($postData["harjoitusryhmaAloitusaika"]); $i++) {
+            $loppuaika = intval($postData["harjoitusryhmaAloitusaika"][$i]) + 60 * intval($postData["harjoitusryhmaKesto"][$i]);
+
+            $harjoitusryhma = new Opetusaika(array(
+                'huone' => $postData['harjoitusryhmaHuone'][$i],
+                'viikonpaiva' => intval($postData["harjoitusryhmaViikonpaiva"][$i]),
+                'aloitusAika' => intval($postData["harjoitusryhmaAloitusaika"][$i]),
+                'lopetusAika' => $loppuaika,
+                'kurssiId' => -1,
+                'tyyppi' => 1
+            ));
+
+            $ajat[] = $harjoitusryhma;
+        }
+
         try {
-            $postData = $_POST;
 
             $kurssin_nimi = $postData["nimi"];
 
             if (empty($postData["uusiVastuuYksikko"])) {
                 $vastuuyksikko = $postData["vastuuyksikkoSelect"];
+                $vy = Vastuuyksikko::find($vastuuyksikko);
+
+                if (!$vy) {
+                    $errors = array_merge($errors, array("Sinun on valittava vastuuyksikkö listasta tai luotava uusi."));
+                }
             } else {
-                //Luo uusi vastuuyksikkö ja palauta id
+                //Luo uusi vastuuyksikkö
                 $uusiVastuuyksikko = new Vastuuyksikko(array("nimi" => $postData["uusiVastuuYksikko"]));
                 $errors = array_merge($errors, $uusiVastuuyksikko->errors());
-                $uusiVastuuyksikko->save();
-                $vastuuyksikko = $uusiVastuuyksikko->id;
             }
 
-            $vy = Vastuuyksikko::find($vastuuyksikko);
 
-            if (!$vy) {
-                $errors = array_merge($errors, array("Vastuuyksikköä ei löydy kyseisellä ID:llä"));
-                $db->rollBack();
-                Redirect::to('/addcourse', array($postData, "errors" => $errors));
-                exit();
-            }
 
             $alkamisPvm = strtotime($postData["startingDate"]);
 
@@ -128,72 +158,40 @@ class CourseController extends BaseController {
                 'arvosteluTyyppi' => $arvostelu,
                 'aloitusPvm' => $alkamisPvm,
                 'lopetusPvm' => $lopetusPvm,
-                'vastuuYksikkoId' => $vastuuyksikko
+                'vastuuYksikkoId' => -1
             ));
 
             $errors = array_merge($errors, $kurssi->errors());
 
-            if (!$errors) {
-                $kurssi->save();
-            } else {
-                //Uudelleenohjaa kurssisivulle virheiden kera
-                Redirect::to('/addcourse', array("errors" => $errors));
-                exit();
-            }
-
-
-            $ajat = array();
-
-            for ($i = 1; $i < count($postData["opetusaikaAloitusaika"]); $i++) {
-
-                $loppuaika = intval($postData["opetusaikaAloitusaika"][$i]) + 60 * intval($postData["opetusaikaKesto"][$i]);
-
-                $opetusaika = new Opetusaika(array(
-                    'huone' => $postData['opetusaikaHuone'][$i],
-                    'viikonpaiva' => intval($postData["opetusaikaViikonpaiva"][$i]),
-                    'aloitusAika' => intval($postData["opetusaikaAloitusaika"][$i]),
-                    'lopetusAika' => $loppuaika,
-                    'kurssiId' => $kurssi->id,
-                    'tyyppi' => 0
-                ));
-
-                $ajat[] = $opetusaika;
-            }
-
-            for ($i = 1; $i < count($postData["harjoitusryhmaAloitusaika"]); $i++) {
-                $loppuaika = intval($postData["harjoitusryhmaAloitusaika"][$i]) + 60 * intval($postData["harjoitusryhmaKesto"][$i]);
-
-                $harjoitusryhma = new Opetusaika(array(
-                    'huone' => $postData['harjoitusryhmaHuone'][$i],
-                    'viikonpaiva' => intval($postData["harjoitusryhmaViikonpaiva"][$i]),
-                    'aloitusAika' => intval($postData["harjoitusryhmaAloitusaika"][$i]),
-                    'lopetusAika' => $loppuaika,
-                    'kurssiId' => $kurssi->id,
-                    'tyyppi' => 1
-                ));
-
-                $ajat[] = $harjoitusryhma;
-            }
-
 
             foreach ($ajat as $opetusaika) {
                 $errors = array_merge($errors, $opetusaika->errors());
-                $opetusaika->save();
             }
 
+
             if (!$errors) {
+                $uusiVastuuyksikko->save();
+                $vastuuyksikko = $uusiVastuuyksikko->id;
+                $kurssi->vastuuYksikkoId = intval($vastuuyksikko);
+                $kurssi->save();
+                //Tallenna opetusajat
+                foreach ($ajat as $opetusaika) {
+                    $opetusaika->kurssiId = $kurssi->id;
+                    $opetusaika->save();
+                }
                 $db->commit();
                 Redirect::to("/", array("success" => "Kurssi lisätty onnistuneesti"));
                 exit();
             } else {
                 //Rollback ja vie takaisin lisäyssivuille virheiden kera
                 $db->rollBack();
-                Redirect::to('/addcourse', array("errors" => $errors));
+                Redirect::to('/addcourse', array("params" => $postData, "errors" => $errors, "opetusajat" => $ajat));
                 exit();
             }
         } catch (PDOException $ex) {
             $db->rollBack();
             die($ex);
+            Redirect::to('/addcourse', array("params" => $postData, "errors" => array("Kurssin lisäys epäonnistui!"), "opetusajat" => $ajat));
         }
     }
 
@@ -226,10 +224,10 @@ class CourseController extends BaseController {
     }
 
     public static function editCourse($id) {
-
+        $id = intval($id);
         $course = Kurssi::find($id);
         if (!$course) {
-            Redirect::to('/', array("errors" => array("Kurssia ei löydy")));
+            View::make('blank.html', array("errors" => array("Kurssia ei löydy!")));
         }
         $opetusajat = Opetusaika::findByKurssiIdAndTyyppi($course->id, 0);
         $harjoitusryhmat = Opetusaika::findByKurssiIdAndTyyppi($course->id, 1);
@@ -247,9 +245,10 @@ class CourseController extends BaseController {
     }
 
     public static function listParticipants($courseId) {
+        $courseId = intval($courseId);
         $course = Kurssi::find($courseId);
         if (!$course) {
-            Redirect::to('/', array("errors" => array("Kurssia ei löydy!")));
+            View::make('blank.html', array("errors" => array("Kurssia ei löydy!")));
         }
         $kurssiIlmot = KurssiIlmoittautuminen::findByCourse($courseId);
         //Lisää mukaan harjoitusryhmä ja käyttäjä
@@ -275,9 +274,6 @@ class CourseController extends BaseController {
 
         try {
             $params = $_POST;
-
-            var_dump($params);
-//            die();
 
             $errors = array();
 
@@ -536,6 +532,11 @@ class CourseController extends BaseController {
     }
 
     public static function deleteCourse($courseId) {
+        $courseId = intval($courseId);
+        if (!Kurssi::find($courseId)) {
+            View::make('blank.html', array("errors" => array("Kurssia ei löydy!")));
+            exit();
+        }
         $db = DB::connection();
         $db->beginTransaction();
 
@@ -580,7 +581,7 @@ class CourseController extends BaseController {
             Redirect::to("/courses", array("success" => "Kurssi poistettu onnistuneesti."));
         } catch (PDOException $ex) {
             $db->rollBack();
-            Redirect::to("/course/" . $courseId, array("errors" => array("Kurssin poisto epäonnistui: " . $ex->getMessage())));
+            Redirect::to("/course/" . $courseId, array("errors" => array("Kurssin poisto epäonnistui!")));
         }
     }
 
@@ -588,8 +589,12 @@ class CourseController extends BaseController {
         Header("Content-type: application/json");
         $params = $_POST;
         $searchTerm = $params['searchTerm'];
-        $res = Kurssi::findAllByHakusana('%' . strtolower($searchTerm) . '%');
         $results = array();
+        if (strlen(trim($searchTerm)) == 3 && trim($searchTerm) === '*.*') {
+            $res = Kurssi::fetchAll();
+        } else {
+            $res = Kurssi::findAllByHakusana('%' . strtolower(trim($searchTerm)) . '%');
+        }
         foreach ($res as $result) {
             $results[] = array(
                 "id" => $result->id,

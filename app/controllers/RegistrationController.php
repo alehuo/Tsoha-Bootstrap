@@ -22,7 +22,12 @@ class RegistrationController extends BaseController {
 
         $params = $_POST;
         $user = BaseController::get_user_logged_in();
-        $course = Kurssi::find($params["courseId"]);
+        $courseId = intval($params["courseId"]);
+        $course = Kurssi::find($courseId);
+
+        if (!$course) {
+            Redirect::to('/courses', array("errors" => array('Kurssia ei löydy!')));
+        }
 
         $ilmoittautuminen = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
 
@@ -57,26 +62,44 @@ class RegistrationController extends BaseController {
     }
 
     public static function cancelRegistration() {
-        $params = $_POST;
-        $user = BaseController::get_user_logged_in();
-        $course = Kurssi::find($params["courseId"]);
-        var_dump($course);
+        try {
+            $db = DB::connection();
+            $db->beginTransaction();
 
-        $harjRyhma = HarjoitusRyhmaIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
+            $params = $_POST;
+            $user = BaseController::get_user_logged_in();
+            $courseId = intval($params["courseId"]);
+            $course = Kurssi::find($courseId);
 
-        if ($harjRyhma) {
-            $harjRyhma->destroy();
-        }
-
-        $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
-
-
-        if ($ilmo) {
-            if ($ilmo->destroy()) {
-                Redirect::to('/course/' . $course->id, array("success" => "Ilmoittautuminen poistettu."));
-            } else {
-                Redirect::to('/course/' . $course->id, array("errors" => array("Ilmoittautumisen poisto epäonnistui.")));
+            if (!$course) {
+                Redirect::to('/courses', array("errors" => array("Ilmoittautumisen poisto epäonnistui!")));
             }
+
+            $harjRyhma = HarjoitusRyhmaIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
+
+            if ($harjRyhma) {
+                $harjRyhma->destroy();
+            }
+
+            $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $course->id);
+
+            if (!$ilmo) {
+                Redirect::to('/courses', array("errors" => array("Kurssi-ilmoittautumista ei löydy!")));
+            }
+
+
+            if ($ilmo) {
+                if ($ilmo->destroy()) {
+                    $db->commit();
+                    Redirect::to('/course/' . $course->id, array("success" => "Ilmoittautuminen poistettu."));
+                } else {
+                    $db->rollBack();
+                    Redirect::to('/course/' . $course->id, array("errors" => array("Ilmoittautumisen poisto epäonnistui!")));
+                }
+            }
+        } catch (Exception $ex) {
+            $db->rollBack();
+            Redirect::to('/courses', array("errors" => array("Ilmoittautumisen poisto epäonnistui!")));
         }
     }
 

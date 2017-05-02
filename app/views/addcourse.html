@@ -11,39 +11,39 @@
         <select class="form-control" name="vastuuyksikkoSelect">
             <option value="-1">(Valitse)</option>
             {% for vastuuyksikko in vastuuyksikot %}
-            <option value="{{vastuuyksikko.id}}">{{vastuuyksikko.nimi}}</option>
+            <option value="{{vastuuyksikko.id}}" {% if vastuuyksikko.id == params.vastuuyksikkoSelect %} selected {% endif %}>{{vastuuyksikko.nimi}}</option>
             {% endfor %}
         </select> 
     </div>
     <div class="form-group">
         <label><small>Ellei vastuuyksikköä löydy listalta, kirjota se alle.</small></label>
-        <input class="form-control" placeholder="Vastuuyksikkö" type="text" name="uusiVastuuYksikko">
+        <input class="form-control" placeholder="Vastuuyksikkö" value="{{params.uusiVastuuYksikko}}" type="text" name="uusiVastuuYksikko">
     </div>
     <div class="form-group">
         <label>Nimi</label>
-        <input class="form-control" placeholder="Nimi" type="text" name="nimi">
+        <input class="form-control" placeholder="Nimi" type="text" value="{{params.nimi}}" name="nimi">
     </div>
     <div class="form-group">
         <label>Alkamispäiväys (pp.kk.vvvv)</label>
-        <input class="form-control" type="date" name="startingDate">
+        <input class="form-control" type="date" name="startingDate" value="{{params.startingDate}}">
     </div>
     <div class="form-group">
         <label>Loppumispäiväys (pp.kk.vvvv)</label>
-        <input class="form-control" type="date" name="endingDate">
+        <input class="form-control" type="date" name="endingDate" value="{{params.endingDate}}">
     </div>
     <div class="form-group">
         <label>Saatavat opintopisteet</label>
-        <input class="form-control" value="5" type="number" min="0" max="150" name="op">
+        <input class="form-control" value="{{params.op|default('5')}}" type="number" min="0" max="150" name="op">
     </div>
     <div class="checkbox">
         <label>
-            <input type="checkbox" name="arvosteluTyyppi">
+            <input type="checkbox" name="arvosteluTyyppi" {% if params.arvosteluTyyppi %}checked{% endif %}>
             Kurssin arvosteluna hyväksytty/hylätty
         </label>
     </div>
     <div class="form-group">
         <label>Kuvaus</label>
-        <textarea class="form-control" name="kuvaus">Kurssikuvaus</textarea>
+        <textarea class="form-control" name="kuvaus">{{params.kuvaus}}</textarea>
     </div>
     <div class="form-group">
         <hr/>
@@ -78,6 +78,42 @@
                     </select> 
                 </div>
             </div>
+            <!--opetusaikojen lisäys-->
+            {% if opetusajat %}
+            {% for opetusaika in opetusajat %}
+            {% if opetusaika.tyyppi == 0 %}
+            <div class="opetusaika">
+                <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
+                <div>
+                    <label>Huone</label>
+                    <input name="opetusaikaHuone[]" class="form-control" placeholder="A123" value="{{opetusaika.huone}}"/>
+                </div>
+                <div>
+                    <label>Aloitusaika</label>
+                    <select name="opetusaikaAloitusaika[]" class="form-control">
+                        {% for aika in ajat %}
+                        <option value='{{aika.id}}' {% if aika.id == opetusaika.aloitusAika %}selected{% endif %}>{{aika.arvo}}</option>
+                        {% endfor %}
+                    </select> 
+                </div>
+                <div>
+                    <label>Kesto (tuntia)</label>
+                    <input name="opetusaikaKesto[]" class="form-control" value="{{(opetusaika.lopetusAika - opetusaika.aloitusAika) / 60}}" type="number" min="1" max="3">
+                </div>
+                <div>
+                    <label>Viikonpäivä</label>
+                    <select name="opetusaikaViikonpaiva[]" class="form-control">
+                        <option value="0" {% if opetusaika.viikonpaiva == 0 %}selected{% endif %}>Ma</option>
+                        <option value="1" {% if opetusaika.viikonpaiva == 1 %}selected{% endif %}>Ti</option>
+                        <option value="2" {% if opetusaika.viikonpaiva == 2 %}selected{% endif %}>Ke</option>
+                        <option value="3" {% if opetusaika.viikonpaiva == 3 %}selected{% endif %}>To</option>
+                        <option value="4" {% if opetusaika.viikonpaiva == 4 %}selected{% endif %}>Pe</option>
+                    </select> 
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
         </div>
 
         <input class="btn btn-primary" type="button" value="Lisää uusi opetusaika" onClick="luoOpetusAikaKentta()">
@@ -115,6 +151,41 @@
                     </select> 
                 </div>
             </div>
+            {% if opetusajat %}
+            {% for harjoitusryhma in opetusajat %}
+            {% if harjoitusryhma.tyyppi == 1 %}
+            <div class="harjoitusryhma">
+                <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
+                <div>
+                    <label>Huone</label>
+                    <input name="harjoitusryhmaHuone[]" class="form-control" placeholder="A123" value="{{harjoitusryhma.huone}}"/>
+                </div>
+                <div>
+                    <label>Aloitusaika</label>
+                    <select name="harjoitusryhmaAloitusaika[]" class="form-control">
+                        {% for aika in ajat %}
+                        <option value='{{aika.id}}'  {% if aika.id == harjoitusryhma.aloitusAika %}selected{% endif %}>{{aika.arvo}}</option>
+                        {% endfor %}
+                    </select> 
+                </div>
+                <div>
+                    <label>Kesto (tuntia)</label>
+                    <input name="harjoitusryhmaKesto[]" class="form-control" value="{{(harjoitusryhma.lopetusAika - harjoitusryhma.aloitusAika) / 60}}" type="number" min="1" max="3">
+                </div>
+                <div>
+                    <label>Viikonpäivä</label>
+                    <select name="harjoitusryhmaViikonpaiva[]" class="form-control">
+                        <option value="0" {% if harjoitusryhma.viikonpaiva == 0 %}selected{% endif %}>Ma</option>
+                        <option value="1" {% if harjoitusryhma.viikonpaiva == 1 %}selected{% endif %}>Ti</option>
+                        <option value="2" {% if harjoitusryhma.viikonpaiva == 2 %}selected{% endif %}>Ke</option>
+                        <option value="3" {% if harjoitusryhma.viikonpaiva == 3 %}selected{% endif %}>To</option>
+                        <option value="4" {% if harjoitusryhma.viikonpaiva == 4 %}selected{% endif %}>Pe</option>
+                    </select> 
+                </div>
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% endif %}
         </div>
         <br/>
         <input class="btn btn-primary" type="button" value="Lisää uusi harjoitusryhmä" onClick="luoHarjoitusRyhmaKentta()">
