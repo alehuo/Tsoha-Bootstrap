@@ -202,14 +202,8 @@ class CourseController extends BaseController {
         $ilmo = KurssiIlmoittautuminen::findByUserAndCourse($user->id, $kurssi->id);
         $harjIlmo = HarjoitusRyhmaIlmoittautuminen::findByUserAndCourse($user->id, $kurssi->id);
         $errors = array();
-        //0-5
-        if ($kurssi->arvosteluTyyppi == 0 && !in_array(intval($params["arvosana"]), range(0, 5))) {
-            $errors[] = "Arvosanan on oltava väliltä 0-5.";
-        } else if ($kurssi->arvosteluTyyppi == 1 && (intval($params["arvosana"]) != 0 || intval($params["arvosana"]) != 6)) {
-            //0 tai 6 (hylätty tai hyväksytty)
-            $errors[] = "Arvosanan on oltava joko hyväksytty tai hylätty.";
-        }
-        $suoritus = new KurssiSuoritus(array("kurssiId" => $kurssi->id, "kayttajaId" => $user->id, "arvosana" => intval($params["arvosana"]), "paivays" => BaseController::get_current_timestamp()));
+
+        $suoritus = new KurssiSuoritus(array("kurssiId" => $kurssi->id, "kayttajaId" => $user->id, "arvosana" => $params["arvosana"], "paivays" => BaseController::get_current_timestamp()));
         $errors = array_merge($errors, $suoritus->errors());
         if (!$errors) {
             $suoritus->save();

@@ -111,8 +111,24 @@ class KurssiSuoritus extends BaseModel {
     public function validate_grade() {
         $errors = array();
 
-        $errors[] = parent::validateRange("Arvosana", $this->arvosana, 0, 6);
+        $kurssi = Kurssi::find($this->kurssiId);
 
+        if ($kurssi) {
+            if ($kurssi->arvosteluTyyppi == 0) {
+                $errors[] = parent::validateRange("Arvosana", $this->arvosana, 0, 5);
+            } else {
+                if ($this->arvosana != 0 || $this->arvosana != 6) {
+                    $errors[] = "Arvosanan on oltava joko hyväksytty tai hylätty.";
+                }
+            }
+        }
+
+        if (filter_var($this->arvosana, FILTER_VALIDATE_INT) === false) {
+            $errors[] = "Arvosanan tulee olla kokonaisluku.";
+        }
+        if (empty($this->arvosana)) {
+            $errors[] = "Arvosana ei saa olla tyhjä.";
+        }
         return $errors;
     }
 

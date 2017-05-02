@@ -45,7 +45,7 @@ class BaseModel {
 
     public static function validateRange($name, $num, $start, $end) {
         if (!in_array($num, range($start, $end))) {
-            return $name . " täytyy olla väliltä " . $start . " ja " . $end;
+            return $name . " tulee olla väliltä " . $start . " ja " . $end . ".";
         }
 
         return null;
