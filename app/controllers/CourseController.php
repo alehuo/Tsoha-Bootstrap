@@ -2,10 +2,16 @@
 
 class CourseController extends BaseController {
 
+    /**
+     * Hakusivu
+     */
     public static function searchPage() {
         View::make("courses.html");
     }
 
+    /**
+     * Haku
+     */
     public static function search() {
         $params = $_POST;
         $hakusana = $params['hakusana'];
@@ -15,6 +21,36 @@ class CourseController extends BaseController {
         View::make('courses.html', array("courses" => $courses, "lkm" => count($courses), "searchTerm" => $hakusana));
     }
 
+    /**
+     * Hakutulokset JSON-muodossa
+     */
+    public static function searchResults() {
+        Header("Content-type: application/json");
+        $params = $_POST;
+        $searchTerm = $params['searchTerm'];
+        $results = array();
+        if (strlen(trim($searchTerm)) == 3 && trim($searchTerm) === '*.*') {
+            $res = Kurssi::fetchAll();
+        } else {
+            $res = Kurssi::findAllByHakusana('%' . strtolower(trim($searchTerm)) . '%');
+        }
+        foreach ($res as $result) {
+            $results[] = array(
+                "id" => $result->id,
+                "nimi" => $result->nimi,
+                "vastuuyksikko" => Vastuuyksikko::find($result->vastuuYksikkoId)->nimi,
+                "aloituspvm" => $result->aloitusPvm,
+                "lopetuspvm" => $result->lopetusPvm,
+                "nopat" => $result->opintoPisteet
+            );
+        }
+        echo json_encode($results);
+    }
+
+    /**
+     * Näytä kurssi
+     * @param int $id Kurssin id
+     */
     public static function viewCourse($id) {
         $id = intval($id);
         $course = Kurssi::find($id);
@@ -42,6 +78,9 @@ class CourseController extends BaseController {
         View::make('course.html', array("course" => $course, "opetusajat" => $opetusajat, "harjoitusryhmat" => $harjoitusryhmat, "ilmo" => $ilmo));
     }
 
+    /**
+     * Renderöi kurssin lisäyslomake
+     */
     public static function addCourseForm() {
         $ajat = CourseController::luoAjat();
 
@@ -50,6 +89,10 @@ class CourseController extends BaseController {
         View::make('addcourse.html', array("ajat" => $ajat, "vastuuyksikot" => $vastuuyksikot));
     }
 
+    /**
+     * Luo ajat
+     * @return int
+     */
     public static function luoAjat() {
         $ajat = array();
         $hours = 8;
@@ -77,6 +120,7 @@ class CourseController extends BaseController {
      * 
      */
     public static function addCourse() {
+
         $db = DB::connection();
         $db->beginTransaction();
 
@@ -170,8 +214,10 @@ class CourseController extends BaseController {
 
 
             if (!$errors) {
-                $uusiVastuuyksikko->save();
-                $vastuuyksikko = $uusiVastuuyksikko->id;
+                if (isset($uusiVastuuyksikko)) {
+                    $uusiVastuuyksikko->save();
+                    $vastuuyksikko = $uusiVastuuyksikko->id;
+                }
                 $kurssi->vastuuYksikkoId = intval($vastuuyksikko);
                 $kurssi->save();
                 //Tallenna opetusajat
@@ -190,11 +236,14 @@ class CourseController extends BaseController {
             }
         } catch (PDOException $ex) {
             $db->rollBack();
-            die($ex);
             Redirect::to('/addcourse', array("params" => $postData, "errors" => array("Kurssin lisäys epäonnistui!"), "opetusajat" => $ajat));
         }
     }
 
+    /**
+     * Lisää kurssisuoritus
+     * @param KurssiIlmoittautuminen $ilmo Kurssi-ilmo
+     */
     public static function addGrade(KurssiIlmoittautuminen $ilmo) {
         $params = $_POST;
         $user = Kayttaja::find($ilmo->kayttajaId);
@@ -217,6 +266,10 @@ class CourseController extends BaseController {
         }
     }
 
+    /**
+     * Kurssin muokkaus
+     * @param int $id Kurssin id
+     */
     public static function editCourse($id) {
         $id = intval($id);
         $course = Kurssi::find($id);
@@ -238,6 +291,10 @@ class CourseController extends BaseController {
         }
     }
 
+    /**
+     * Listaa osallistujat
+     * @param int $courseId Kurssin id
+     */
     public static function listParticipants($courseId) {
         $courseId = intval($courseId);
         $course = Kurssi::find($courseId);
@@ -260,6 +317,10 @@ class CourseController extends BaseController {
         View::make('listparticipants.html', array("ilmot" => $kurssiIlmot));
     }
 
+    /**
+     * Kurssin muokkaus
+     * @param int $kurssiId Kurssin id
+     */
     public static function handleCourseEdit($kurssiId) {
 
 
@@ -525,6 +586,10 @@ class CourseController extends BaseController {
         }
     }
 
+    /**
+     * Kurssin poisto
+     * @param int $courseId Kurssin id
+     */
     public static function deleteCourse($courseId) {
         $courseId = intval($courseId);
         if (!Kurssi::find($courseId)) {
@@ -577,29 +642,6 @@ class CourseController extends BaseController {
             $db->rollBack();
             Redirect::to("/course/" . $courseId, array("errors" => array("Kurssin poisto epäonnistui!")));
         }
-    }
-
-    public static function searchResults() {
-        Header("Content-type: application/json");
-        $params = $_POST;
-        $searchTerm = $params['searchTerm'];
-        $results = array();
-        if (strlen(trim($searchTerm)) == 3 && trim($searchTerm) === '*.*') {
-            $res = Kurssi::fetchAll();
-        } else {
-            $res = Kurssi::findAllByHakusana('%' . strtolower(trim($searchTerm)) . '%');
-        }
-        foreach ($res as $result) {
-            $results[] = array(
-                "id" => $result->id,
-                "nimi" => $result->nimi,
-                "vastuuyksikko" => Vastuuyksikko::find($result->vastuuYksikkoId)->nimi,
-                "aloituspvm" => $result->aloitusPvm,
-                "lopetuspvm" => $result->lopetusPvm,
-                "nopat" => $result->opintoPisteet
-            );
-        }
-        echo json_encode($results);
     }
 
 }

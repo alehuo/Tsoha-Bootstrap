@@ -103,7 +103,6 @@ $routes->post('/login', function() {
  */
 $routes->get('/grades', 'check_logged_in', function() {
     UserController::viewGrades();
-//    View::make('grades.html');
 });
 
 /**

@@ -9,10 +9,9 @@ use \Alehuo\Color as Color;
 
 class UserController extends BaseController {
 
-    public static function viewAddUserPage() {
-        
-    }
-
+    /**
+     * Lisää käyttäjä
+     */
     public static function addUser() {
         $errors = array();
         $params = $_POST;
@@ -48,6 +47,9 @@ class UserController extends BaseController {
         }
     }
 
+    /**
+     * Sisäänkirjautuminen
+     */
     public static function handleLogin() {
         $params = $_POST;
 
@@ -63,19 +65,33 @@ class UserController extends BaseController {
         }
     }
 
+    /**
+     * Uloskirjautuminen
+     */
     public static function handleLogout() {
         $_SESSION['user'] = null;
         Redirect::to('/login', array('success' => 'Olet kirjautunut ulos!'));
     }
 
+    /**
+     * Kaikkien käyttäjien listaaminen
+     */
     public static function listAllUsers() {
         $users = Kayttaja::fetchAll();
         View::make("listusers.html", array("kayttajat" => $users));
     }
 
+    /**
+     * Käyttäjätilin poisto
+     * @param type $id
+     */
     public static function deleteUser($id) {
         $id = intval($id);
         $user = Kayttaja::find($id);
+        if ($user && $user->id == 1) {
+            Redirect::to('/listusers', array("errors" => array("Pääkäyttäjätiliä ei voi poistaa!")));
+            exit();
+        }
         if (!$user) {
             Redirect::to('/listusers', array("errors" => array("Käyttäjää ei löydy!")));
             exit();
@@ -84,6 +100,10 @@ class UserController extends BaseController {
         Redirect::to('/listusers', array("success" => "Käyttäjä poistettu onnistuneesti."));
     }
 
+    /**
+     * Käyttäjätilin muokkaus
+     * @param int $id
+     */
     public static function editUserPage($id) {
         $id = intval($id);
         $user = Kayttaja::find($id);
@@ -99,6 +119,10 @@ class UserController extends BaseController {
             ), "id" => $id));
     }
 
+    /**
+     * Käyttäjätilin muokkauksen käsittely
+     * @param int $id Käyttäjätilin id
+     */
     public static function handleEditUser($id) {
         $errors = array();
         $params = $_POST;
@@ -130,6 +154,9 @@ class UserController extends BaseController {
         }
     }
 
+    /**
+     * Arvosanojen tarkastelu
+     */
     public static function viewGrades() {
         $user = self::get_user_logged_in();
         $suoritukset = KurssiSuoritus::findByUser($user->id);
@@ -141,6 +168,10 @@ class UserController extends BaseController {
         View::make('grades.html', array("grades" => $suoritukset, "facultys" => $facultys));
     }
 
+    /**
+     * Piirrä lukujärjestys
+     * @return Lukujärjestys
+     */
     public static function renderTimetable() {
 
         $user = self::get_user_logged_in();

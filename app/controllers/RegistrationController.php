@@ -2,6 +2,9 @@
 
 class RegistrationController extends BaseController {
 
+    /**
+     * Näytä kurssi-ilmoittautumiset
+     */
     public static function showRegistrations() {
         BaseController::check_logged_in();
         $user = BaseController::get_user_logged_in();
@@ -15,6 +18,9 @@ class RegistrationController extends BaseController {
         View::make('registrations.html', array("registrations" => $registrations));
     }
 
+    /**
+     * Lisää kurssi-ilmoittautuminen
+     */
     public static function addRegistration() {
         $db = DB::connection();
         $db->beginTransaction();
@@ -61,6 +67,9 @@ class RegistrationController extends BaseController {
         }
     }
 
+    /**
+     * Peru kurssi-ilmoittautuminen
+     */
     public static function cancelRegistration() {
         try {
             $db = DB::connection();

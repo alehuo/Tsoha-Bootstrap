@@ -9,10 +9,9 @@ class DefaultController extends BaseController {
         View::make('index.html', array("timetable" => UserController::renderTimetable(), "timetablePage" => true));
     }
 
-    public static function sandbox() {
-        UserController::renderTimetable();
-    }
-
+    /**
+     * Ei käyttöoikeutta -sivu
+     */
     public static function unauthorizedPage() {
         View::make('unauthorized.html');
     }
