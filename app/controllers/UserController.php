@@ -45,6 +45,9 @@ class UserController extends BaseController {
      * Sisäänkirjautuminen
      */
     public static function handleLogin() {
+        if (parent::get_user_logged_in()) {
+            Redirect::to('/');
+        }
         $params = $_POST;
 
         $user = Kayttaja::authenticate($params["username"], $params["password"]);

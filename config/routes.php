@@ -12,10 +12,6 @@ $routes->get('/', function() {
     DefaultController::index();
 });
 
-$routes->get('/sandbox', function() {
-    DefaultController::sandbox();
-});
-
 /**
  * Kurssien hakusivu.
  */
@@ -80,6 +76,9 @@ $routes->post('/adduser', 'check_logged_in', 'is_user_admin', function() {
  * Sisäänkirjautuminen.
  */
 $routes->get('/login', function() {
+    if (BaseController::get_user_logged_in()) {
+        Redirect::to('/');
+    }
     View::make('login.html');
 });
 
