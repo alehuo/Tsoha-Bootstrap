@@ -13,22 +13,19 @@
     </div>
     <noscript>
     <div class="form-group">
-        <small>Jätä hakusana tyhjäksi, niin haku näyttää kaikki kurssit.</small>
-    </div>
-    <div class="form-group">
         <button id="submitBtn" type="submit" class="btn btn-primary">Hae</button>
     </div>
     </noscript>
 </form>
-<table id="searchRes" class="table">
-
+<span id="loading" style="display: none;">Ladataan..</span>
+<table id="results_table" class="table" style="display: none;">
+    <thead><tr><td>Kurssin nimi</td><td>Vastuuyksikkö</td><td>Järjestämisaika</td><td>Opintopisteet</td></tr></thead>
+    <tbody id="results"></tbody>
 </table>
 <noscript>
 {% if searchTerm %}
 <h2>Hakutulokset hakusanalle '{{searchTerm}}'</h2>
 {% endif %}
-
-
 {% if courses %}
 <table class="table">
     <thead>

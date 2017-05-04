@@ -43,32 +43,46 @@ var delay = (function () {
 $("#searchInput").keyup(function () {
     delay(function () {
         //Tyhjennä hakusivu
-        document.getElementById("searchRes").innerHTML = "";
+        document.getElementById("results").innerHTML = "";
         var input = $("#searchInput").val();
         if (input) {
+            $("#loading").show();
+        }
+        $("#results_table").hide();
+        if (input) {
             $.post("/oodi/searchres", {searchTerm: input}, function (data) {
-                $.each(jQuery.parseJSON(data), function (i, obj) {
+                var searchResultData = jQuery.parseJSON(data);
+                if (searchResultData.length === 0) {
                     var tableRow = document.createElement("tr");
-                    var linkki = document.createElement("a");
-                    linkki.href = "/oodi/course/" + obj.id;
-                    linkki.innerHTML = obj.nimi;
-                    var nimi = document.createElement("td");
-                    var vastuuYksikko = document.createElement("td");
-                    vastuuYksikko.innerHTML = obj.vastuuyksikko;
-                    var aloitusJaLopetus = document.createElement("td");
-                    aloitusJaLopetus.innerHTML = moment(obj.aloituspvm*1000).format("DD.MM.YYYY") + " - " + moment(obj.lopetuspvm*1000).format("DD.MM.YYYY");
-                    var nopat = document.createElement("td");
-                    nopat.innerHTML = obj.nopat;
-
-                    nimi.appendChild(linkki);
-                    tableRow.appendChild(nimi);
-                    tableRow.appendChild(vastuuYksikko);
-                    tableRow.appendChild(aloitusJaLopetus);
-                    tableRow.appendChild(nopat);
-
-                    document.getElementById("searchRes").appendChild(tableRow);
-                });
-
+                    var tableCol = document.createElement("td");
+                    $(tableCol).attr("colspan","4");
+                    tableCol.innerHTML = "Ei hakutuloksia.";
+                    tableRow.appendChild(tableCol);
+                    document.getElementById("results").appendChild(tableRow);
+                } else {
+                    $.each(searchResultData, function (i, obj) {
+                        var tableRow = document.createElement("tr");
+                        var linkki = document.createElement("a");
+                        linkki.href = "/oodi/course/" + obj.id;
+                        linkki.innerHTML = obj.nimi;
+                        var nimi = document.createElement("td");
+                        var vastuuYksikko = document.createElement("td");
+                        vastuuYksikko.innerHTML = obj.vastuuyksikko;
+                        var aloitusJaLopetus = document.createElement("td");
+                        aloitusJaLopetus.innerHTML = moment(obj.aloituspvm * 1000).format("DD.MM.YYYY") + " - " + moment(obj.lopetuspvm * 1000).format("DD.MM.YYYY");
+                        var nopat = document.createElement("td");
+                        nopat.innerHTML = obj.nopat;
+                        nimi.appendChild(linkki);
+                        tableRow.appendChild(nimi);
+                        tableRow.appendChild(vastuuYksikko);
+                        tableRow.appendChild(aloitusJaLopetus);
+                        tableRow.appendChild(nopat);
+                        document.getElementById("results").appendChild(tableRow);
+                    });
+                }
+                $("#results_table").fadeIn();
+                
+                $("#loading").hide();
             });
 
         }

@@ -78,11 +78,10 @@
         </div>
 
         <div id="opetusajat">
-            {% if course.opetusajat %}
-            {% for opetusaika in course.opetusajat %}
+            {% for opetusaika in opetusajat %}
             <div class="opetusaika">
                 <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
-                <input type="hidden" name="opetusaikaId[]" value="{{opetusaika.id}}"/>
+                {% if opetusaika.id %}<input type="hidden" name="opetusaikaId[]" value="{{opetusaika.id}}"/>{% endif %}
                 <div>
                     <label>Huone</label>
                     <input name="opetusaikaHuone[]" class="form-control" placeholder="A123" value="{{opetusaika.huone}}"/>
@@ -111,8 +110,6 @@
                 </div>
             </div>
             {% endfor %}
-            {% endif %}
-
         </div>
         <button type="button" class="btn btn-primary" onClick="luoEditSivulleOpetusAikaKentta()">Lisää uusi</button>
 
@@ -155,11 +152,10 @@
         </div>
 
         <div id="harjoitusryhmat">
-            {% if course.harjoitusryhmat %}
-            {% for harjoitusryhma in course.harjoitusryhmat %}
+            {% for harjoitusryhma in harjoitusryhmat %}
             <div class="harjoitusryhma">
                 <button type="button" class="btn btn-danger" onClick="$(this).closest('div').remove();">Poista</button>
-                <input type="hidden" name="harjoitusryhmaId[]" value="{{harjoitusryhma.id}}"/>
+                {% if harjoitusryhma.id %}<input type="hidden" name="harjoitusryhmaId[]" value="{{harjoitusryhma.id}}"/>{% endif %}
                 <div>
                     <label>Huone</label>
                     <input name="harjoitusryhmaHuone[]" class="form-control" placeholder="A123" value="{{harjoitusryhma.huone}}"/>
@@ -188,7 +184,6 @@
                 </div>
             </div>
             {% endfor %}
-            {% endif %}
 
         </div>
         <button type="button" class="btn btn-primary" onClick="luoEditSivulleHarjoitusRyhmaKentta()">Lisää uusi</button>

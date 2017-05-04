@@ -16,7 +16,11 @@ class CourseController extends BaseController {
         $params = $_POST;
         $hakusana = $params['hakusana'];
 
-        $courses = Kurssi::findAllByHakusana('%' . $hakusana . '%');
+        if (strlen(trim($hakusana)) == 3 && trim($hakusana) === '*.*') {
+            $courses = Kurssi::fetchAll();
+        } else {
+            $courses = Kurssi::findAllByHakusana('%' . $hakusana . '%');
+        }
 
         View::make('courses.html', array("courses" => $courses, "lkm" => count($courses), "searchTerm" => $hakusana));
     }
@@ -286,7 +290,7 @@ class CourseController extends BaseController {
         $vastuuyksikot = Vastuuyksikko::all();
 
         if ($course) {
-            View::make('editcourse.html', array("course" => $course, "vastuuyksikot" => $vastuuyksikot, "ajat" => $ajat));
+            View::make('editcourse.html', array("course" => $course, "vastuuyksikot" => $vastuuyksikot, "ajat" => $ajat, "harjoitusryhmat" => $harjoitusryhmat, "opetusajat" => $opetusajat));
             exit();
         }
     }
@@ -362,7 +366,6 @@ class CourseController extends BaseController {
 
             //Vanhat&uudet opetusajat
             if (isset($params["opetusaikaId"], $params["opetusaikaHuone"], $params["opetusaikaAloitusaika"], $params["opetusaikaKesto"], $params["opetusaikaViikonpaiva"])) {
-//                die("Täällä on");
                 $opetusaikaIdt = $params["opetusaikaId"];
                 $opetusaikaHuoneet = $params["opetusaikaHuone"];
                 $opetusaikaAloitusajat = $params["opetusaikaAloitusaika"];
@@ -579,7 +582,9 @@ class CourseController extends BaseController {
                 Redirect::to('/course/' . $kurssiId, array("success" => "Kurssia muokattu onnistuneesti."));
             } else {
                 $db->rollBack();
-                Redirect::to('/editcourse/' . $kurssiId, array("errors" => $errors));
+                $opajat = array_merge($opetusajat, $uudetopetusajat);
+                $hryhmat = array_merge($harjoitusryhmat, $uudetharjoitusryhmat);
+                Redirect::to('/editcourse/' . $kurssiId, array("errors" => $errors, "opetusajat" => $opajat, "harjoitusryhmat" => $hryhmat));
             }
         } catch (PDOException $ex) {
             $db->rollBack();
