@@ -53,7 +53,7 @@ class FacultyController extends BaseController {
             $vy->update();
             Redirect::to('/editfaculty/' . $vy->id, array("success" => "Vastuuyksikköä muokattu onnistuneesti."));
         } else {
-            Redirect::to('/editfaculty/' . $vy->id, array("errors" => $errors));
+            View::make('editfaculty.html', array("errors" => $errors, "faculty" => $vy));
         }
     }
 
