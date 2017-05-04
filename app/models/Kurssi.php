@@ -59,6 +59,31 @@ class Kurssi extends BaseModel {
         return $kurssit;
     }
 
+    public static function findAllByVastuuyksikko($vy) {
+        $query = DB::connection()->prepare('SELECT Kurssi.id, Kurssi.kurssinimi, Kurssi.kuvaus, Kurssi.opintopisteet, Kurssi.arvostelutyyppi, Kurssi.aloituspvm, Kurssi.lopetuspvm, Kurssi.vastuuyksikkoid, Vastuuyksikko.nimi FROM Kurssi INNER JOIN Vastuuyksikko ON Kurssi.vastuuyksikkoid = Vastuuyksikko.id WHERE Kurssi.vastuuyksikkoid = :vy');
+        $query->execute(array('vy' => $vy));
+        $rows = $query->fetchAll();
+
+        $kurssit = array();
+
+        foreach ($rows as $row) {
+
+            $kurssit[] = new Kurssi(array(
+                'id' => $row['id'],
+                'nimi' => $row['kurssinimi'],
+                'kuvaus' => $row['kuvaus'],
+                'opintoPisteet' => $row['opintopisteet'],
+                'arvosteluTyyppi' => intval($row['arvostelutyyppi']),
+                'aloitusPvm' => $row['aloituspvm'],
+                'lopetusPvm' => $row['lopetuspvm'],
+                'vastuuYksikkoId' => $row['vastuuyksikkoid'],
+                'vastuuYksikko' => $row['nimi']
+            ));
+        }
+
+        return $kurssit;
+    }
+
     /**
      * Etsi yksi kurssi ID:n perusteella.
      * @param int $id Kurssin id

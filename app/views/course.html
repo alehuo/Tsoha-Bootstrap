@@ -51,7 +51,7 @@ Olet ilmoittautunut kurssille seuraavaan harjoitusryhmään: <b>{{ilmo.harjoitus
 {% else %}
 Olet ilmoittautunut kurssille.
 {% endif %}
-<form action="{{base_path}}/cancelregistration" method="POST">
+<form action="{{base_path}}/cancelregistration" class="cancelregistration" data-confirm="Perutaanko kurssi-ilmoittautuminen?" method="POST">
     <input type="hidden" name="courseId" value="{{course.id}}"/>
     <button class="btn btn-danger" type="submit">Peru ilmoittautuminen</button>
 </form>

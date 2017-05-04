@@ -12,7 +12,7 @@
     <tbody>
         {% if registrations %}
         {% for registration in registrations %}
-        <tr><td><a href="{{base_path}}/course/{{registration.kurssi.id}}">{{registration.kurssi.nimi}}</a></td><td>{{registration.kurssi.formattedAloitusPvm}} - {{registration.kurssi.formattedLopetusPvm}}</td><td><form action="{{base_path}}/cancelregistration" method="POST">
+        <tr><td><a href="{{base_path}}/course/{{registration.kurssi.id}}">{{registration.kurssi.nimi}}</a></td><td>{{registration.kurssi.formattedAloitusPvm}} - {{registration.kurssi.formattedLopetusPvm}}</td><td><form action="{{base_path}}/cancelregistration" class="cancelregistration" data-confirm="Perutaanko kurssi-ilmoittautuminen?" method="POST">
                     <input type="hidden" name="courseId" value="{{registration.kurssi.id}}"/><button type="submit" class="btn btn-danger">Peru ilmoittautuminen</button></form></td></tr>
         {% endfor %}
         {% else %}

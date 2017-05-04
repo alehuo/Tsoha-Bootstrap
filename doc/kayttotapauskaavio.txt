@@ -8,4 +8,4 @@
 [Ylläpitäjä]-(Lisää tai muokkaa tai poistaa kursseja)
 [Ylläpitäjä]-(Antaa arvosanoja)
 [Ylläpitäjä]-(Lisää tai muokkaa tai poistaa käyttäjiä)
-
+[Ylläpitäjä]-(Lisää tai muokkaa tai poistaa vastuuyksikköjä)

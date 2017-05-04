@@ -339,6 +339,11 @@ class CourseController extends BaseController {
             $idt = Opetusaika::haeIdt($kurssiId);
 
             $kurssinNimi = $params["nimi"];
+            $vyId = intval($params["vastuuyksikkoSelect"]);
+            $vy = Vastuuyksikko::find($vyId);
+            if (!$vy) {
+                $errors[] = "Vastuuyksikköä ei löydy kyseisellä ID:llä";
+            }
             $alkamisPaivays = $params["startingDate"];
             $loppumisPaivays = $params["endingDate"];
             $op = $params["op"];
@@ -356,6 +361,7 @@ class CourseController extends BaseController {
             $kurssi->lopetusPvm = strtotime($loppumisPaivays);
             $kurssi->opintoPisteet = intval($op);
             $kurssi->arvosteluTyyppi = $arvostelu;
+            $kurssi->vastuuYksikkoId = $vyId;
 
             $errors = array_merge($errors, $kurssi->errors());
 

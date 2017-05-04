@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Lisää vastuuyksikkö</h1>
+<a href="{{base_path}}/listfacultys" class="btn btn-primary">Takaisin</a><br/><br/><br/>
+<form action="{{base_path}}/addfaculty" method="POST">
+    <table class="table">
+        <tr><td><b>Nimi</b></td><td><input type="text" name="faculty" value="{{faculty.nimi}}" size="50" placeholder="Vastuuyksikkö"/></td></tr>
+        <tr><td colspan="2"><button type="submit" class="btn btn-success">Lisää</button></td></tr>
+    </table>
+</form>
+{% endblock%}

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% import "macros/forms.html" as forms %}
+{% block content %}
+<h1>Vastuuyksiköt</h1>
+<a class="btn btn-success" href="{{base_path}}/addfaculty">Lisää vastuuyksikkö</a><br/><br/>
+<table class="table">
+    <thead><tr><td>Nimi</td><td></td></tr></thead>
+    <tbody>
+        {% if facultys %}
+        {% for vy in facultys %}
+        {% if vy.id == 1 %}{% else %}<tr><td>{{vy.nimi}}</td><td>{{forms.destroy_button("#{base_path}/deletefaculty/#{vy.id}", "Poista", "Haluatko varmasti poistaa vastuuyksikön?")}}{{forms.editfaculty("#{vy.id}")}}</td></tr>{% endif %}
+        {% endfor %}
+        {% else %}
+        <tr><td colspan="2">Ei vastuuyksikköjä tietokannassa.</td></tr>
+        {% endif %}
+    </tbody>
+</table>
+{% endblock %}

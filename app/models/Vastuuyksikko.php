@@ -74,8 +74,17 @@ class Vastuuyksikko extends BaseModel {
         $errors = array();
 
         $errors[] = parent::validateStringLength("Vastuuyksikön nimi", $this->nimi, 100);
+        $errors[] = parent::validateStringNotNull("Vastuuyksikön nimi", $this->nimi);
 
         return $errors;
+    }
+
+    public function destroy() {
+        $q = "DELETE FROM Vastuuyksikko WHERE id = :id";
+        $qry = DB::connection()->prepare($q);
+        return $qry->execute(array(
+                    "id" => $this->id
+        ));
     }
 
 }

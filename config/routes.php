@@ -201,3 +201,24 @@ $routes->get('/edituser/:id', 'check_logged_in', 'is_user_admin', function($id) 
 $routes->post('/edituser/:id', 'check_logged_in', 'is_user_admin', function($id) {
     UserController::handleEditUser($id);
 });
+/**
+ * Vastuuyksiköt
+ */
+$routes->get('/listfacultys', 'check_logged_in', 'is_user_admin', function() {
+    FacultyController::listAll();
+});
+$routes->get('/editfaculty/:id', 'check_logged_in', 'is_user_admin', function($id) {
+    FacultyController::showEdit($id);
+});
+$routes->post('/editfaculty/:id', 'check_logged_in', 'is_user_admin', function($id) {
+    FacultyController::handleEdit($id);
+});
+$routes->post('/deletefaculty/:id', 'check_logged_in', 'is_user_admin', function($id) {
+    FacultyController::delete($id);
+});
+$routes->get('/addfaculty', 'check_logged_in', 'is_user_admin', function() {
+    FacultyController::showAdd();
+});
+$routes->post('/addfaculty', 'check_logged_in', 'is_user_admin', function() {
+    FacultyController::handleAdd();
+});
