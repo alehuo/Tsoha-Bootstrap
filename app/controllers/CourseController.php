@@ -590,7 +590,7 @@ class CourseController extends BaseController {
                 $db->rollBack();
                 $opajat = array_merge($opetusajat, $uudetopetusajat);
                 $hryhmat = array_merge($harjoitusryhmat, $uudetharjoitusryhmat);
-                Redirect::to('/editcourse/' . $kurssiId, array("errors" => $errors, "opetusajat" => $opajat, "harjoitusryhmat" => $hryhmat, "course" => $kurssi));
+                Redirect::to('/editcourse/' . $kurssiId, array("errors" => $errors, "opetusajat" => $opajat, "harjoitusryhmat" => $hryhmat));
             }
         } catch (PDOException $ex) {
             $db->rollBack();
