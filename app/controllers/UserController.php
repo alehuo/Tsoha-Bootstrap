@@ -128,6 +128,9 @@ class UserController extends BaseController {
         $params = $_POST;
         $user = Kayttaja::find($id);
         if ($user) {
+            if ($user->id == 1 && $params["type"] != 1) {
+                $errors[] = "Oletuspääkäyttäjän tilin tyyppiä ei voi vaihtaa!";
+            }
             $uusinimi = $params["username"];
 
             if (Kayttaja::userExists(strtolower($uusinimi)) && strtolower(trim($uusinimi)) != strtolower(trim($user->nimi))) {

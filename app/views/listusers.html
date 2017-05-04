@@ -6,7 +6,7 @@
 <table class="table">
     <tr><td>Käyttäjätunnus</td><td>Rooli</td><td></td></tr>
     {% for kayttaja in kayttajat %}
-    <tr><td>{{kayttaja.nimi}}</td><td>{% if kayttaja.tyyppi %}Pääkäyttäjä{% else %}Peruskäyttäjä{% endif %}</td><td>{{forms.destroy_button("#{base_path}/deleteuser/#{kayttaja.id}", "Poista", "Haluatko varmasti poistaa käyttäjän?")}}{{forms.edituser("#{kayttaja.id}")}}</td></tr>
+    <tr><td>{{kayttaja.nimi}}</td><td>{% if kayttaja.tyyppi %}Pääkäyttäjä{% else %}Peruskäyttäjä{% endif %}</td><td>{% if kayttaja.id == 1 %}{% else %}{{forms.destroy_button("#{base_path}/deleteuser/#{kayttaja.id}", "Poista", "Haluatko varmasti poistaa käyttäjän?")}}{% endif %}{{forms.edituser("#{kayttaja.id}")}}</td></tr>
     {% endfor %}
 </table>
 {% endblock %}

@@ -5,5 +5,7 @@
 [Peruskäyttäjä]-(Tarkastelee arvosanoja)
 [Peruskäyttäjä]-(Hakee kursseja)
 [Ylläpitäjä]-(Kirjautuu sisään)
-[Ylläpitäjä]-(Hallitsee kursseja)
+[Ylläpitäjä]-(Lisää tai muokkaa tai poistaa kursseja)
 [Ylläpitäjä]-(Antaa arvosanoja)
+[Ylläpitäjä]-(Lisää tai muokkaa tai poistaa käyttäjiä)
+
