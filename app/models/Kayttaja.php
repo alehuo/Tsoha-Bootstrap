@@ -6,7 +6,7 @@ class Kayttaja extends BaseModel {
 
     public function __construct($attributes) {
         parent::__construct($attributes);
-        $this->validators = array("validate_username", "validate_password");
+        $this->validators = array("validate_username", "validate_password", "validate_type", "validate_admin_privilenges");
     }
 
     public static function find($id) {
@@ -62,15 +62,28 @@ class Kayttaja extends BaseModel {
     }
 
     public function update() {
-        $q = "UPDATE Kayttaja SET "
-                . "nimi = :nimi,"
-                . "tyyppi = :tyyppi WHERE id = :id";
-        $query = DB::connection()->prepare($q);
-        $query->execute(array(
-            "nimi" => $this->nimi,
-            "tyyppi" => $this->tyyppi,
-            "id" => $this->id
-        ));
+        if ($this->salasana != null) {
+            $q = "UPDATE Kayttaja SET "
+                    . "nimi = :nimi,"
+                    . "tyyppi = :tyyppi, salasana = :salasana WHERE id = :id";
+            $query = DB::connection()->prepare($q);
+            $query->execute(array(
+                "nimi" => $this->nimi,
+                "tyyppi" => $this->tyyppi,
+                "id" => $this->id,
+                "salasana" => $this->salasana
+            ));
+        } else {
+            $q = "UPDATE Kayttaja SET "
+                    . "nimi = :nimi,"
+                    . "tyyppi = :tyyppi WHERE id = :id";
+            $query = DB::connection()->prepare($q);
+            $query->execute(array(
+                "nimi" => $this->nimi,
+                "tyyppi" => $this->tyyppi,
+                "id" => $this->id
+            ));
+        }
     }
 
     public function destroy() {
@@ -179,6 +192,24 @@ class Kayttaja extends BaseModel {
         $errors[] = parent::validateStringLength("Salasana", $this->salasana, 72);
         $errors[] = parent::validateStringNotNull("Salasana", $this->salasana);
 
+        return $errors;
+    }
+
+    public function validate_type() {
+        $errors = array();
+        if (!in_array(intval($this->tyyppi), range(0, 1))) {
+            $errors[] = "Virheellinen käyttäjätilin tyyppi!";
+        }
+        return $errors;
+    }
+
+    public function validate_admin_privilenges() {
+        $errors = array();
+        if (isset($this->id) && isset($this->tyyppi)) {
+            if ($this->id == 1 && $this->tyyppi != 1) {
+                $errors[] = "Oletuspääkäyttäjän tilin tyyppiä ei voi vaihtaa!";
+            }
+        }
         return $errors;
     }
 

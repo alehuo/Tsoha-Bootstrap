@@ -7,6 +7,9 @@
     <table class="table">
         <tr><td><b>Käyttäjätunnus</b></td><td><input type="text" name="username" value="{{form.username}}" placeholder="Käyttäjätunnus"/></td></tr>
         <tr><td><b>Tunnuksen tyyppi</b></td><td><select name="type"><option value="0" {% if form.type == 0 %}selected{% endif %}>Peruskäyttäjä</option><option value="1" {% if form.type == 1 %}selected{% endif %}>Pääkäyttäjä</option></select></td></tr>
+        <tr><td colspan="2"><small>Jätä alemmat kentät tyhjäksi jos et halua päivittää salasanaa.</small></td></tr>
+        <tr><td><b>Uusi salasana</b></td><td><input type="password" name="password" value="{{form.password}}" placeholder="Salasana"/></td></tr>
+        <tr><td><b>Uusi salasana uudestaan</b></td><td><input type="password" name="passwordAgain" value="{{form.passwordAgain}}" placeholder="Salasana uudestaan"/></td></tr>
         <tr><td colspan="2"><button type="submit" class="btn btn-success">Tallenna muutokset</button></td></tr>
     </table>
 </form>

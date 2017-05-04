@@ -4,8 +4,6 @@ use \Alehuo\Time2 as Time2;
 use \Alehuo\Date2 as Date2;
 use \Alehuo\Course as Course;
 use \Alehuo\Timetable as Timetable;
-use \Alehuo\WeekDay as WeekDay;
-use \Alehuo\Color as Color;
 
 class UserController extends BaseController {
 
@@ -22,9 +20,7 @@ class UserController extends BaseController {
             "salasana" => $params["password"]
         ));
 
-        if (!in_array($user->tyyppi, range(0, 1))) {
-            $errors[] = "Virheellinen käyttäjätilin tyyppi!";
-        }
+        $errors = array_merge($errors, $user->errors());
 
         if ($params["password"] != $params["repeatPassword"]) {
             $errors[] = "Salasanat eivät täsmää!";
@@ -32,9 +28,7 @@ class UserController extends BaseController {
 
         $usr = Kayttaja::findByUsername(strtolower(trim($params["username"])));
 
-        if (!$usr) {
-            $errors = array_merge($errors, $user->errors());
-        } else {
+        if ($usr) {
             $errors[] = "Käyttäjätunnus on jo käytössä!";
         }
 
@@ -113,8 +107,6 @@ class UserController extends BaseController {
         }
         View::make("edituser.html", array("form" => array(
                 "username" => $user->nimi,
-//                "password" => $user->salasana,
-//                "repeatPassword" => $user->salasana,
                 "type" => $user->tyyppi
             ), "id" => $id));
     }
@@ -128,26 +120,31 @@ class UserController extends BaseController {
         $params = $_POST;
         $user = Kayttaja::find($id);
         if ($user) {
-            if ($user->id == 1 && $params["type"] != 1) {
-                $errors[] = "Oletuspääkäyttäjän tilin tyyppiä ei voi vaihtaa!";
-            }
+
             $uusinimi = $params["username"];
 
+            //Käyttäjätunnuksen vaihdoksen validointia.
             if (Kayttaja::userExists(strtolower($uusinimi)) && strtolower(trim($uusinimi)) != strtolower(trim($user->nimi))) {
                 $errors[] = "Käyttäjänimi on jo käytössä!";
             } else {
                 $user->nimi = $uusinimi;
             }
 
-//            $user->salasana = Kayttaja::createPassword($params["password"]);
             $user->tyyppi = intval($params["type"]);
-            if (!in_array($user->tyyppi, range(0, 1))) {
-                $errors[] = "Virheellinen käyttäjätilin tyyppi!";
+
+
+            //Salasanan vaihdoksen validointia
+            if (!empty($params["password"])) {
+
+                if (empty($params["passwordAgain"]) || $params["password"] != $params["passwordAgain"]) {
+                    $errors[] = "Salasanat eivät täsmää.";
+                } else {
+                    $user->salasana = Kayttaja::createPassword($params["password"]);
+                }
             }
 
-
-
             $errors = array_merge($errors, $user->errors());
+
             if (!$errors) {
                 $user->update();
                 Redirect::to('/edituser/' . $id, array("form" => $params, "success" => "Käyttäjätilin muokkaus onnistui."));
